@@ -15,7 +15,7 @@ const Auth = () => {
                 </div>
 
                 <div className='my-6'>
-                    <p className='text-white font-popins text-center text-[24px] font-extralight mb-8'>BIENVENIDO A</p>
+                    <p className='text-white font-popins text-center text-[24px] font-extralight mb-'>BIENVENIDO A</p>
                     <p className='text-white font-brygada-1918 font-semibold text-center text-[48px]'>
                         RESIDENCIAL <br />
                         HLVS
