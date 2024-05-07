@@ -2,7 +2,6 @@ import React from 'react';
 import Footer from '../components/Footer';
 import logo from '../assets/Logo.svg';
 import LoginButton from '../components/LoginButton';
-import { GoogleLogin } from '@react-oauth/google';
 
 
 
@@ -10,25 +9,21 @@ const Auth = () => {
     return (
         <div className='flex flex-col h-screen bg-HomeImg bg-cover bg-center items-center justify-center'>
 
-            <div className='flex-1 items-center py-14'>
-                <div className=''>
+            <div className='flex-1 flex flex-col items-center py-20'>
+                <div className='w-40'>
                     <img src={logo} />
                 </div>
 
-                <div >
-                    <p className='text-white text-center py-6 text-base'>BIENVENIDO A</p>
-                    <p className='text-white text-center text-4xl font-bold'>RESIDENCIAL</p>
-                    <p className='text-white text-center text-4xl font-bold'>HLVS</p>
+                <div className='my-6'>
+                    <p className='text-white font-popins text-center text-[24px] font-extralight mb-8'>BIENVENIDO A</p>
+                    <p className='text-white font-brygada-1918 font-semibold text-center text-[48px]'>
+                        RESIDENCIAL <br />
+                        HLVS
+                    </p>
+
                 </div>
+                <LoginButton />
             </div>
-            <GoogleLogin
-                onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                }}
-                onError={() => {
-                    console.log('Login Failed');
-                }}
-            />
 
             <div className='w-full'>
                 <Footer />
