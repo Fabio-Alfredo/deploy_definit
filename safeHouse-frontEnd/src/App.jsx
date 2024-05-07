@@ -1,10 +1,11 @@
+import Auth from "./page/Auth"
+
 
 function App() {
 
   return (
     <>
-      
-      
+      <Auth />
     </>
   )
 }
