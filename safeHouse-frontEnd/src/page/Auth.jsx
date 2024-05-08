@@ -8,10 +8,9 @@ import LoginButton from '../components/LoginButton';
 const Auth = () => {
     return (
         <div className='flex flex-col h-screen bg-HomeImg bg-cover bg-center items-center justify-center'>
-
-            <div className='flex-1 flex flex-col items-center justify-center '>
-                <div className='flex flex-col w-full items-center  lg:items-start lg:relative '>
-                    <img className='w-40 lg:absolute lg:right-0' src={logo} />
+            <div className='flex-1 flex flex-col items-center justify-center'>
+                <div className='flex flex-col w-full h-40 justify-end items-center  lg:items-start lg:relative '>
+                    <img className='w-40 h-16 lg:w-[234.48px] lg:h-[115.83px] lg:absolute lg:right-0 ' src={logo} />
                     <p className='text-white font-popins text-center text-[24px] font-extralight pt-10 lg:text-[45px]'>BIENVENIDO A</p>
                 </div>
 
