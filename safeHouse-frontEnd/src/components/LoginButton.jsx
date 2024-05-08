@@ -4,13 +4,15 @@ import { credentialResponse } from '../service/connecctionGoogle';
 import { gapi } from 'gapi-script';
 import { FcGoogle } from "react-icons/fc";
 
-
 /**<GoogleLogin
                 width={300}
+                logo_alignment='center'
                 theme='filled_black'
                 text='Iniciar con Google'
                 onSuccess={credentialResponse}
             /> */
+
+
 
 const LoginButton = () => {
 
