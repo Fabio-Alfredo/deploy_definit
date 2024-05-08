@@ -5,8 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+
+    extend: {
+      fontFamily: {
+        'brygada-1918': ['Brygada 1918', 'sans-serif'],
+        'popins': ['Poppins', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif']
+      },
+      backgroundImage:{
+        'HomeImg':"url('/src/assets/HomeImg.png')"
+      }
+    },
   },
   plugins: [],
 }
-
