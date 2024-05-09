@@ -7,6 +7,9 @@ export default {
   theme: {
 
     extend: {
+      colors:{
+        'color-primary': '#F2F2F2',
+      },
       fontFamily: {
         'brygada-1918': ['Brygada 1918', 'sans-serif'],
         'popins': ['Poppins', 'sans-serif'],
