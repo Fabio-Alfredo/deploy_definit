@@ -12,6 +12,9 @@ export default {
         'popins': ['Poppins', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif']
       },
+      colors:{
+        'principalColor' : '#F2F2F2'
+      },
       backgroundImage:{
         'HomeImg':"url('/src/assets/HomeImg.png')"
       }
