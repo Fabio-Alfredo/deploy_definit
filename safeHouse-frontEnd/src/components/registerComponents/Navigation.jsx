@@ -4,11 +4,16 @@ import { RiArrowLeftCircleLine } from "react-icons/ri";
 export const Navigation = ({ title }) => {
     return (
         <>
-            <nav className='flex felx-row items-center justify-center mb-5 lg:mb-10'>
-                <RiArrowLeftCircleLine className='text-3xl hidden md:mx-4 md:block  md:text-5xl lg:text-5xl lg:ml-5 md:flex-shrink-0' />
-                <h2 className='font-brygada-1918 text-xl font-bold md:ml-16  md:flex-grow md:text-4xl lg:text-5xl'>{title}</h2>
+            <nav className='flex felx-row items-center justify-center p-4 mb-24'>
+                <RiArrowLeftCircleLine className='hidden text-5xl flex-shrink-0 md:block' />
+                <h2 className='font-brygada-1918 text-center flex-grow text-5xl '>{title}</h2>
             </nav>
         </>
     );
 };
+
+/**
+ * 
+ * 
+ */
 
