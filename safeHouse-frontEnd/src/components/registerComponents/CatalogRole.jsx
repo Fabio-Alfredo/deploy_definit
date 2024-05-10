@@ -3,9 +3,9 @@ import React from 'react';
 export const CatalogRole = () => {
     return (
         <>
-            <div className='grid grid-cols-3 mx-12 items-center m-10'>
-                <label htmlFor='Role' className='col-span-1 font-popins text-2xl'> Role: </label>
-                <select name='Role' className='col-span-2 font-popins text-lg text-center cursor-pointer shadow-md w-40 bg-input-color rounded-full h-10'>
+            <div className='grid grid-cols-3 sm:mx-12 items-center m-4 sm:m-10'> {/* query */}
+                <label htmlFor='Role' className='col-span-1 font-popins text-sm sm:text-2xl'> Role: </label>{/* query */}
+                <select name='Role' className='col-span-2 p-1 shadow-md  bg-input-color rounded-md text-xs sm:text-xl h-6 sm:h-10 w-5/12'> {/* query */}
                     <option value='admin'>Admin</option>
                     <option selected value='user'>User</option>
                 </select>

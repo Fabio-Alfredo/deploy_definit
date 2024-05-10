@@ -10,7 +10,7 @@ const ResiterPage = () => {
                 <img className='sm:p-2 pt-5 scale-75 ml-3 ' src={logo} />
             </header>
             <div className='flex items-center justify-center w-full bg-color-primary px-6 h-[90vh]'>
-                <div className='h-3/4 w-1/2 p-8 shadow-2xl rounded-3xl bg-white' >
+                <div className=' w-full p-8 shadow-2xl rounded-3xl bg-white sm:h-3/4 sm:w-1/2' > {/* query */}
                     <Navigation title={"Registrar usuario"} />
                     <Input name={"Name"} label={"Nombre:"} type={"text"} />
                     <Input name={"Email"} label={"Email:"} type={"email"}/>

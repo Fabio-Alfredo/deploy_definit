@@ -3,9 +3,10 @@ import React from 'react';
 export const Input = ({name, label, type}) => {
     return (
         <>
-            <div className='grid grid-cols-3 mx-12 items-center m-10'>
-                <label htmlFor={name} className='col-span-1 font-popins text-2xl'> {label} </label>
-                <input required type={type} name={name} className='col-span-2 p-1 text-xl shadow-md w-96 bg-input-color rounded-md h-10' />
+            <div className='grid grid-cols-3 sm:mx-12 items-center m-4 sm:m-10'>
+                <label htmlFor={name} className='col-span-1 font-popins text-sm sm:text-2xl'> {label} </label> {/* query */}
+                <input required type={type} name={name} 
+                className='col-span-2 p-1 shadow-md  bg-input-color rounded-md text-xs sm:text-xl h-6 sm:h-10 w-10/12' />
             </div>
         </>
     );
