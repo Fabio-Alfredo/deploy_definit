@@ -3,8 +3,8 @@ import React from 'react';
 const Button = ({type, name, value}) => {
     return (
         <>
-            <div className='grid grid-cols-3 py-2 lg:py-8 items-center'>
-                <input type={type} name={name} value={value} className='col-span-2 shadow-md bg-color-primary' />
+            <div className='flex w-full justify-center items-center mt-36'>
+                <input type={type} name={name} value={value} className='w-56 h-12 rounded-full font-popins text-white bg-blue-buttons hover:bg-sky-700 cursor-pointer' />
             </div>
         </>
     );

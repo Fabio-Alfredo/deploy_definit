@@ -9,6 +9,7 @@ export default {
     extend: {
       colors:{
         'color-primary': '#F2F2F2',
+        'blue-buttons': '#628CB1'
       },
       fontFamily: {
         'brygada-1918': ['Brygada 1918', 'sans-serif'],
