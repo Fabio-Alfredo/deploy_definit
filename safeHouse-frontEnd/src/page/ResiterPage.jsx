@@ -6,10 +6,10 @@ import { useForm } from '../hooks/useForm';
 
 const ResiterPage = () => {
 
-    const {name, email,role , InputChange}= useForm({
+    const {name, email, role, InputChange}= useForm({
         name: '',
         email: '',
-        role: ''
+        role:''
     })
 
     const handleSubmit = (e) =>{
