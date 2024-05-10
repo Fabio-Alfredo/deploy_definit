@@ -7,9 +7,13 @@ export default {
   theme: {
 
     extend: {
+      boxShadow:{
+        '2xl':'3px 5px 4px rgba(0, 0, 0, 0.4)',
+      },
       colors:{
         'color-primary': '#F2F2F2',
-        'blue-buttons': '#628CB1'
+        'blue-buttons': '#628CB1',
+        'input-color': '#D9D9D9',
       },
       fontFamily: {
         'brygada-1918': ['Brygada 1918', 'sans-serif'],
