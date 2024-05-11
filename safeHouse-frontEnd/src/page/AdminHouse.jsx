@@ -35,23 +35,30 @@ const AdminHouse = () => {
                         {
                             houses.map((house) => (
                                 <div key={house.id}>
-                                    <div className='flex justify-between p-2'>
-                                        <h2 className='flex font-popins font-bold text-2xl '>
-                                            {house.direction}
-                                        </h2>
-                                        <div className='flex items-center'>
-                                            <p className='flex font-xs font-popins font-xs '> Editar  </p>
-                                            <IoMdSettings className='text-3xl pl-2 ' />
+                                    <div className='flex-col pb-3' >
+                                        <div className='flex justify-between pt-5'>
+                                            <h2 className='flex font-popins font-bold text-2xl '>
+                                                {house.direction}
+                                            </h2>
+                                            <div className='flex items-center pr-3'>
+                                                <p className='flex font-xs font-popins font-xs '> Editar  </p>
+                                                <IoMdSettings className='text-3xl pl-2 ' />
+                                            </div>
                                         </div>
+                                        <hr className='w-full bg-black mt-2 h-1' />
                                     </div>
-                                    <div className='flex items-center'>
-                                        <FaStar className='text-xl '/>
-                                        <h3 className='flex font-popins text-lg pl-2'>  {house.owner.name}</h3>
+                                    <div>
+                                        <div className='flex items-center'>
+                                            <FaStar className='text-xl ' />
+                                            <h3 className='flex font-popins text-lg pl-2'>  {house.owner.name}</h3>
+                                        </div>
+                                        <hr className='w-full bg-black  h-px' />
                                     </div>
                                     <ul>
                                         {house.users.map((user) => (
                                             <li className='font-popins pl-7' key={user.id}>
                                                 {user.name}
+                                                <hr className='w-full bg-black  h-0.1' />
                                             </li>
                                         ))}
                                     </ul>
