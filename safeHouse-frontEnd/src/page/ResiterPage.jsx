@@ -42,9 +42,5 @@ const ResiterPage = () => {
     );
 };
 
-/**                <Navigation title={"Registrar usuario"} />
-                <Input name={"Name"} label={"Nombre:"} type={"text"} />
-                <Input name={"Email"} label={"Email:"} type={"email"} />
-                <CatalogRole /> */
 
 export default ResiterPage;

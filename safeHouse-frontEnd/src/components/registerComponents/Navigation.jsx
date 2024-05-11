@@ -12,8 +12,4 @@ export const Navigation = ({ title }) => {
     );
 };
 
-/**
- * 
- * 
- */
 
