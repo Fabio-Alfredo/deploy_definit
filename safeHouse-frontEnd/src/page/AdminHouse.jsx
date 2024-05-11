@@ -25,10 +25,10 @@ const AdminHouse = () => {
         <div>
             <Header />
             <div className='bg-principalColor w-full flex-col h-[90vh] flex justify-center items-center p-6 '>
-                <div className='w-1/2 bg-white h-3/4 shadow-lg br-20 p-8  rounded-2xl'>
+                <div className='w-8/10 sm:w-1/2 bg-white h-3/4 shadow-lg br-20 p-8  rounded-2xl'>
                     <nav className='flex felx-row items-center justify-center p-4'>
                         <RiArrowLeftCircleLine className='hidden text-5xl  md:block' />
-                        <h2 className='font-brygada-1918 text-center flex-grow text-5xl'> Administracion de casa</h2>
+                        <h2 className='font-brygada-1918 text-center flex-grow text-3xl sm:text-5xl'> Administracion de casa</h2>
                     </nav>
 
                     <div className="overflow-y-auto h-3/4">
@@ -37,7 +37,7 @@ const AdminHouse = () => {
                                 <div key={house.id}>
                                     <div className='flex-col pb-3' >
                                         <div className='flex justify-between pt-5'>
-                                            <h2 className='flex font-popins font-bold text-2xl '>
+                                            <h2 className='flex font-popins font-bold text-xl sm:text-2xl '>
                                                 {house.direction}
                                             </h2>
                                             <div className='flex items-center pr-3'>
