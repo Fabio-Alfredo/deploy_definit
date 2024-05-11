@@ -1,0 +1,104 @@
+{
+    "houses": [
+        {
+            "id": 1,
+            "direction": "Calle Principal 123",
+            "users": [
+                {
+                    "id": 1,
+                    "name": "Juan Pérez"
+                },
+                {
+                    "id": 2,
+                    "name": "Ana Pérez"
+                }
+            ],
+            "owner": 
+                {
+                    "id": 1,
+                    "name": "Alexander Robles"
+                }
+            
+        },
+        {
+            "id": 2,
+            "direction": "Calle 1",
+            "users": [
+                {
+                    "id": 3,
+                    "name": "Pedro Martínez"
+                },
+                {
+                    "id": 4,
+                    "name": "Mario Gonzalez Pérez"
+                }
+            ],
+            "owner": 
+                {
+                    "id": 1,
+                    "name": "Fabio Hernandez"
+                }
+            
+        },
+        {
+            "id": 2,
+            "direction": "Calle 2",
+            "users": [
+                {
+                    "id": 3,
+                    "name": "Pedro Martínez"
+                },
+                {
+                    "id": 4,
+                    "name": "Mario Gonzalez Pérez"
+                }
+            ],
+            "owner": 
+                {
+                    "id": 1,
+                    "name": "Fabio Hernandez"
+                }
+            
+        },
+        {
+            "id": 2,
+            "direction": "Calle 3",
+            "users": [
+                {
+                    "id": 3,
+                    "name": "Pedro Martínez"
+                },
+                {
+                    "id": 4,
+                    "name": "Mario Gonzalez Pérez"
+                }
+            ],
+            "owner": 
+                {
+                    "id": 1,
+                    "name": "Fabio Hernandez"
+                }
+            
+        },
+        {
+            "id": 2,
+            "direction": "Calle 4",
+            "users": [
+                {
+                    "id": 3,
+                    "name": "Pedro Martínez"
+                },
+                {
+                    "id": 4,
+                    "name": "Mario Gonzalez Pérez"
+                }
+            ],
+            "owner": 
+                {
+                    "id": 1,
+                    "name": "Fabio Hernandez"
+                }
+            
+        }
+    ]
+}
