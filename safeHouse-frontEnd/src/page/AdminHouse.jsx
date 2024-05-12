@@ -1,25 +1,21 @@
 import Header from "../components/Header";
+import fetchHouses from "../service/fetchHouses";
 import { RiArrowLeftCircleLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('data.json');
-                setHouse(response.data.houses);
-            } catch (error) {
-                console.error('Error al obtener los datos:', error);
-            }
+        const getHouse = async () => {
+            const fetcheHouse = await fetchHouses();
+            setHouse(fetcheHouse);
         };
 
-        fetchData();
-    }, [])
+        getHouse();
+    }, [])  
 
     return (
         <div>
@@ -49,16 +45,16 @@ const AdminHouse = () => {
                                     </div>
                                     <div>
                                         <div className='flex items-center'>
-                                            <FaStar className='text-xl ' />
+                                            <FaStar className='text-lg ' />
                                             <h3 className='flex font-popins text-lg pl-2'>  {house.owner.name}</h3>
                                         </div>
-                                        <hr className='w-full bg-black  h-px' />
+                                        <hr className='w-full bg-black  h-1' />
                                     </div>
                                     <ul>
                                         {house.users.map((user) => (
-                                            <li className='font-popins pl-7' key={user.id}>
+                                            <li className='font-popins pl-7 pt-2 text-lg' key={user.id}>
                                                 {user.name}
-                                                <hr className='w-full bg-black  h-0.1' />
+                                                <hr className='w-full bg-black  h-1' />
                                             </li>
                                         ))}
                                     </ul>
