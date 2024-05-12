@@ -31,3 +31,15 @@ export const credentialResponse = async (response) => {
 
 }
 
+export const fetchQrData = async (data) => {
+    try {
+        const res = await axios.post('http://localhost:8080/users/user', data, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+        return res;
+    }catch(error){
+        console.log(error);
+    }
+}

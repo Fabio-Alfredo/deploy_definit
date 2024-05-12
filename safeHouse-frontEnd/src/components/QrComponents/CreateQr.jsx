@@ -2,12 +2,13 @@ import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import logoQR from '../../assets/logoQR.svg';
 
-const CreateQr = () => {
+const CreateQr = ({ info }) => {
 
     return (
+
         <div className='flex w-full justify-center items-center'>
-            <QRCodeSVG className=' xl:w-1/4 xl:h-1/4 2xl:w-1/3 2xl:h-1/3'
-                value='Hello'
+            <QRCodeSVG className='xl:w-1/3 xl:h-1/3'
+                value={info.date+info.email}
                 bgColor='#ffffff'
                 fgColor='#000000'
                 level='L'

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 
-const Cronometro = () => {
+const Cronometro = ({ handleTime }) => {
 
     const [seconds, setSeconds] = useState(10 * 60);
 
@@ -16,6 +16,7 @@ const Cronometro = () => {
 
     useEffect(() => {
         if (seconds === 0) {
+            handleTime()
             setSeconds(10 * 60);
         }
     }, [seconds]);
