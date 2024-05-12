@@ -12,11 +12,11 @@ const ContainerQr = () => {
                 <Cronometro />
                 <CreateQr />
                 <div className='w-full flex flex-col justify-center items-center'>
-                    <p className='font-popins py-3   text-sm sm:text-xl sm:py6'>Residente</p>
-                    <h2 className='font-popins  font-bold text-lg sm:text-2xl'>Nombre Apellido</h2>
+                    <p className='font-popins pt-5 pb-3  text-xl sm:text-xl sm:py6'>Residente</p>
+                    <h2 className='font-popins  font-bold text-2xl sm:text-2xl'>Nombre Apellido</h2>
                     <h3 className='font-popins text-sm sm:text-xl'>nombre@gmail.com</h3>
                 </div>
-                <hr className='h-0.5 bg-black mt-7' />
+                <hr className='h-0.5 bg-black mt-4' />
             </div>
         </>
     );

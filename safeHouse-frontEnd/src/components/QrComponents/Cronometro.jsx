@@ -25,7 +25,7 @@ const Cronometro = () => {
 
     return (
         <>
-            <h2 className='text-center m-4 font-popins text-sm sm:text-xl'>{`Duracion: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`}</h2>
+            <h2 className='text-center font-popins  text-lg m-4 sm:text-2xl xl:text-start'>{`Duracion: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`}</h2>
         </>
     );
 };
