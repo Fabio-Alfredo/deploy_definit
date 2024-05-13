@@ -8,7 +8,7 @@ import InfoUser from './InfoUser';
 const ContainerQr = () => {
 
     //eliminar al hacer la conneccion 
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(new Date().toLocaleString());
     //para coneccion con api
     /*const [qrData, setQrData] = useState(null);
     const [apiCalled, setApiCalled] = useState(false);
@@ -22,8 +22,7 @@ const ContainerQr = () => {
     console.log(date);
 
     const handleTime = async () => {
-        setDate(new Date());
-        
+        setDate(new Date().toLocaleString());
     }
 
 
