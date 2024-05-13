@@ -14,7 +14,7 @@ const ContainerQr = () => {
     const [apiCalled, setApiCalled] = useState(false);
     
     useEffect(() => {
-        if (!apiCalled) {
+        if (!apiCalled) {    //para traer informacion al entrar la primera vez
             handleTime();
             setApiCalled(true);
         }
