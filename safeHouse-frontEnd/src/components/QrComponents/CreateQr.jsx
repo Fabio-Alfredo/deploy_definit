@@ -7,8 +7,9 @@ const CreateQr = ({ info }) => {
     return (
 
         <div className='flex w-full justify-center items-center'>
-            <QRCodeSVG className='xl:w-1/3 xl:h-1/3'
-                value={info.date+info.email}
+            <QRCodeSVG className='xl:w-2/5 xl:h-2/5'
+                //value={info.date+info.email} para coneccion con api
+                value={info}
                 bgColor='#ffffff'
                 fgColor='#000000'
                 level='L'

@@ -31,9 +31,9 @@ export const credentialResponse = async (response) => {
 
 }
 
-export const fetchQrData = async (data) => {
+export const axiosQrData = async (data) => {
     try {
-        const res = await axios.post('http://localhost:8080/users/user', data, {
+        const res = await axios.post('uri', data, {
             headers: {
                 Accept: 'application/json'
             }

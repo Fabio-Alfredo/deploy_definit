@@ -3,49 +3,41 @@ import { Navigation } from '../registerComponents';
 import CreateQr from './CreateQr';
 import Cronometro from './Cronometro';
 import { useState } from 'react';
-import { fetchQrData } from '../../service/connecctionGoogle';
+import InfoUser from './InfoUser';
 
 const ContainerQr = () => {
 
-    const [qrData, setQrData] = useState(null);
+    //eliminar al hacer la conneccion 
+    const [date, setDate] = useState(new Date());
+    //para coneccion con api
+    /*const [qrData, setQrData] = useState(null);
     const [apiCalled, setApiCalled] = useState(false);
-
+    
     useEffect(() => {
         if (!apiCalled) {
             handleTime();
             setApiCalled(true);
         }
-    }, []);
+    }, []);*/
+    console.log(date);
 
     const handleTime = async () => {
-        const data = {
-            email: "fabio@gmail.com"
-        }
-
-        const response = await fetchQrData(data);
-        const { email } = response.data;
-        const newdata = {
-            email,
-            date: new Date()
-        }
-        setQrData(newdata);
-        console.log(newdata);
+        setDate(new Date());
+        
     }
 
 
     return (
         <>
-            <div className=' w-full p-8 shadow-2xl rounded-3xl bg-white xl:h-4/5 xl:p-14 lg:w-1/2' > {/* query */}
+            <div className=' w-full p-8 lg:p-4 shadow-2xl rounded-3xl bg-white xl:h-9/12 xl:p-14 lg:w-1/2' > {/* query */}
                 <Navigation title={"Entrada"} />
                 <hr className='h-0.5 bg-black' />
                 <Cronometro handleTime={handleTime} />
-                {qrData && <CreateQr info={qrData} />}
-                <div className='w-full flex flex-col justify-center items-center'>
-                    <p className='font-popins pt-5 pb-3  text-xl sm:text-xl sm:py6'>Residente</p>
-                    <h2 className='font-popins  font-bold text-2xl sm:text-2xl'>Nombre Apellido</h2>
-                    <h3 className='font-popins text-sm sm:text-xl'>nombre@gmail.com</h3>
-                </div>
-                <hr className='h-0.5 bg-black mt-4' />
+                {/*qrData && <CreateQr info={qrData} />*/} {/* para coneccion con api */}
+                {/*qrData && <InfoUser data={qrData} />*/} {/* para coneccion con api */}
+                <CreateQr info={date}/>
+                <InfoUser/>
+                <hr className='h-0.5 bg-black m-4' />
             </div>
         </>
     );
