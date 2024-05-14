@@ -20,7 +20,7 @@ const AdminHouse = () => {
         <div>
             <Header />
             <div className='bg-principalColor w-full flex-col h-[90vh] flex justify-center items-center p-6 '>
-                <div className='w-8/10 sm:w-1/2 bg-white sm:h-3/4 h-[90%] shadow-lg br-20 p-8  rounded-2xl'>
+                <div className='w-8/10 sm:w-1/2 bg-white sm:h-3/4 h-[90%] shadow-2xl br-20 p-8  rounded-3xl'>
 
                     <NavBar />
                     <div className="overflow-y-auto sm:h-3/4 h-[80%]">
