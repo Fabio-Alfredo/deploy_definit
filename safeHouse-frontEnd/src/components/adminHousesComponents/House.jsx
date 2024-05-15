@@ -5,8 +5,8 @@ import UserList from "./userList";
 
 const House = ({ house }) => {
     return (
-        <>
-            <div className='flex-col pb-3' >
+        <div>
+            <div className='flex-col pb-1' >
                 <div className='flex justify-between pt-5'>
                     <h2 className='flex font-popins sm:font-bold text-lg sm:text-2xl font-medium'>
                         {house.direction}
@@ -26,7 +26,7 @@ const House = ({ house }) => {
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>
             <UserList users={house.users} />
-        </>
+        </div>
     );
 
 };
