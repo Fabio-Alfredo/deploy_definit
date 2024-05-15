@@ -11,10 +11,11 @@ const CreateQr = ({ info }) => {
 
     useEffect(() => {
         qr.current = new QRCodeStyling({
-            width: 200,
-            height: 200,
+            width: 250,
+            height: 250,
             data: info,
             image: logoQR,
+            type: 'svg',
             qrOptions: {
                 typeNumber: '5',
                 mode: 'Byte',
@@ -40,7 +41,7 @@ const CreateQr = ({ info }) => {
                             offset: 1,
                             color: "#008D62"
                         }
-                        
+
                     ]
                 }
             },
@@ -50,7 +51,7 @@ const CreateQr = ({ info }) => {
                     type: "lineal",
                     rotation: 0,
                     colorStops: [
-                        
+
                         {
                             offset: 0,
                             color: "#000000"
