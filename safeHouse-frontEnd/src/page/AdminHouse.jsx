@@ -29,7 +29,6 @@ const AdminHouse = () => {
                                 <House key={house.id} house={house} />
                             ))
                         }
-
                     </div>
                 </div>
             </div>
