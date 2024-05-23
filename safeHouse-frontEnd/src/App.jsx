@@ -9,9 +9,9 @@ function App() {
 
   return (
     <>
-      <RegisterPage/>
+      {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
-      {/* <GenerateToken/> */}
+      <GenerateToken/>
       {/* <Auth/> */}
     </>
   )
