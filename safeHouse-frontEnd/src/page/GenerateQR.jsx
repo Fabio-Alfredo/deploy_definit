@@ -1,12 +1,8 @@
-import React from 'react';
-import CreateQr from '../components/QrComponents/CreateQr';
-import logo from '../assets/Logo.svg';
-import { Navigation } from '../components/registerComponents';
 import ContainerQr from '../components/QrComponents/ContainerQr';
 import Header from '../components/Header';
 
 
-const GenerateToken = () => {
+const GenerateQR = () => {
     return (
         <div className='h-screen'>
             <Header/>
@@ -17,4 +13,4 @@ const GenerateToken = () => {
     );
 };
 
-export default GenerateToken;
+export default GenerateQR;
