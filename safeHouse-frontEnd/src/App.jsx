@@ -11,8 +11,8 @@ function App() {
     <>
       {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
-      <GenerateToken/>
-      {/* <Auth/> */}
+      {/* <GenerateToken/> */}
+      <Auth/>
     </>
   )
 }

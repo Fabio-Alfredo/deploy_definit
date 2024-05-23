@@ -28,7 +28,6 @@ const ContainerQr = () => {
 
     return (
         <>
-        {/* className=' w-full p-8 shadow-2xl rounded-3xl bg-white h-fit xl:pt-24 lg:w-2/3  xl:w-1/2' */}
             <div className='w-full p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Entrada"} />
                 <hr className='h-0.5 bg-black' />

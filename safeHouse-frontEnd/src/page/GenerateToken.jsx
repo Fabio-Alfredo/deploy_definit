@@ -10,7 +10,7 @@ const GenerateToken = () => {
     return (
         <div className='h-screen'>
             <Header/>
-            <div className='flex items-center justify-center w-full bg-color-primary px-6 h-[90vh]'>
+            <div className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
                 <ContainerQr/>
             </div>
         </div>
