@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { QrReader } from 'react-qr-reader'
 import ScanOverlay from './Overlay';
-import { data } from 'autoprefixer';
 
 
 const CreateReaderQr = () => {
 
-    const [resulta, setResult] = useState('data');
+    const [data, setData] = useState('data');
 
     return (
         <div className='flex py-4 xl:w-11/12 w-full justify-center items-center '>
             <QrReader
                 onResult={(result, error) => {
                     if (result) {
-                        setResult(result?.text);
-                        alert(result);
+                        setData(result?.text);
                     }
 
                     if (error) {
-                        console.info(error);
+                        setData('data')
+                        console.log(data)
                     }
                 }}
                 constraints={{ facingMode: 'environment' }}
@@ -29,11 +28,9 @@ const CreateReaderQr = () => {
                     borderRadius: '10px',
                     padding: '2px',
                     background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)',
-                    id: 'videoContainer',
                     
                 }}
-                scanDelay={5000}
-                videoId='videoContainer'
+                delay={500}
                 videoContainerStyle={{
                     position: 'relative',
                     width: '100%',
@@ -49,7 +46,7 @@ const CreateReaderQr = () => {
                 }}
                 ViewFinder={ScanOverlay}
             />
-            <p>{resulta}</p>
+            <p>{data}</p>
         </div>
     );
 };
