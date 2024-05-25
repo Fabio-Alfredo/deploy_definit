@@ -1,40 +1,44 @@
 import React, { useState } from 'react';
 import { QrReader } from 'react-qr-reader'
 import ScanOverlay from './Overlay';
+import { data } from 'autoprefixer';
+
 
 const CreateReaderQr = () => {
-    const [data, setData] = useState('No result');
 
+    const [resulta, setResult] = useState('data');
 
     return (
-        <div className='flex py-4 justify-center items-center '>
+        <div className='flex py-4 xl:w-11/12 w-full justify-center items-center '>
             <QrReader
                 onResult={(result, error) => {
                     if (result) {
-                        setData(result?.text);
+                        setResult(result?.text);
+                        alert(result);
                     }
 
                     if (error) {
                         console.info(error);
                     }
                 }}
-                facingMode={'self'}
                 constraints={{ facingMode: 'environment' }}
-                scanDelay={5000}
                 containerStyle={{
                     width: '80%',
                     height: 'auto',
                     border: '5px solid transparent',
                     borderRadius: '10px',
                     padding: '2px',
-                    background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)'
-
+                    background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)',
+                    id: 'videoContainer',
+                    
                 }}
+                scanDelay={5000}
+                videoId='videoContainer'
                 videoContainerStyle={{
                     position: 'relative',
                     width: '100%',
                     height: '100%',
-                    
+
                 }}
                 videoStyle={{
                     flex: 1,
@@ -44,11 +48,11 @@ const CreateReaderQr = () => {
                     borderRadius: '10px',
                 }}
                 ViewFinder={ScanOverlay}
-
             />
-
+            <p>{resulta}</p>
         </div>
     );
 };
 
 export default CreateReaderQr;
+
