@@ -49,15 +49,3 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-@media (orientation: landscape) {
-	body {
-	  flex-direction: column;
-	}
-  }
-  
-  @media (orientation: portrait) {
-	body {
-	  flex-direction: column;
-	}
-  }
