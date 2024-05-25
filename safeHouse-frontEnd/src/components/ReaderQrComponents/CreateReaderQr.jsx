@@ -25,10 +25,10 @@ const CreateReaderQr = () => {
                     width: '80%', 
                     height: 'auto',
                     margin: '0 auto',
-                    border: '2px solid #000',
+                    border: '5px solid transparent',
                     borderRadius: '10px',
-                    padding: '5px',
-                    borderColor: '#008D62',
+                    padding: '2px',
+                    background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)'
                 }}
                 videoStyle={{
                     flex: 1,
