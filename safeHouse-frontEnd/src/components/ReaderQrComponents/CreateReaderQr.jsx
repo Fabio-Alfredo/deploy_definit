@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { QrReader } from 'react-qr-reader'
+import ScanOverlay from './Overlay';
 
 const CreateReaderQr = () => {
     const [data, setData] = useState('No result');
+
+
     return (
         <div className='flex py-4 justify-center items-center '>
             <QrReader
@@ -18,17 +21,20 @@ const CreateReaderQr = () => {
                 facingMode={'self'}
                 constraints={{ facingMode: 'environment' }}
                 scanDelay={5000}
-                containerStyle={{ 
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '80%', 
+                containerStyle={{
+                    width: '80%',
                     height: 'auto',
-                    margin: '0 auto',
                     border: '5px solid transparent',
                     borderRadius: '10px',
                     padding: '2px',
                     background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)'
+
+                }}
+                videoContainerStyle={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    
                 }}
                 videoStyle={{
                     flex: 1,
@@ -37,7 +43,10 @@ const CreateReaderQr = () => {
                     objectFit: 'cover',
                     borderRadius: '10px',
                 }}
+                ViewFinder={ScanOverlay}
+
             />
+
         </div>
     );
 };
