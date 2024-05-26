@@ -11,8 +11,8 @@ const CreateQr = ({ info }) => {
 
     useEffect(() => {
         qr.current = new QRCodeStyling({
-            width: 250,
-            height: 250,
+            width: 300,
+            height: 300,
             data: info,
             image: logoQR,
             type: 'svg',

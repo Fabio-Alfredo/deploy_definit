@@ -28,7 +28,7 @@ const ContainerQr = () => {
 
     return (
         <>
-            <div className='w-full p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
+            <div className='w-full p-4 sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Entrada"} />
                 <hr className='h-0.5 bg-black' />
                 <Cronometro handleTime={handleTime} />

@@ -1,11 +1,51 @@
 import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader'
+import QrReader from 'modern-react-qr-reader'
 import ScanOverlay from './Overlay';
 
 
-const CreateReaderQr = () => {
+export const CreateReaderQr = () => {
 
     const [data, setData] = useState('data');
+
+    const handleScan = (data) => {
+        if (data) {
+            console.log(data);
+            setData(data);
+        }
+    }
+
+    const handleError = (err) => {
+        console.error(err)
+    }
+
+
+    return (
+        <div className='flex flex-col py-4 xl:w-11/12 w-full justify-center items-center '>
+            <QrReader
+                delay={300}
+                facingMode={"environment"}
+                onError={handleError}
+                onScan={handleScan}
+                style={{
+                    width: '80%',
+                }}
+                ViewFinder={ScanOverlay}
+                resolution={1000}
+                
+                showViewFinder={false}
+                //className='bg-b'
+            />
+
+            <p>{data}</p>
+        </div>
+    );
+};
+
+
+export default CreateReaderQr;
+
+/**
+ *      const [data, setData] = useState('data');
 
     return (
         <div className='flex py-4 xl:w-11/12 w-full justify-center items-center '>
@@ -28,7 +68,7 @@ const CreateReaderQr = () => {
                     borderRadius: '10px',
                     padding: '2px',
                     background: 'linear-gradient(to bottom right, #008D62, #FFFFFF)',
-                    
+
                 }}
                 delay={500}
                 videoContainerStyle={{
@@ -48,8 +88,6 @@ const CreateReaderQr = () => {
             />
             <p>{data}</p>
         </div>
-    );
-};
-
-export default CreateReaderQr;
+    );  
+ */
 
