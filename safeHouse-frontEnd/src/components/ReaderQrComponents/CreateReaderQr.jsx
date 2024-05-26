@@ -20,19 +20,23 @@ export const CreateReaderQr = () => {
 
 
     return (
-        <div className='flex flex-col py-4 xl:w-11/12 w-full justify-center items-center '>
+        <div className='flex flex-col py-4 xl:w-11/12 w-full bg-red-400 justify-center items-center '>
             <QrReader
                 delay={300}
                 facingMode={"environment"}
                 onError={handleError}
                 onScan={handleScan}
+                resolution={1000}
                 style={{
                     width: '80%',
+                    height: 'auto',
+                    margin: '0 auto',
+                    baground: 'red',
                 }}
-                ViewFinder={ScanOverlay}
-                resolution={1000}
+                className='bg-[#000000]'
+                //ViewFinder={ScanOverlay}
                 
-                showViewFinder={false}
+                //showViewFinder={false}
                 //className='bg-b'
             />
 
