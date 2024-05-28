@@ -10,8 +10,8 @@ function App() {
     <>
       {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
-      {/* <GenerateQR/> */}
-      <Auth/>
+      <GenerateQR/>
+      {/* <Auth/> */}
     </>
   )
 }
