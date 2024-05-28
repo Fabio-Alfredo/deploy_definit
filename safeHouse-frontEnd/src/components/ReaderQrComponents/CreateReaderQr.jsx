@@ -31,10 +31,7 @@ export const CreateReaderQr = () => {
                         height: 'auto',
                         baground: 'red',
                     }}
-                    className='bg-[#000000]'
-                    //ViewFinder={ScanOverlay}
                     showViewFinder={false}
-                //className='bg-b'
                 />
                 <ScanOverlay />
             </div>
