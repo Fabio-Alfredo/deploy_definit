@@ -19,7 +19,7 @@ export const CreateReaderQr = () => {
 
     return (
         <div className='py-4 xl:w-4/5 w-full'>
-            <div className='flex justify-center items-center relative px-2 py-2 bg-green-300'>
+            <div className='flex justify-center items-center relative m-4 md:m-8  p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
                     delay={300}
                     facingMode={"environment"}
