@@ -26,8 +26,8 @@ export const CreateReaderQr = () => {
 
 
     return (
-        <div className='flex flex-col xl:w-4/5 w-full'>
-            <div className='flex justify-center items-center relative m-4 md:m-8 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
+        <div className='flex flex-col lg:w-1/2 xl:w-4/5 w-full '>
+            <div className='flex justify-center items-center relative md:m-32 lg:m-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
                     delay={300}
                     facingMode={"environment"}
@@ -35,9 +35,7 @@ export const CreateReaderQr = () => {
                     onScan={handleScan}
                     resolution={1000}
                     style={{
-                        width: '100%',
-                        height: 'auto',
-                        baground: 'red',
+                        width: '100%'
                     }}
                     showViewFinder={false}
                 />
