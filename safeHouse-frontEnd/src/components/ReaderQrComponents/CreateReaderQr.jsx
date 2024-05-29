@@ -10,11 +10,17 @@ export const CreateReaderQr = () => {
         if (info) {
             setData(info);
             console.log(data);
+            playBeepSound();
         }
     }
 
     const handleError = (err) => {
         console.error(err)
+    }
+
+    const playBeepSound = () => {
+        const audio = new Audio('/sound/scan.mp3');
+        audio.play();
     }
 
 
@@ -43,7 +49,7 @@ export const CreateReaderQr = () => {
                 <span className='text-green-primary'>H</span>
                 ouse
             </p>
-            {/* <p>{data}</p> */}
+            <p>{data}</p>
         </div>
     );
 };
