@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import QrReader from 'modern-react-qr-reader'
 import ScanOverlay from './Overlay';
+import logo from '../../assets/logo-b.svg';
+
 export const CreateReaderQr = () => {
 
     const [data, setData] = useState('data');
@@ -18,8 +20,8 @@ export const CreateReaderQr = () => {
 
 
     return (
-        <div className='py-4 xl:w-4/5 w-full'>
-            <div className='flex justify-center items-center relative m-4 md:m-8  p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
+        <div className='flex flex-col xl:w-4/5 w-full'>
+            <div className='flex justify-center items-center relative m-4 md:m-8 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
                     delay={300}
                     facingMode={"environment"}
@@ -34,8 +36,15 @@ export const CreateReaderQr = () => {
                     showViewFinder={false}
                 />
                 <ScanOverlay />
+
             </div>
-            <p>{data}</p>
+            <p className='text-center font-bold'>
+                <span className='text-green-primary'>S</span>
+                afe
+                <span className='text-green-primary'>H</span>
+                ouse
+            </p>
+            {/* <p>{data}</p> */}
         </div>
     );
 };
