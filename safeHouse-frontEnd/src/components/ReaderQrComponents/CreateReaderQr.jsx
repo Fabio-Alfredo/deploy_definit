@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import QrReader from 'modern-react-qr-reader'
 import ScanOverlay from './Overlay';
-import logo from '../../assets/logo-b.svg';
 
 export const CreateReaderQr = () => {
 
     const [data, setData] = useState('data');
 
-    const handleScan = (data) => {
-        if (data) {
+    const handleScan = (info) => {
+        if (info) {
+            setData(info);
             console.log(data);
-            setData(data);
         }
     }
 
