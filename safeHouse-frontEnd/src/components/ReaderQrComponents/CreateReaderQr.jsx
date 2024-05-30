@@ -11,7 +11,7 @@ export const CreateReaderQr = () => {
             setData(info);
             console.log(data);
             playBeepSound();
-            
+
         }
     }
 
@@ -26,8 +26,8 @@ export const CreateReaderQr = () => {
 
 
     return (
-        <div className='flex flex-col lg:w-1/2 xl:w-4/5 w-full '>
-            <div className='flex justify-center items-center relative md:m-32 lg:m-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
+        <div className='flex flex-col lg:w-1/2 xl:w-4/5 w-full'>
+            <div className='flex justify-center items-center relative m-10 md:m-20 lg:m-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
                     delay={300}
                     facingMode={"environment"}
@@ -40,14 +40,14 @@ export const CreateReaderQr = () => {
                     showViewFinder={false}
                 />
                 <ScanOverlay />
-
             </div>
-            <p className='text-center font-bold'>
+            <p className='text-center font-bold text-xl'>
                 <span className='text-green-primary'>S</span>
                 afe
                 <span className='text-green-primary'>H</span>
                 ouse
             </p>
+
             <p>{data}</p>
         </div>
     );
