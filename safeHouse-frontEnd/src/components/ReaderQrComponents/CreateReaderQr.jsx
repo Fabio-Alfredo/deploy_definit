@@ -13,6 +13,7 @@ export const CreateReaderQr = () => {
             // playBeepSound();
 
         }
+
     }
 
     const handleError = (err) => {
@@ -29,7 +30,7 @@ export const CreateReaderQr = () => {
         <div className='flex flex-col lg:w-1/2 xl:w-4/5 w-full'>
             <div className='flex justify-center items-center relative mx-10 mt-10 md:mx-16 md:mt-16 lg:mx-4 lg:mt-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
-                    delay={3000}
+                    delay={200}
                     facingMode={"environment"}
                     onError={handleError}
                     onScan={handleScan}
