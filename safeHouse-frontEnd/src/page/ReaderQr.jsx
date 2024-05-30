@@ -6,7 +6,7 @@ const ReaderQr = () => {
     return (
         <div className='h-screen'>
             <Header />
-            <div className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
+            <div className='flex pt-36 lg:p-0 lg:items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
                 <ContainerReaderQr/>
             </div>
         </div>
