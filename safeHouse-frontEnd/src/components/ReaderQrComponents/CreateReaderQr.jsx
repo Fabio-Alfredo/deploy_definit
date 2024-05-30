@@ -10,7 +10,7 @@ export const CreateReaderQr = () => {
         if (info) {
             setData(info);
             console.log(data);
-            playBeepSound();
+            // playBeepSound();
 
         }
     }
@@ -27,7 +27,7 @@ export const CreateReaderQr = () => {
 
     return (
         <div className='flex flex-col lg:w-1/2 xl:w-4/5 w-full'>
-            <div className='flex justify-center items-center relative m-10 md:m-20 lg:m-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
+            <div className='flex justify-center items-center relative m-10 md:m-16 lg:m-4 p-1 bg-gradient-to-r from-green-400 from-10%  via-color-primary via-40% to-green-400 to-80%'>
                 <QrReader
                     delay={300}
                     facingMode={"environment"}
