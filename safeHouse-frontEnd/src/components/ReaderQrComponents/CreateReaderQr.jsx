@@ -43,7 +43,7 @@ export const CreateReaderQr = () => {
                 />
                 <ScanOverlay />
             </div>
-            <p className='text-center font-bold text-xl my-4 cursor-default'>
+            <p className='text-center font-bold text-xl my-2 cursor-default'>
                 <span className='text-green-primary'>S</span>
                 afe
                 <span className='text-green-primary'>H</span>
