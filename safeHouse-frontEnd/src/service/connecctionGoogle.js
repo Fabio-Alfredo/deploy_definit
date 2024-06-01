@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-export const credentialResponse = async (response) => {
+/*export const credentialResponse = async (response) => {
     try {
         const { access_token } = response;
         axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`, {
@@ -24,10 +24,22 @@ export const credentialResponse = async (response) => {
             name,
             picture
         }
-        console.log({info});*/
+        console.log({info});
     } catch (error) {
         console.log(error);
     }
 
-}
+}*/
 
+export const axiosQrData = async (data) => {
+    try {
+        const res = await axios.post('uri', data, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+        return res;
+    }catch(error){
+        console.log(error);
+    }
+}

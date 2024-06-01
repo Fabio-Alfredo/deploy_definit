@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({type, name, value}) => {
+const Button = ({ type, name, value }) => {
     return (
         <>
             <div className='flex w-full justify-center items-center mt-6 2xl:my-24'>
