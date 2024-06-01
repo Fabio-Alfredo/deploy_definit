@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import fetchHouses from "../service/fetchHouses";
 import { useEffect, useState } from "react";
 import House from "../components/adminHousesComponents/House";
-import { Navigation } from "../components/registerComponents";
+import Navigation from "../components/Navigation";
 
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation, Input, CatalogRole } from '../components/registerComponents';
+//import { Navigation, Input, CatalogRole } from '../components/registerComponents';
+import Navigation from '../components/Navigation';
+import Input from '../components/Input';
+import CatalogRole from '../components/registerComponents/CatalogRole';
 import Button from '../components/Button';
-import logo from '../assets/Logo.svg';
 import { useForm } from '../hooks/useForm';
 import Header from '../components/Header';
 

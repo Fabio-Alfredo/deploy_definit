@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
     console.log('Conexión establecida con el servidor WebSocket');
 };*/
 
-export const Input = ({ name, label, type, inputValue, inputOnchange }) => {
+const Input = ({ name, label, type, inputValue, inputOnchange }) => {
 
     /*const [userExists, setUserExists] = useState(true);
 
@@ -43,3 +43,5 @@ export const Input = ({ name, label, type, inputValue, inputOnchange }) => {
         </>
     );
 };
+
+export default Input;

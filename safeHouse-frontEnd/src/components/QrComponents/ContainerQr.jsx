@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigation } from '../registerComponents';
+import Navigation from '../Navigation';
 import CreateQr from './CreateQr';
 import Cronometro from './Cronometro';
 import { useState } from 'react';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigation } from '../registerComponents';
+import Navigation from '../Navigation';
 import CreateReaderQr from './CreateReaderQr';
 
 const ContainerReaderQr = () => {

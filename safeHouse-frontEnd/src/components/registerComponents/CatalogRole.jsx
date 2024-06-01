@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CatalogRole = ({ inputValue,inputOnchange}) => {
+const CatalogRole = ({ inputValue,inputOnchange}) => {
     return (
         <>
             <div className='grid grid-cols-3 sm:mx-12 items-center m-4 sm:m-10'> {/* query */}
@@ -16,11 +16,4 @@ export const CatalogRole = ({ inputValue,inputOnchange}) => {
     );
 };
 
-
-
-
-/**<div className='flex items-center mb-4'>
-                    <label htmlFor="Name" className='font-popins text-xl'> Email: </label>
-                    <input type='text' name='Name' className='rounded-full ml-auto w-96 h-12 p-4' />
-                </div> */
-
+export default CatalogRole;

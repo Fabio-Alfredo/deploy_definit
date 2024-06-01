@@ -1,7 +1,7 @@
 import React from 'react';
 import { RiArrowLeftCircleLine } from "react-icons/ri";
 
-export const Navigation = ({ title }) => {
+const Navigation = ({ title }) => {
     return (
         <>
             <nav className='flex felx-row items-center justify-center p-4 sm:mb-6'> {/* query */}
@@ -12,4 +12,5 @@ export const Navigation = ({ title }) => {
     );
 };
 
+export default Navigation;
 
