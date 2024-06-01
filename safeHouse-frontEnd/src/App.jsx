@@ -10,12 +10,12 @@ function App() {
 
   return (
     <>
-      {/* <RegisterPage/> */}
+      <RegisterPage/>
       {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ReaderQr/> */}
-      <RegisterEntry/>
+      {/* <RegisterEntry/> */}
     </>
   )
 }
