@@ -30,7 +30,7 @@ const RegisterEntry = () => {
         <div className='h-screen'>
             <Header />
             <div className='flex pt-32 sm:pt-0 sm:items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
-                <form onSubmit={handleSubmit} className='w-full p-8 lg:p-6 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
+                <form onSubmit={handleSubmit} className='w-full p-10 shadow-2xl rounded-3xl bg-white h-fit lg:p-6 xl:px-20 xl:py-10 lg:w-2/3 2xl:w-1/2' > {/* query */}
                     <Navigation title={"Registrar entrada"} />
                     <Input name={"company"} label={"Empresa:"} type={"text"} inputValue={company} inputOnchange={InputChange} />
                     <Input name={"name"} label={"Nombre:"} type={"text"} inputValue={name} inputOnchange={InputChange} />
