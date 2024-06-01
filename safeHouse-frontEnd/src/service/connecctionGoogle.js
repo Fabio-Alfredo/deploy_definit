@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const axiosQrData = async (data) => {
     try {
         const res = await axios.post('uri', data, {
