@@ -17,5 +17,5 @@ public class Role {
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<User> user;
+    private List<User> users;
 }
