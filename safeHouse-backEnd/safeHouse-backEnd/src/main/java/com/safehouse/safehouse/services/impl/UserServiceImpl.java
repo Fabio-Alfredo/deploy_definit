@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserInformation(UserLoginDTO token) {
-        System.out.println("Token: " + token.getToken());
+        //System.out.println("Token: " + token.getToken());
 
         String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token.getToken();
         HttpHeaders headers = new HttpHeaders();
