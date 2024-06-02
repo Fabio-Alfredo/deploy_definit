@@ -46,8 +46,7 @@ public class AuthController {
             Token token = userService.registerToken(res);
             return GeneralResponse.getResponse(HttpStatus.OK, new TokenDto(token));
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return GeneralResponse.getResponse(HttpStatus.UNAUTHORIZED, "Invalid token");
         }
     }
 }
