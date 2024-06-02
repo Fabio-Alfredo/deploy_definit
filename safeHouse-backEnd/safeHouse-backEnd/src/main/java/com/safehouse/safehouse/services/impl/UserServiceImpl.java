@@ -1,23 +1,33 @@
 package com.safehouse.safehouse.services.impl;
 
+import com.safehouse.safehouse.domain.dtos.UserDTO;
+import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.TokenRepository;
+import com.safehouse.safehouse.repositories.UserRepository;
 import com.safehouse.safehouse.services.contrat.UserService;
 import com.safehouse.safehouse.utils.JWTTools;
 import jakarta.transaction.Transactional;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final JWTTools jwtTools;
     private final TokenRepository tokenRepository;
+    private final RestTemplate restTemplate;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, RestTemplate restTemplate, UserRepository userRepository) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
+        this.restTemplate = restTemplate;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -62,5 +72,35 @@ public class UserServiceImpl implements UserService {
             }
         });
 
+    }
+
+    @Override
+    public UserDTO getUserInformation(UserLoginDTO token) {
+        String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token.getToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token.getToken());
+        headers.set("Content-Type", "application/json");
+        HttpEntity<?> requestEntity = new HttpEntity<>(null, headers); // Cambié el cuerpo de la solicitud a null, ya que no estás enviando datos en el cuerpo
+        ResponseEntity<Object> response =  restTemplate.exchange(url, HttpMethod.GET, requestEntity, Object.class);
+
+        if(response.getStatusCode() != HttpStatus.OK){
+            throw new RuntimeException("Failed to retrieve user information from Google OAuth API");
+        }
+
+        UserDTO user = new UserDTO();
+        user.setName((String)((Map)response.getBody()).get("name"));
+        user.setLastname((String)((Map)response.getBody()).get("family_name"));
+        user.setEmail((String)((Map)response.getBody()).get("email"));
+        return user;
+    }
+
+    @Override
+    public boolean existUserByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
