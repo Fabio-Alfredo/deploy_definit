@@ -8,8 +8,9 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "Role")
+@Table(name = "role")
 public class Role {
+
     @Id
     @Column(name = "id_role")
     private String id;

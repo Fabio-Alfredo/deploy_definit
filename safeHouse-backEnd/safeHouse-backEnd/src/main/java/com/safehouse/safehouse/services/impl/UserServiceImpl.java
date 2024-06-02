@@ -2,6 +2,7 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
+import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.TokenRepository;
@@ -76,12 +77,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserInformation(UserLoginDTO token) {
+    public UserDTO getUserInformation(String token) {
         //System.out.println("Token: " + token.getToken());
 
-        String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token.getToken();
+        String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token;
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token.getToken());
+        headers.set("Authorization", "Bearer " + token);
         headers.set("Content-Type", "application/json");
         HttpEntity<?> requestEntity = new HttpEntity<>(null, headers); // Cambié el cuerpo de la solicitud a null, ya que no estás enviando datos en el cuerpo
         ResponseEntity<Object> response =  restTemplate.exchange(url, HttpMethod.GET, requestEntity, Object.class);
@@ -108,11 +109,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserDTO user) {
+    public void createUser(UserDTO user, Role role) {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setName(user.getName());
         newUser.setLastname(user.getLastname());
+        newUser.setRole(role);
         userRepository.save(newUser);
     }
 

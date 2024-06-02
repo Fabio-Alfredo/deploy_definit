@@ -21,4 +21,10 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
         return "Correctly saved role";
     }
+
+    @Override
+    public Role getRoleById(String id) {
+        System.out.println(id);
+        return roleRepository.findById(id).orElse(null);
+    }
 }
