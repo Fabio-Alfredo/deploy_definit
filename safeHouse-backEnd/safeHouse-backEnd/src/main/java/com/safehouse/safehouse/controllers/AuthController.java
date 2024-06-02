@@ -10,10 +10,7 @@ import com.safehouse.safehouse.services.contrat.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@ModelAttribute @Valid UserLoginDTO info){
+    public ResponseEntity<?> login(@RequestBody @Valid UserLoginDTO info){
 
         try {
             if(info == null){
@@ -37,7 +34,6 @@ public class AuthController {
             if(!userService.existUserByEmail(user.getEmail())){
                 userService.createUser(user);
             }
-
             User res = userService.findByEmail(user.getEmail());
             Token token = userService.registerToken(res);
             return GeneralResponse.getResponse(HttpStatus.OK, new TokenDto(token));

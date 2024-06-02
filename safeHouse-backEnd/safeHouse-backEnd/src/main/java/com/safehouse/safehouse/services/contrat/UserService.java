@@ -15,4 +15,6 @@ public interface UserService {
     boolean existUserByEmail(String email);
     User findByEmail(String email);
     void createUser(UserDTO user);
+    User findUserAuthenticated();
+
 }

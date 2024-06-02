@@ -10,20 +10,21 @@ import com.safehouse.safehouse.services.contrat.UserService;
 import com.safehouse.safehouse.utils.JWTTools;
 import jakarta.transaction.Transactional;
 import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private final JWTTools jwtTools;
     private final TokenRepository tokenRepository;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, RestTemplate restTemplate, UserRepository userRepository) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
         this.restTemplate = restTemplate;
@@ -76,6 +77,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserInformation(UserLoginDTO token) {
+        System.out.println("Token: " + token.getToken());
+
         String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token.getToken();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token.getToken());
@@ -111,5 +114,15 @@ public class UserServiceImpl implements UserService {
         newUser.setName(user.getName());
         newUser.setLastname(user.getLastname());
         userRepository.save(newUser);
+    }
+
+    @Override
+    public User findUserAuthenticated() {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        return userRepository.findByEmail(username);
     }
 }
