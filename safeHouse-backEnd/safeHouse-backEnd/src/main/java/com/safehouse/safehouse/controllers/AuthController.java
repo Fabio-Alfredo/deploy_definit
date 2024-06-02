@@ -32,10 +32,12 @@ public class AuthController {
             if(info == null){
                 return GeneralResponse.getResponse(HttpStatus.BAD_REQUEST, "Token is required");
             }
+
             UserDTO user = userService.getUserInformation(info);
             if(!userService.existUserByEmail(user.getEmail())){
-                //TODO
+                userService.createUser(user);
             }
+
             User res = userService.findByEmail(user.getEmail());
             Token token = userService.registerToken(res);
             return GeneralResponse.getResponse(HttpStatus.OK, new TokenDto(token));

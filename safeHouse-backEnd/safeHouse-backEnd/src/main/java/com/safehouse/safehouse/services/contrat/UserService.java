@@ -14,4 +14,5 @@ public interface UserService {
     UserDTO getUserInformation(UserLoginDTO token);
     boolean existUserByEmail(String email);
     User findByEmail(String email);
+    void createUser(UserDTO user);
 }
