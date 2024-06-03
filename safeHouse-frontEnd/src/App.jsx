@@ -3,6 +3,7 @@ import Auth from "./page/Auth"
 import RegisterPage from "./page/ResiterPage"
 import GenerateQR from "./page/GenerateQR"
 import ReaderQr from "./page/ReaderQr"
+import RegisterEntry from "./page/RegisterEntry"
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ReaderQr/> */}
+      <RegisterEntry/>
     </>
   )
 }
