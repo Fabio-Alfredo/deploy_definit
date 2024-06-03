@@ -14,12 +14,14 @@ export default {
         'color-primary': '#F2F2F2',
         'blue-buttons': '#628CB1',
         'input-color': '#D9D9D9',
+        'green-primary': '#008D62'
       },
       fontFamily: {
         'brygada-1918': ['Brygada 1918', 'sans-serif'],
         'popins': ['Poppins', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif']
       },
+
       backgroundImage:{
         'HomeImg':"url('/src/assets/HomeImg.png')"
       }

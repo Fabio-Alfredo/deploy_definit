@@ -3,6 +3,7 @@ import { Navigation, Input, CatalogRole } from '../components/registerComponents
 import Button from '../components/Button';
 import logo from '../assets/Logo.svg';
 import { useForm } from '../hooks/useForm';
+import Header from '../components/Header';
 
 
 const ResiterPage = () => {
@@ -26,11 +27,9 @@ const ResiterPage = () => {
 
     return (
         <div className='h-screen'>
-            <header className='bg-color-primary  flex justify-center sm:justify-start h-[10vh]'>
-                <img className='sm:p-2 pt-5 scale-75 ml-3 ' src={logo} />
-            </header>
-            <div onSubmit={handleSubmit} className='flex items-center justify-center w-full bg-color-primary px-6 h-[90vh]'>
-                <form className=' w-full p-8 shadow-2xl rounded-3xl bg-white xl:h-3/4 xl:p-14 lg:w-1/2' > {/* query */}
+            <Header/>
+            <div onSubmit={handleSubmit} className='flex pt-48 sm:pt-0 sm:items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
+                <form className=' w-full p-8 shadow-2xl rounded-3xl bg-white h-fit xl:pt-24 lg:w-2/3  xl:w-1/2' > {/* query */}
                     <Navigation title={"Registrar usuario"} />
                     <Input name={"userName"} label={"Nombre:"} type={"text"} inputValue={userName} inputOnchange={InputChange} />
                     <Input name={"email"} label={"Email:"} type={"email"} inputValue={email} inputOnchange={InputChange} />
