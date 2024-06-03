@@ -35,7 +35,9 @@ const RegisterEntry = () => {
                     <Input name={"company"} label={"Empresa:"} type={"text"} inputValue={company} inputOnchange={InputChange} />
                     <Input name={"name"} label={"Nombre:"} type={"text"} inputValue={name} inputOnchange={InputChange} />
                     <Textarea name={"reason"} rows={5} cols={20} label={"Motivo:"} inputValue={reason} inputOnchange={InputChange} />
-                    <Button value={"Registrar"} type={"submit"} name={"RegisterEntry"} />
+                    <div className='flex w-full justify-center items-center pt-6 lg:pt-4'>
+                        <Button value={"Registrar"} type={"submit"} name={"RegisterButton"} />
+                    </div>
                 </form>
             </div>
         </div>
