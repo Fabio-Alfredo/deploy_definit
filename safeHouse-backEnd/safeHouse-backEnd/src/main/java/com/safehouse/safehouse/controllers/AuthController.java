@@ -30,15 +30,15 @@ public class AuthController {
     public ResponseEntity<GeneralResponse> login(@RequestBody @Valid UserLoginDTO info){
 
         try {
-            Role role = roleService.getRoleById(info.getRole());
-            System.out.println(role);
-            if(role == null){
-                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Role not found");
-            }
 
+            //System.out.println(role);
+//            if(role == null){
+//                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Role not found");
+//            }
             UserDTO user = userService.getUserInformation(info.getToken());
 
             if(!userService.existUserByEmail(user.getEmail())){
+                Role role = roleService.getRoleById("VIST");
                 userService.createUser(user, role);
             }
 
