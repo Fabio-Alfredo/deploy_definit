@@ -84,12 +84,13 @@ public class UserServiceImpl implements UserService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         headers.set("Content-Type", "application/json");
-        HttpEntity<?> requestEntity = new HttpEntity<>(null, headers); // Cambié el cuerpo de la solicitud a null, ya que no estás enviando datos en el cuerpo
+        HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
         ResponseEntity<Object> response =  restTemplate.exchange(url, HttpMethod.GET, requestEntity, Object.class);
 
         if(response.getStatusCode() != HttpStatus.OK){
             throw new RuntimeException("Failed to retrieve user information from Google OAuth API");
         }
+        System.out.println(requestEntity);
 
         UserDTO user = new UserDTO();
         user.setName((String)((Map)response.getBody()).get("name"));

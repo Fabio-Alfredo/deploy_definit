@@ -56,6 +56,7 @@ public class JWTTokenFilter extends OncePerRequestFilter {
 
         if(email != null && token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             User user = userService.findByEmail(email);
+            System.out.println(email);
 
             if(user != null) {
                 Boolean tokenValidity = userService.isTokenValid(user, token);

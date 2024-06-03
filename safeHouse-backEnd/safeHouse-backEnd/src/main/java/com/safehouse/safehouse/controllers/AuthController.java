@@ -31,12 +31,7 @@ public class AuthController {
 
         try {
 
-            //System.out.println(role);
-//            if(role == null){
-//                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Role not found");
-//            }
             UserDTO user = userService.getUserInformation(info.getToken());
-
             if(!userService.existUserByEmail(user.getEmail())){
                 Role role = roleService.getRoleById("VIST");
                 userService.createUser(user, role);
