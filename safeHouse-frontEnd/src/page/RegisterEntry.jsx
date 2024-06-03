@@ -29,7 +29,7 @@ const RegisterEntry = () => {
     return (
         <div className='h-screen'>
             <Header />
-            <div className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
+            <div className='flex items-center justify-center w-full bg-color-primary px-6 sm:px-10 min-h-[90vh]'>
                 <form onSubmit={handleSubmit} className='w-full p-10 shadow-2xl rounded-3xl bg-white h-fit lg:p-6 xl:px-20 xl:py-10 lg:w-2/3 2xl:w-1/2' > {/* query */}
                     <Navigation title={"Registrar entrada"} />
                     <Input name={"company"} label={"Empresa:"} type={"text"} inputValue={company} inputOnchange={InputChange} />

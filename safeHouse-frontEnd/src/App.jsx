@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       {/* <RegisterPage/> */}
-      <AdminHouse/>
+      {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ReaderQr/> */}
