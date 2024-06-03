@@ -8,6 +8,4 @@ public class UserLoginDTO {
 
     @NotBlank(message = "Token is required")
     private String token;
-    @NotBlank(message = "Id is required")
-    private String role;
 }
