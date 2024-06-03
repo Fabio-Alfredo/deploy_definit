@@ -13,7 +13,7 @@ function App() {
       {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
-      <Auth/>
+      <Home/>
       {/* <ReaderQr/> */}
     </>
   )

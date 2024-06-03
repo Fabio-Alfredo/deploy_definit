@@ -5,6 +5,7 @@ import Option from '../components/Option.jsx'
 import { MdQrCodeScanner, MdHouse, MdPeopleAlt } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
 import { TbReportAnalytics } from "react-icons/tb";
+import Header from '../components/Header.jsx';
 
 const Home = () => {
 
@@ -17,26 +18,24 @@ const Home = () => {
             title: "Registrar entrada anonima",
             icon: FaUser,
         }
-        // ,
-        // {
-        //     title: "Administración de entradas",
-        //     icon: MdHouse,
-        // },
-        // {
-        //     title: "Administración de usuarios",
-        //     icon: MdPeopleAlt,
-        // },
-        // {
-        //     title: "Reporte de entradas",
-        //     icon: TbReportAnalytics,
-        // }
+        ,
+        {
+            title: "Administración de entradas",
+            icon: MdHouse,
+        },
+        {
+            title: "Administración de usuarios",
+            icon: MdPeopleAlt,
+        },
+        {
+            title: "Reporte de entradas",
+            icon: TbReportAnalytics,
+        }
     ]
 
     return (
         <div>
-            <header className='bg-color-primary  flex justify-center sm:justify-start min-w-screen h-[10vh]'>
-                <img className='sm:p-2 pt-5 scale-75 ml-3 ' src={logo} />
-            </header>
+            <Header/>
             <div className="min-w-screen min-h-[90vh] flex flex-col pt-6 md:pt-0 md:justify-center items-center gap-10 bg-color-primary ">
                 <h1 className='w-full font-brygada-1918 text-2xl md:text-4xl xl:text-6xl xl:pl-36 text-center xl:text-start'>Bienvenido</h1>
                 <div className='w-[360px] h-80 sm:h-[360px] md:w-[700px] md:h-[360px] p-8 md:p-12 bg-white grid grid-flow-dense grid-rows-8 grid-cols-1 md:grid-rows-3 md:grid-cols-3 justify-center items-center shadow-2xl rounded-xl'>
