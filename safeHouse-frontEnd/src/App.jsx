@@ -4,6 +4,7 @@ import Home from "./page/Home"
 import RegisterPage from "./page/ResiterPage"
 import GenerateQR from "./page/GenerateQR"
 import ReaderQr from "./page/ReaderQr"
+import RegisterEntry from "./page/RegisterEntry"
 
 
 function App() {
@@ -13,8 +14,9 @@ function App() {
       {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
-      <Home/>
+      {/* <Auth/> */}
       {/* <ReaderQr/> */}
+      <RegisterEntry/>
     </>
   )
 }
