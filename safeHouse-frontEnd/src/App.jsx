@@ -5,6 +5,7 @@ import RegisterPage from "./page/ResiterPage"
 import GenerateQR from "./page/GenerateQR"
 import ReaderQr from "./page/ReaderQr"
 import RegisterEntry from "./page/RegisterEntry"
+import Invitations from "./page/Invitations"
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ReaderQr/> */}
-      <RegisterEntry/>
+      {/* <RegisterEntry/> */}
+      <Invitations/>
     </>
   )
 }
