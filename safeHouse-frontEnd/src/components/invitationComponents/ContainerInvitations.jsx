@@ -10,11 +10,6 @@ const ContainerInvitations = () => {
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
                 <div className='overflow-y-auto max-h-[35vh] md:max-h-[50vh] px-4'>
                     <InvitationCard />
-                    <InvitationCard />
-                    <InvitationCard />
-                    <InvitationCard />
-                    <InvitationCard />
-                    <InvitationCard />
                 </div>
                 <hr className='h-0.5 bg-black my-8 mx-4' />
             </div>
