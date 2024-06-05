@@ -5,6 +5,7 @@ import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
+import com.safehouse.safehouse.repositories.RoleRepository;
 import com.safehouse.safehouse.repositories.TokenRepository;
 import com.safehouse.safehouse.repositories.UserRepository;
 import com.safehouse.safehouse.services.contrat.UserService;
@@ -24,12 +25,14 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate, RoleRepository roleRepository) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -110,12 +113,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserDTO user, Role role) {
+    public void createUser(UserDTO user, List<String>roles) {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setName(user.getName());
         newUser.setLastname(user.getLastname());
-        newUser.setRole(role);
+
+        List<Role> newRole=roleRepository.findAllById(roles);
+        newUser.setRoles(newRole);
         userRepository.save(newUser);
     }
 

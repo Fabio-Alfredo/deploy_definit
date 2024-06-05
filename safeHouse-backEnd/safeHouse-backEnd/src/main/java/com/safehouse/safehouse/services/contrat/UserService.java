@@ -6,6 +6,8 @@ import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
 
+import java.util.List;
+
 public interface UserService {
 
     Token registerToken(User user) throws Exception;
@@ -15,7 +17,7 @@ public interface UserService {
     UserDTO getUserInformation(String token);
     boolean existUserByEmail(String email);
     User findByEmail(String email);
-    void createUser(UserDTO user, Role role);
+    void createUser(UserDTO user, List<String> roles);
     User findUserAuthenticated();
 
 }

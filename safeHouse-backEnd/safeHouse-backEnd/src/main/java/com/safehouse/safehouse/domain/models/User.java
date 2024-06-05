@@ -23,12 +23,36 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "permission",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role")
+    )
+    private List<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "owner",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_house")
+    )
+    private List<House> houses;
+
+    //adding one to many relationship
+    @OneToMany(mappedBy = "resident", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Request> createdRequests;
+
+    //adding one to many relationship
+    @OneToMany(mappedBy = "visitor", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Request> requests;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Token> tokens;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

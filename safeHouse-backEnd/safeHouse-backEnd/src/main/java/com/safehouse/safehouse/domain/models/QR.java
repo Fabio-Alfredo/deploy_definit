@@ -4,20 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
+@Table(name = "qr")
 @Entity
-@Table(name = "role")
-public class Role {
-
+public class QR{
     @Id
-    @Column(name = "id_role")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String name;
+    private String state;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToOne(mappedBy = "qr", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<User> users;
-}
+    private Request request;
 
+
+}
