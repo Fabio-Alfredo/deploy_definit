@@ -3,11 +3,21 @@ import fetchUsers from '../../service/fetchUsers';
 import VisitorsList from '../adminHousesComponents/VisitorsList';
 import fetchHouses from '../../service/fetchHouses';
 import UserEmailList from '../adminHousesComponents/UserEmailList';
+import TabOpt from './TabOpt';
 
 const ListContainer = () => {
-    const [toggle, setToggle] = useState(1);
     const [users, setUser] = useState([]);
     const [houses, setHouse] = useState([]);
+    const [toggle, setToggle] = useState(1);
+
+    const resetScroll = () => {
+        const scrollContainer = document.getElementById('scroll-container');
+        scrollContainer.scrollTop = 0;
+    };
+
+    useEffect(() => {
+        resetScroll();
+    }, [toggle]);
 
     useEffect(() => {
         const getUser = async () => {
@@ -26,50 +36,28 @@ const ListContainer = () => {
 
         getHouse();
     }, [])
+    
 
-    function updateToggle(value) {
-        setToggle(value);
-    }
 
     return (
-        <div className="list-container h-full">
+        <div className="flex-col m:h-3/4 md:h-5/6 h-[100%] ">
             <div className="list-header">
-                <ul className="flex justify-around mb-10 font-popins">
-                    {/* Employees, Residents and Visitors */}
-                    <li className={toggle === 1 ? 'font-bold' : ''}>
-                        <button
-                            className="text-black"
-                            onClick={() => updateToggle(1)}
-                        >Visitors</button>
-
-                    </li>
-                    <li className={toggle === 2 ? 'font-bold' : ''}>
-                        <button
-                            className="text-black"
-                            onClick={() => updateToggle(2)}
-                        >Employees </button>
-                    </li>
-                    <li className={toggle === 3 ? 'font-bold' : ''}>
-                        <button
-                            className="text-black"
-                            onClick={() => updateToggle(3)}
-                        >Residents</button>
-                    </li>
-
-                </ul>
+                <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
-            <div className="overflow-y-auto sm:h-3/4 md:h-5/6 h-5/6">
+            <div className="overflow-y-auto sm:h-3/4 md:h-5/6 h-5/6" id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
-                        {users.map((user) => (
+                        {users.filter(user => user.rol ==='user' ).map((user) => (
                             <VisitorsList key={user.id} user={user} />
                         ))}
                     </div>
                 )}
                 {toggle === 2 && (
                     <div id="employees">
-                        <h1>Employees</h1>
+                        {users.filter(user => user.rol ==='employee' ).map((user) => (
+                            <VisitorsList key={user.id} user={user} />
+                        ))}
                     </div>
                 )}
                 {toggle === 3 && (

@@ -5,7 +5,7 @@ const UserEmailList = ({ users }) => {
     return (
         <ul>
             {users.map((user) => (
-                <li className='font-popins pl-7 pt-2 text-lg' key={user.id}>
+                <li className='font-popins pt-2 sm:text-lg text-sm' key={user.id}>
                 <div className="flex justify-between">
                     <p className="font-bold pl-7">
                         {user.name}

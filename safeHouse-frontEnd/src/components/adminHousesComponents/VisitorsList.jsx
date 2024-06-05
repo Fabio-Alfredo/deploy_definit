@@ -4,8 +4,7 @@ import { IoMdSettings } from "react-icons/io";
 const VisitorsList = ({ user }) => {
     return (
         <ul>
-
-            <li className='font-popins pt-2 text-lg' key={user.id}>
+            <li className='font-popins pt-2  text-sm' key={user.id}>
                 <div className="flex justify-between">
                     <p className="font-bold pl-7">
                         {user.user}
@@ -25,7 +24,6 @@ const VisitorsList = ({ user }) => {
 
         </ul>
     )
-
 }
 
 export default VisitorsList;
