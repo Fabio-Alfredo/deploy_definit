@@ -1,154 +1,156 @@
 {
-    "houses": [
-        {
-            "id": 1,
-            "direction": "Calle Principal 123",
-            "users": [
-                {
-                    "id": 1,
-                    "name": "Juan Pérez1",
-                    "email": "juan.perez1@example.com"
-                },
-                {
-                    "id": 2,
-                    "name": "Ana Pérez",
-                    "email": "ana.perez@example.com"
-                },
-                {
-                    "id": 5,
-                    "name": "Carlos Ruiz",
-                    "email": "carlos.ruiz@example.com"
-                },
-                {
-                    "id": 10,
-                    "name": "Gabriela Castro",
-                    "email": "gabriela.castro@example.com"
-                }
-            ],
-            "owner": {
+    "housesData": {
+        "houses": [
+            {
                 "id": 1,
-                "name": "Alexander Robles"
-            }
-        },
-        {
-            "id": 2,
-            "direction": "Calle 1",
-            "users": [
-                {
-                    "id": 3,
-                    "name": "Pedro Martínez",
-                    "email": "pedro.martinez@example.com"
-                },
-                {
-                    "id": 4,
-                    "name": "Mario Gonzalez Pérez1",
-                    "email": "mario.gonzalez@example.com"
-                },
-                {
-                    "id": 6,
-                    "name": "Luis Alvarez",
-                    "email": "luis.alvarez@example.com"
-                },
-                {
-                    "id": 11,
-                    "name": "Isabel Romero",
-                    "email": "isabel.romero@example.com"
+                "direction": "Calle Principal 123",
+                "users": [
+                    {
+                        "id": 1,
+                        "name": "Juan Pérez"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Ana Pérez"
+                    }
+                ],
+                "owner": {
+                    "id": 1,
+                    "name": "Alexander Robles"
                 }
-            ],
-            "owner": {
+            },
+            {
                 "id": 2,
-                "name": "Fabio Hernandez"
-            }
-        },
-        {
-            "id": 3,
-            "direction": "Calle 2",
-            "users": [
-                {
-                    "id": 3,
-                    "name": "Pedro Martínez",
-                    "email": "pedro.martinez@example.com"
-                },
-                {
-                    "id": 4,
-                    "name": "Mario Gonzalez Pérez",
-                    "email": "mario.gonzalez@example.com"
-                },
-                {
-                    "id": 7,
-                    "name": "María Rodriguez",
-                    "email": "maria.rodriguez@example.com"
-                },
-                {
-                    "id": 12,
-                    "name": "Andrés Villalobos",
-                    "email": "andres.villalobos@example.com"
+                "direction": "Calle 1",
+                "users": [
+                    {
+                        "id": 3,
+                        "name": "Pedro Martínez"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Mario Gonzalez Pérez"
+                    }
+                ],
+                "owner": {
+                    "id": 1,
+                    "name": "Fabio Hernandez"
                 }
-            ],
-            "owner": {
+            },
+            {
                 "id": 3,
-                "name": "Mario Nieto"
-            }
-        },
-        {
-            "id": 4,
-            "direction": "Calle 3",
-            "users": [
-                {
-                    "id": 3,
-                    "name": "Pedro Martínez",
-                    "email": "pedro.martinez@example.com"
-                },
-                {
-                    "id": 4,
-                    "name": "Mario Gonzalez Pérez",
-                    "email": "mario.gonzalez@example.com"
-                },
-                {
-                    "id": 8,
-                    "name": "Laura Fernández",
-                    "email": "laura.fernandez@example.com"
-                },
-                {
-                    "id": 13,
-                    "name": "Felipe Castro",
-                    "email": "felipe.castro@example.com"
+                "direction": "Calle 2",
+                "users": [
+                    {
+                        "id": 3,
+                        "name": "Pedro Martínez"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Mario Gonzalez Pérez"
+                    }
+                ],
+                "owner": {
+                    "id": 1,
+                    "name": "Mario Nieto"
                 }
-            ],
-            "owner": {
+            },
+            {
                 "id": 4,
-                "name": "Henry Lima"
-            }
-        },
-        {
-            "id": 5,
-            "direction": "Calle 4",
-            "users": [
-                {
-                    "id": 3,
-                    "name": "Pedro Martínez",
-                    "email": "pedro.martinez@example.com"
-                },
-                {
-                    "id": 4,
-                    "name": "Mario Gonzalez Pérez",
-                    "email": "mario.gonzalez@example.com"
-                },
-                {
-                    "id": 9,
-                    "name": "Sofia Herrera",
-                    "email": "sofia.herrera@example.com"
-                },
-                {
-                    "id": 14,
-                    "name": "Daniela Navarro",
-                    "email": "daniela.navarro@example.com"
+                "direction": "Calle 3",
+                "users": [
+                    {
+                        "id": 3,
+                        "name": "Pedro Martínez"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Mario Gonzalez Pérez"
+                    }
+                ],
+                "owner": {
+                    "id": 1,
+                    "name": "Henry Lima"
                 }
-            ],
-            "owner": {
+            },
+            {
                 "id": 5,
-                "name": "Melvino Hernandez"
+                "direction": "Calle 4",
+                "users": [
+                    {
+                        "id": 3,
+                        "name": "Pedro Martínez"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Mario Gonzalez Pérez"
+                    }
+                ],
+                "owner": {
+                    "id": 1,
+                    "name": "Melvino Hernandez"
+                }
             }
-        }
-    ]
+        ]
+    },
+    "invitationsData": {
+        "invitations": [
+            {
+                "id": 1,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 1,
+                    "addres": "3"
+                }
+            },
+            {
+                "id": 2,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 2,
+                    "addres": "4"
+                }
+            },
+            {
+                "id": 3,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 3,
+                    "addres": "30"
+                }
+            },
+            {
+                "id": 4,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 4,
+                    "addres": "23"
+                }
+            },
+            {
+                "id": 5,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 5,
+                    "addres": "5"
+                }
+            },
+            {
+                "id": 6,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 6,
+                    "addres": "13"
+                }
+            },
+            {
+                "id": 7,
+                "fecha": "12/12/12",
+                "house": {
+                    "id": 7,
+                    "addres": "35"
+                }
+            }
+        ]
+    }
 }

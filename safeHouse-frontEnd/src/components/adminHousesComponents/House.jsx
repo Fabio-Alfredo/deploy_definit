@@ -11,7 +11,7 @@ const House = ({ house }) => {
                     <h2 className='flex font-popins sm:font-bold text-lg sm:text-2xl font-medium'>
                         {house.direction}
                     </h2>
-                    <div className='flex items-center   sm:pr-3'>
+                    <div className='flex items-center sm:pr-3'>
                         <p className='flex font-xs font-popins font-xs '> Editar  </p>
                         <IoMdSettings className='text-3xl pl-2 ' />
                     </div>
