@@ -37,8 +37,7 @@ const ListContainer = () => {
         getHouse();
     }, [])
     
-    // h-[515px] sm:h-[590px] md:h-[500px] lg:h-[570px]
-
+    
     return (
         <div className="flex flex-col justify-center h-fit">
             <div className="list-header">
