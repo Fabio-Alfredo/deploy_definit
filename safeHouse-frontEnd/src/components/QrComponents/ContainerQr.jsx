@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigation } from '../registerComponents';
+import Navigation from '../Navigation';
 import CreateQr from './CreateQr';
 import Cronometro from './Cronometro';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ const ContainerQr = () => {
 
     return (
         <>
-            <div className='w-full p-8 shadow-2xl rounded-3xl bg-white xl:p-14 md:w-4/5  lg:w-7/12' > {/* query */}
+            <div className='w-full p-4 sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Entrada"} />
                 <hr className='h-0.5 bg-black' />
                 <Cronometro handleTime={handleTime} />

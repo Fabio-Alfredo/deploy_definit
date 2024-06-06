@@ -1,0 +1,26 @@
+package com.safehouse.safehouse.domain.models;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+
+@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_user")
+    private UUID id;
+    private String name;
+    private String lastname;
+    private String email;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
+}

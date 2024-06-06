@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
-import { credentialResponse } from '../service/connecctionGoogle';
-import { gapi } from 'gapi-script';
+import { useGoogleLogin } from '@react-oauth/google';
+//import { credentialResponse } from '../service/connecctionGoogle';
 import { FcGoogle } from "react-icons/fc";
 
 /**<GoogleLogin
@@ -15,6 +14,15 @@ import { FcGoogle } from "react-icons/fc";
 
 
 const LoginButton = () => {
+
+    const credentialResponse = async (response) => {
+        try{
+            const { access_token } = response;
+            console.log(access_token);
+        }catch(error){
+            console.log(error);
+        }
+    }
 
     const login = useGoogleLogin({
         onSuccess: credentialResponse,

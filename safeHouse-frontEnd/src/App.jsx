@@ -1,9 +1,14 @@
-import Header from "./components/Header"
 import AdminHouse from "./page/AdminHouse"
 import Auth from "./page/Auth"
 import GenerateToken from "./page/GenerateToken"
 import ListView from "./page/ListView"
+import Home from "./page/Home"
 import RegisterPage from "./page/ResiterPage"
+import GenerateQR from "./page/GenerateQR"
+import ReaderQr from "./page/ReaderQr"
+import RegisterEntry from "./page/RegisterEntry"
+import EntryRep from "./page/EntryRep"
+import {Component} from "react"
 
 
 function App() {
@@ -12,9 +17,11 @@ function App() {
     <>
       {/* <RegisterPage/> */}
       {/* <AdminHouse/> */}
-      {/* <GenerateToken/> */}
+      {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ListView/> */}
+      {/* <ReaderQr/> */}
+      {/* <RegisterEntry/> */}
     </>
   )
 }
