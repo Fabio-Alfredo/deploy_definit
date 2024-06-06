@@ -5,6 +5,8 @@ import RegisterPage from "./page/ResiterPage"
 import GenerateQR from "./page/GenerateQR"
 import ReaderQr from "./page/ReaderQr"
 import RegisterEntry from "./page/RegisterEntry"
+import EntryRep from "./page/EntryRep"
+import {Component} from "react"
 
 
 function App() {
@@ -16,7 +18,8 @@ function App() {
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
       {/* <ReaderQr/> */}
-      <RegisterEntry/>
+      {/* <RegisterEntry/> */}
+      <EntryRep />
     </>
   )
 }
