@@ -37,15 +37,15 @@ const ListContainer = () => {
         getHouse();
     }, [])
     
-
+    // h-[515px] sm:h-[590px] md:h-[500px] lg:h-[570px]
 
     return (
-        <div className="flex-col m:h-3/4 md:h-5/6 h-[100%] ">
+        <div className="flex flex-col justify-center h-fit">
             <div className="list-header">
                 <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
-            <div className="overflow-y-auto sm:h-3/4 md:h-5/6 h-5/6" id="scroll-container">
+            <div className="overflow-y-auto max-h-[50vh] " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
                         {users.filter(user => user.rol ==='user' ).map((user) => (
