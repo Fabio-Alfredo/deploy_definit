@@ -36,7 +36,7 @@ const ContainerInvitations = () => {
                         </div>
 
                     ) : (
-                        <EmptyReport message="No tienes invitaciones pendientes" />
+                        <EmptyReport message="Sin invitaciones" />
                     )
                 }
                 <hr className='h-0.5 bg-black my-8 mx-4' />
