@@ -1,8 +1,10 @@
 import { Component } from "react";
 import Header from "../components/Header";
+import CardReport from "../components/TabComponents/CardReport";
 import TabView from "../components/TabComponents/TabView";
+import EmptyReport from "../components/EmptyContent";
 
-const user = (<p>Hola</p>)
+const user = (<EmptyReport/>)
 
 const email = (<p>
     que tal
@@ -16,9 +18,20 @@ class EntryRep extends Component {
                 <Header />
                 <div className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
                     <TabView title={"Registros"}
-                        tabs={[
-                            { name: "Visitantes", content: user },
-                            { name: "Anonimo", content: email }
+                        reports={[
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Fabio Hernandez", date: "12/12/12", hour: "13:00"},
+                            {name: "Mario Hernandez", date: "12/12/12", hour: "13:00"}
                         ]} />
                 </div>
             </div>
