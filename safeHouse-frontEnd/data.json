@@ -178,6 +178,30 @@
                     "last_name": "Robles",
                     "email": "ale@gmail.com"
                 }
+            },
+            {
+                "id": 3,
+                "enable_date": "12/12/12",
+                "enable_time": "12:00",
+                "phase": "APR",
+                "user": {
+                    "id": 3,
+                    "name": "Alexander ",
+                    "last_name": "Robles",
+                    "email": "ale@gmail.com"
+                }
+            },
+            {
+                "id": 4,
+                "enable_date": "12/12/12",
+                "enable_time": "12:00",
+                "phase": "PEN",
+                "user": {
+                    "id": 4,
+                    "name": "Alexander ",
+                    "last_name": "Robles",
+                    "email": "ale@gmail.com"
+                }
             }
         ]
     }
