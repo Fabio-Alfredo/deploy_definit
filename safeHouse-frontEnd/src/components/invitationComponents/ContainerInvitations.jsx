@@ -3,6 +3,7 @@ import Navigation from '../Navigation';
 import InvitationCard from '../invitationComponents/InvitationCard'
 import { fetchInvitation } from '../../service/fetchHouses';
 
+
 const ContainerInvitations = () => {
     const [invitations, setInvitations] = useState([])
 
@@ -16,8 +17,6 @@ const ContainerInvitations = () => {
 
         getInvitations()
     }, [])
-
-    console.log({invitations});
     
     return (
         <>
@@ -31,7 +30,9 @@ const ContainerInvitations = () => {
                                 <InvitationCard key={_i.id} house={_i.house} fecha={_i.fecha} />
                             ))
                         ):(
-                            <p>vacio</p>
+                            <div className='h-full flex flex-col items-center justify-center'>
+                                <p>vacio</p>
+                            </div>
                         )
                     }
                 </div>
