@@ -1,22 +1,22 @@
 import React from 'react';
 import ButtonComponent from './ButtonComponent';
 
-const InvitationCard = ({house, fecha}) => {
+const InvitationCard = ({ house, fecha }) => {
     return (
         <>
 
             <div className='font-popins group/item flex items-center flex-wrap justify-between px-3 md:hover:px-3 md:px-6  w-full mt-2 py-2 text-lg list-none rounded-xl hover:bg-slate-100 hover:-translate-y-1 duration-500 ' key={2}>
                 <div className='flex flex-col justify-start items-start my-1'>
-                    <p className='font-popins font-bold items-center p-0 md:px-2 select-none '>Invitacion</p>
-                    <p className='font-popins text-gray-500 font-semibold items-center p-0 md:px-2 select-none'>Casa# {house.addres}</p>
+                    <p className='font-popins font-bold text-sm sm:text-lg lg:text-xl items-center p-0 md:px-2 select-none '>Invitacion</p>
+                    <p className='font-popins text-gray-500 font-semibold text-sm sm:text-lg lg:text-xl items-center p-0 md:px-2 select-none'>Casa# {house.addres}</p>
                 </div>
                 <div className='flex flex-col justify-end items-end my-1'>
-                    <p className='font-popins select-none'>Fecha</p>
-                    <p className='font-popins text-center  text-gray-500 select-none'>{fecha}</p>
+                    <p className='font-popins text-sm sm:text-lg lg:text-xl select-none'>Fecha</p>
+                    <p className='font-popins text-center text-sm sm:text-lg lg:text-xl  text-gray-500 select-none'>{fecha}</p>
                 </div>
                 <div className=' items-center w-full hidden group-hover/item:flex md:w-fit justify-center md:justify-end gap-2 my-1'>
-                    <ButtonComponent value={"Rechazar"} className={'bg-red-600'}/>
-                    <ButtonComponent value={"Rechazar"} className={'bg-green-400'}/>
+                    <ButtonComponent value={"Aceptar"} className={'bg-green-400 text-sm sm:text-lg lg:text-xl'} />
+                    <ButtonComponent value={"Rechazar"} className={'bg-red-600 text-sm sm:text-lg lg:text-xl'} />
                 </div>
             </div>
 
