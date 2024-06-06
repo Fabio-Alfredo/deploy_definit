@@ -1,19 +1,19 @@
 import React from 'react';
 import ButtonComponent from './ButtonComponent';
 
-const InvitationCard = () => {
+const InvitationCard = ({house, fecha}) => {
     return (
         <>
 
             <div className='font-popins group/item flex items-center flex-wrap justify-between px-3 md:hover:px-3 md:px-6  w-full mt-2 py-2 text-lg list-none rounded-xl hover:bg-slate-100 hover:-translate-y-1 duration-500 ' key={2}>
                 <div className='flex flex-col justify-start items-start my-1'>
                     <p className='font-popins font-bold items-center p-0 md:px-2'>Invitacion</p>
-                    <p className='font-popins text-gray-500 font-semibold items-center p-0 md:px-2'>Casa#2</p>
+                    <p className='font-popins text-gray-500 font-semibold items-center p-0 md:px-2'>Casa# {house.addres}</p>
                 </div>
 
                 <div className='flex flex-col justify-end items-end my-1'>
                     <p className='font-popins'>Fecha</p>
-                    <p className='font-popins text-center  text-gray-500'>12/12/2021 </p>
+                    <p className='font-popins text-center  text-gray-500'>{fecha}</p>
                 </div>
                 <div className=' items-center w-full hidden group-hover/item:flex md:w-fit justify-center md:justify-end gap-2 my-1'>
                     <ButtonComponent value={"Rechazar"} className={'bg-red-600'}/>

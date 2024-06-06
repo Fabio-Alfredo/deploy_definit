@@ -10,4 +10,15 @@ const fetchHouses = async () => {
     }
 };
 
+export const fetchInvitation = async () => {
+    try {
+        const res = await axios.get('data.json');
+        console.log(res.data)
+        return res.data.invitationsData.invitations;
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        return [];
+    }
+}
+
 export default fetchHouses;
