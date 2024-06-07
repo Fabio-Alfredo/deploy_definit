@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import ListContainer from "../components/ListViewComponents/ListContainer";
-import { Navigation } from "../components/registerComponents";
+import Navigation from "../components/Navigation";
 
 
 const ListView = () => {
