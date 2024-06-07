@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import fetchUsers from '../../service/fetchUsers';
 import VisitorsList from '../adminHousesComponents/VisitorsList';
-import fetchHouses from '../../service/fetchHouses';
-import UserEmailList from '../adminHousesComponents/UserEmailList';
 import TabOpt from './TabOpt';
 
 const ListContainer = () => {
     const [users, setUser] = useState([]);
-    const [houses, setHouse] = useState([]);
     const [toggle, setToggle] = useState(1);
 
     const resetScroll = () => {
@@ -28,15 +25,6 @@ const ListContainer = () => {
         getUser();
     }, []);
 
-    useEffect(() => {
-        const getHouse = async () => {
-            const fetcheHouse = await fetchHouses();
-            setHouse(fetcheHouse);
-        };
-
-        getHouse();
-    }, [])
-    
     
     return (
         <div className="flex flex-col justify-center h-fit">
@@ -62,8 +50,8 @@ const ListContainer = () => {
                 {toggle === 3 && (
                     <div id="residents">
                         {
-                            houses.map((house) => (
-                                <UserEmailList key={house.id} users={house.users} />
+                            users.filter(user => user.rol ==='resident' ).map((user) => (
+                                <VisitorsList key={user.id} user={user} />
                             ))
                         }
                     </div>

@@ -185,6 +185,66 @@
             "user": "brian_martin",
             "email": "brian.martin@example.com",
             "rol": "user"
+        },
+        {
+            "id": 32,
+            "user": "samuel_johnson",
+            "email": "samuel.johnson@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 33,
+            "user": "natalie_wood",
+            "email": "natalie.wood@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 34,
+            "user": "linda_hall",
+            "email": "linda.hall@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 35,
+            "user": "peter_parker",
+            "email": "peter.parker@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 36,
+            "user": "tony_stark",
+            "email": "tony.stark@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 37,
+            "user": "bruce_wayne",
+            "email": "bruce.wayne@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 38,
+            "user": "clark_kent",
+            "email": "clark.kent@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 39,
+            "user": "diana_prince",
+            "email": "diana.prince@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 40,
+            "user": "steve_rogers",
+            "email": "steve.rogers@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 41,
+            "user": "natasha_romanoff",
+            "email": "natasha.romanoff@example.com",
+            "rol": "resident"
         }
     ]
 }
