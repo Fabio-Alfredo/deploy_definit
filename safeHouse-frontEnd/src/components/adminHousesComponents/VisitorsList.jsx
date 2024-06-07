@@ -14,11 +14,11 @@ const VisitorsList = ({ user }) => {
                         <IoMdSettings className='text-3xl pl-2 ' />
                     </div>
                 </div>
-                <hr className='w-full bg-black  sm:h-1 h-[0%]' />
+                <hr className='w-full bg-black  sm:h-[2px] h-[1px]' />
                 <p className="pl-14 pt-2">
                     {user.email}
                 </p>
-                <hr className='npm ml-7  bg-black  sm:h-1 h-[0%] mb-8' />
+                <hr className='npm ml-7  bg-black   mb-8' />
 
             </li>
 

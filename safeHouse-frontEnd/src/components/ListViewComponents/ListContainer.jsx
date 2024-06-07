@@ -32,7 +32,7 @@ const ListContainer = () => {
                 <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
-            <div className="overflow-y-auto max-h-[50vh] ml-5 " id="scroll-container">
+            <div className="overflow-y-auto max-h-[50vh] sm:ml-5 " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
                         {users.filter(user => user.rol ==='user' ).map((user) => (
