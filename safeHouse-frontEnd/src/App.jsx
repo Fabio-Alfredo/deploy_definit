@@ -20,10 +20,10 @@ function App() {
       {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
-      {/* <ListView/> */}
+      <ListView/>
       {/* <ReaderQr/> */}
       {/* <RegisterEntry/> */}
-      <Invitations/>
+      {/* <Invitations/> */}
       {/*<EntryRep />*/}
     </>
   )

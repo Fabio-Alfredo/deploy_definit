@@ -17,7 +17,7 @@ const UserEmailList = ({ users }) => {
                 </div>
                 <hr className='w-full bg-black  sm:h-1 h-[0%]' />
                 <p className="pl-14 pt-2">
-                    {user.email}
+                    {user.email}    
                 </p>
                 <hr className=' ml-7  bg-black  sm:h-1 h-[0%] mb-8' />
                 </li>
