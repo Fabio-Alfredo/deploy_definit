@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class JWTTools {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        //claims.put("role", user.getRole().getName());
+        claims.put("roles", user.getRoles().stream().map(role -> role.getId()).toArray());
+        //System.out.println(user.getRoles());
 
         return Jwts.builder()
                 .claims(claims)
@@ -33,6 +35,7 @@ public class JWTTools {
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
+
 
     public Boolean verifyToken(String token) {
         try {
