@@ -27,12 +27,12 @@ const ListContainer = () => {
 
     
     return (
-        <div className="flex flex-col justify-center h-fit">
-            <div className="list-header">
+        <div className="flex flex-col justify-center h-fit ">
+            <div className="list-header mr-5">
                 <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
-            <div className="overflow-y-auto max-h-[50vh] sm:ml-5 " id="scroll-container">
+            <div className="overflow-y-auto max-h-[50vh] sn:mx-3 " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
                         {users.filter(user => user.rol ==='user' ).map((user) => (

@@ -18,7 +18,7 @@ const VisitorsList = ({ user }) => {
                 <p className="pl-14 pt-2">
                     {user.email}
                 </p>
-                <hr className='npm ml-7  bg-black   mb-8' />
+                <hr className=' ml-7  bg-black   mb-8' />
 
             </li>
 
