@@ -26,7 +26,7 @@ const ContainerRequest = () => {
 
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
                 <div className='w-full flex  justify-end pr-8 items-center cursor-pointer group/item'>
-                    <p className='font-popins text-sm sm:text-lg lg:text-xl items-center px-2 '>Nueva solicitud</p>
+                    <p className='font-popins text-sm sm:text-lg lg:text-xl items-center px-2 group-hover/item:scale-105 duration-500 '>Nueva solicitud</p>
                     <FaCirclePlus className='text-lg sm:text-2xl lg:text-3xl group-hover/item:scale-110 duration-300' />
                 </div>
                 {
