@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import EmptyReport from '../EmtyContent';
 import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
-import { FaCirclePlus } from "react-icons/fa6";
 import { fetchReques } from '../../service/fetchHouses';
+import MenuRequest from './MenuRequest';
 
 const ContainerRequest = () => {
     const [request, setRequest] = useState([])
@@ -21,17 +21,12 @@ const ContainerRequest = () => {
 
     return (
         <>
-            <div className='w-full px-4 pb-4  sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
+            <div className='w-full px-4 pb-4 sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Solicitudes"} />
 
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
-                <div className='w-full flex  justify-end pr-8 pb-2 items-center cursor-pointer group/item'>
-                    <p className='font-popins text-sm flex sm:text-lg lg:text-xl items-center  select-none py-2 px-4 rounded-full hover:bg-slate-100 duration-500 '>
-                        Nueva solicitud
-                        <FaCirclePlus className='text-xl pl-2 sm:text-2xl lg:text-3xl group-hover/item:scale-110 duration-300' />
-                    </p>
+                <MenuRequest/>
 
-                </div>
                 {
                     request.length > 0 ? (
                         <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
