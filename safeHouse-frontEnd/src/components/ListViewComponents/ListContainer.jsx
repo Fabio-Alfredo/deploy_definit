@@ -28,7 +28,7 @@ const ListContainer = () => {
     
     return (
         <div className="flex flex-col justify-center h-fit ">
-            <div className="list-header mr-5">
+            <div className="list-header">
                 <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
