@@ -21,13 +21,13 @@ const ContainerRequest = () => {
 
     return (
         <>
-            <div className='w-full p-4 sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
+            <div className='w-full px-4 pb-4  sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Solicitudes"} />
 
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
-                <div className='w-full flex  justify-end pr-8 items-center cursor-pointer group/item'>
-                    <p className='font-popins text-sm sm:text-lg lg:text-xl items-center px-2 '>Nueva solicitud</p>
-                    <FaCirclePlus className='text-lg sm:text-2xl lg:text-3xl group-hover/item:scale-110 duration-300' />
+                <div className='w-full flex  justify-end pr-8 pb-2 items-center cursor-pointer group/item'>
+                    <p className='font-popins text-sm sm:text-lg lg:text-xl items-center px-2 select-none'>Nueva solicitud</p>
+                    <FaCirclePlus className='text-xl sm:text-2xl lg:text-3xl group-hover/item:scale-110 duration-300' />
                 </div>
                 {
                     request.length > 0 ? (
