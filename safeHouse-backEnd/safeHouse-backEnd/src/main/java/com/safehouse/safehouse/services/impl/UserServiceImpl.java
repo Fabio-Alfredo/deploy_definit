@@ -2,6 +2,7 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
+import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
@@ -25,14 +26,12 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate, RoleRepository roleRepository) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate ) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -113,14 +112,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserDTO user, List<String>roles) {
+    public void createUser(UserDTO user, List<Role>roles) {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setName(user.getName());
         newUser.setLastname(user.getLastname());
 
-        List<Role> newRole=roleRepository.findAllById(roles);
-        newUser.setRoles(newRole);
+//        List<Role> newRole=roleRepository.findAllById(roles);
+        newUser.setRoles(roles);
         userRepository.save(newUser);
     }
 
@@ -132,5 +131,26 @@ public class UserServiceImpl implements UserService {
                 .getName();
 
         return userRepository.findByEmail(username);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User>getAllUsersByEmail(List<String> emails) {
+        return userRepository.findAllByEmailIn(emails);
+    }
+
+    @Override
+    public void assignHouses(House house, List<User>users) {
+
+        for (User user : users) {
+            if (!user.getHouses().contains(house)) {
+                user.getHouses().add(house);
+                userRepository.save(user);
+            }
+        }
     }
 }

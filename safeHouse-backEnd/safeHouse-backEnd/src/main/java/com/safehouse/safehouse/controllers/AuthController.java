@@ -4,6 +4,7 @@ import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.dtos.TokenDto;
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
+import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.Token;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.RoleService;
@@ -21,9 +22,11 @@ import java.util.List;
 public class AuthController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     public AuthController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @PostMapping("/login")
@@ -33,8 +36,9 @@ public class AuthController {
 
             UserDTO user = userService.getUserInformation(info.getToken());
             if(!userService.existUserByEmail(user.getEmail())){
-                List<String> roles = new ArrayList<>();
-                roles.add("VIST");
+                List<String>userRoles= new ArrayList<>() ;
+                userRoles.add("VIST");
+                List<Role> roles = roleService.getRolesById(userRoles);
                 userService.createUser(user, roles);
             }
 

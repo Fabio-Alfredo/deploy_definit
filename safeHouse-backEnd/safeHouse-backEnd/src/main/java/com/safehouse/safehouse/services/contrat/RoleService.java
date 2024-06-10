@@ -9,5 +9,6 @@ public interface RoleService {
     String saveRole(Role role);
     Role getRoleById(String id);
     List<Role>getAllRoles();
+    List<Role>getRolesById(List<String> ids);
 
 }

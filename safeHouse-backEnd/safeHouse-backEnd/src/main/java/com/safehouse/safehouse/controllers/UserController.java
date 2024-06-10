@@ -1,6 +1,7 @@
 package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
+import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +27,8 @@ public class UserController {
     @GetMapping("all")
     public ResponseEntity<GeneralResponse> findAllUsers(){
         try {
-            return GeneralResponse.getResponse(HttpStatus.OK, "all");
+            List<User> users = userService.getAllUsers();
+            return GeneralResponse.getResponse(HttpStatus.OK, users );
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

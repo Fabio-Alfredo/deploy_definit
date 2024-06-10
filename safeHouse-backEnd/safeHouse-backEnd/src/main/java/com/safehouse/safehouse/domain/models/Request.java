@@ -16,6 +16,7 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    private Date createAt;
     @Column(name = "strar_date")
     private Date creationDate;
     @Column(name = "enable_time")
@@ -26,7 +27,7 @@ public class Request {
     private String endTime;
     private String reason;
     private String phase;
-    private Date createAt = Date.from(Instant.now());
+
 
     @ManyToOne(optional = false, fetch=FetchType.EAGER)
     private User resident;
