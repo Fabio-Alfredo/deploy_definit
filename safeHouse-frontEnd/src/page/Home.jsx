@@ -12,25 +12,30 @@ const Home = () => {
 
     const adminOption = [
         {
-            title: `Escanear entrada`,
+            title: "Escanear entrada",
             icon: MdQrCodeScanner,
+            route: '/readerqr'
         },
         {
             title: "Registrar entrada anonima",
             icon: FaUser,
+            route: '/registerentry'
         }
         ,
         {
             title: "Administración de entradas",
             icon: MdHouse,
+            route: '/adminhouse'
         },
         {
             title: "Administración de usuarios",
             icon: MdPeopleAlt,
+            route: '/aduser'
         },
         {
             title: "Reporte de entradas",
             icon: TbReportAnalytics,
+            route: '/entryrep'
         }
     ]
 
@@ -101,7 +106,11 @@ const Home = () => {
                 </div>
                 <div className='flex px-14 lg:p-1 gap-4 sm:gap-6 md:gap-10 xl:gap-12 flex-wrap justify-center items-center'>
                     {adminOption.map((item) => (
-                        <Option image={item.icon} title={item.title} />
+                        <Option 
+                        key={item.title}
+                        to={item.route} 
+                        image={item.icon} 
+                        title={item.title} />
                     )
                     )}
                 </div>

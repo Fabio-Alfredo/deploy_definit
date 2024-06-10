@@ -32,7 +32,7 @@ const ResiterPage = () => {
             <Header />
             <div onSubmit={handleSubmit} className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
                 <form className='w-full p-10 shadow-2xl rounded-3xl bg-white h-fit lg:p-6 xl:px-20 xl:py-10 md:w-[85%] lg:w-2/3 2xl:w-1/2' > {/* query */}
-                    <Navigation title={"Registrar usuario"} />
+                    <Navigation title={"Asignar rol"} />
                     <Input name={"userName"} label={"Nombre:"} type={"text"} inputValue={userName} inputOnchange={InputChange} />
                     <Input name={"email"} label={"Email:"} type={"email"} inputValue={email} inputOnchange={InputChange} />
                     <CatalogRole inputValue={role} inputOnchange={InputChange} />
