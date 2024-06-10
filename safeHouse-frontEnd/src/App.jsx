@@ -1,5 +1,6 @@
 import AdminHouse from "./page/AdminHouse"
 import Auth from "./page/Auth"
+import ListView from "./page/ListView"
 import Home from "./page/Home"
 import RegisterPage from "./page/ResiterPage"
 import GenerateQR from "./page/GenerateQR"
@@ -20,6 +21,7 @@ function App() {
       {/* <AdminHouse/> */}
       {/* <GenerateQR/> */}
       {/* <Auth/> */}
+      <ListView/>
       {/* <ReaderQr/> */}
       {/* <RegisterEntry/> */}
       {/* <Invitations/> */}
