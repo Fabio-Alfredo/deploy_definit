@@ -6,6 +6,8 @@ import com.safehouse.safehouse.services.contrat.RoleService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
 
@@ -26,5 +28,10 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleById(String id) {
         System.out.println(id);
         return roleRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 }
