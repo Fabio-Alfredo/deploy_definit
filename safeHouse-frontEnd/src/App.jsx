@@ -9,6 +9,7 @@ import RegisterEntry from "./page/RegisterEntry"
 import Invitations from "./page/Invitations"
 import EntryRep from "./page/EntryRep"
 import {Component} from "react"
+import RequestVisit from "./page/RequestVisit"
 
 
 
@@ -25,6 +26,7 @@ function App() {
       {/* <RegisterEntry/> */}
       {/* <Invitations/> */}
       {/*<EntryRep />*/}
+      <RequestVisit/>
     </>
   )
 }
