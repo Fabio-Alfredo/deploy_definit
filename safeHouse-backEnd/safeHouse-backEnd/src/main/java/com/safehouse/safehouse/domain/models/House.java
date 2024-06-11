@@ -24,4 +24,7 @@ public class House {
     @JsonIgnore
     private List<Request> requests;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User residentAdmin;
+
 }

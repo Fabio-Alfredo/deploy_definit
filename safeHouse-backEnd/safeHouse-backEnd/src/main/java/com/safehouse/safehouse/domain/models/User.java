@@ -40,8 +40,10 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_house")
     )
-
     private List<House> houses;
+
+    @OneToMany(mappedBy = "residentAdmin", fetch = FetchType.LAZY)
+    private List<House>admHouse;
 
     //adding one to many relationship
     @OneToMany(mappedBy = "resident", fetch = FetchType.LAZY)
