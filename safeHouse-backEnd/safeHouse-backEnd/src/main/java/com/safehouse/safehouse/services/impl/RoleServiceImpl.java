@@ -40,8 +40,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> assignRoles(List<String> roles) {
-
-        return roleRepository.findAllById(roles);
+    public Role assignRole(String  role) {
+        return roleRepository.findById(role).orElse(null);
     }
 }

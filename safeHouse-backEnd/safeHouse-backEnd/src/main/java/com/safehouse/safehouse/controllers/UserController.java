@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.controllers;
 
+import com.safehouse.safehouse.domain.dtos.AssignHousesUsersDTO;
 import com.safehouse.safehouse.domain.dtos.AssignResidentAdminDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.models.House;
@@ -39,7 +40,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/assign/house")
+    @PostMapping("/assign/admin-house")
     @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseToUser(@RequestBody AssignResidentAdminDTO req){
         try {
@@ -50,11 +51,31 @@ public class UserController {
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
 
 
-            userService.assignHouseAdmin(user, house);
+            userService.assignHouseAdmin(user, house, roleService.assignRole("RSAD"));
             houseService.assignResidentAdmin(house, user);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "House assigned to user!");
         } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
+    @PostMapping("/assign/users-house")
+    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
+    public ResponseEntity<GeneralResponse>assignHouseUsers(@RequestBody AssignHousesUsersDTO req){
+        try{
+            User user = userService.getByEmail(req.getAdmin());
+            List<User> users = userService.getAllUsersByEmail(req.getEmails());
+            House house = houseService.getHouseById(req.getHouse());
+
+            if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
+            if(!houseService.existHouseByAdmin(user, req.getHouse())) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+
+            houseService.assignResidents(users, house);
+            userService.assignHouses(house, users, roleService.assignRole("RESD"));
+
+            return   GeneralResponse.getResponse(HttpStatus.OK, "House assigned the users!");
+        }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }

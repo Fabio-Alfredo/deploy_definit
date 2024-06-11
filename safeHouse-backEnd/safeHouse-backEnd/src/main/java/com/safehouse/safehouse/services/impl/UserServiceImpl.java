@@ -118,7 +118,6 @@ public class UserServiceImpl implements UserService {
         newUser.setName(user.getName());
         newUser.setLastname(user.getLastname());
 
-//        List<Role> newRole=roleRepository.findAllById(roles);
         newUser.setRoles(roles);
         userRepository.save(newUser);
     }
@@ -144,11 +143,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void assignHouses(House house, List<User>users) {
+    public void assignHouses(House house, List<User>users, Role role) {
 
         for (User user : users) {
+            List<Role> roles = user.getRoles();
+            List<House> houses = user.getHouses();
             if (!user.getHouses().contains(house)) {
-                user.getHouses().add(house);
+                roles.add(role);
+                houses.add(house);
+                user.setHouses(houses);
+                user.setRoles(roles);
                 userRepository.save(user);
             }
         }
@@ -156,15 +160,17 @@ public class UserServiceImpl implements UserService {
 
     //asigna la casa al usuario administrador
     @Override
-    public void assignHouseAdmin(User user, House house) {
+    public void assignHouseAdmin(User user, House house, Role role) {
 
         List<House> admHouses = user.getAdmHouse();
+        List<Role> userRole = user.getRoles();
         if(!admHouses.contains(house)){
+            userRole.add(role);
             admHouses.add(house);
+            user.setRoles(userRole);
             user.setAdmHouse(admHouses);
             userRepository.save(user);
         }
     }
-
 
 }

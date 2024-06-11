@@ -67,13 +67,11 @@ public class HouseServiceImpl implements HouseService {
         if(house.getResidentAdmin() == null){
             house.setResidentAdmin(user);
             houseRepository.save(house);
-
-//            List<House> admHouses = user.getAdmHouse();
-//            if(!admHouses.contains(house)){
-//                admHouses.add(house);
-//                user.setAdmHouse(admHouses);
-//                userService.updateUser(user);
-//            }
         }
+    }
+
+    @Override
+    public Boolean existHouseByAdmin(User admin, UUID id) {
+        return houseRepository.existsByResidentAdminAndId(admin, id);
     }
 }

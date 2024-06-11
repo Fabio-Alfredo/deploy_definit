@@ -2,17 +2,12 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.CreateHouseDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
-import com.safehouse.safehouse.domain.dtos.HouseAssignUsersDTO;
-import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/house")

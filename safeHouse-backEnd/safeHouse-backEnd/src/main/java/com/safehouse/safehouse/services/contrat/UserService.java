@@ -22,8 +22,8 @@ public interface UserService {
     User findUserAuthenticated();
     List<User>getAllUsers();
     List<User>getAllUsersByEmail(List<String> email);
-    void assignHouses(House house, List<User>users);
-    void assignHouseAdmin(User user, House house);
+    void assignHouses(House house, List<User>users, Role role);
+    void assignHouseAdmin(User user, House house, Role role);
 
 
 //    void updateUser(User user);
