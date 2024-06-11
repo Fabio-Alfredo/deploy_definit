@@ -5,6 +5,7 @@ import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
+import com.safehouse.safehouse.services.contrat.RoleService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,15 @@ public class UserController {
 
     private final UserService userService;
     private final HouseService houseService;
+    private final RoleService roleService;
 
-    public UserController(UserService userService, HouseService houseService) {
+    public UserController(UserService userService, HouseService houseService, RoleService roleService) {
         this.userService = userService;
         this.houseService = houseService;
+        this.roleService = roleService;
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMN', 'ENPL', 'VIST')")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     @GetMapping("all")
     public ResponseEntity<GeneralResponse> findAllUsers(){
         try {
@@ -45,6 +48,7 @@ public class UserController {
 
             if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
+
 
             userService.assignHouseAdmin(user, house);
             houseService.assignResidentAdmin(house, user);

@@ -10,5 +10,6 @@ public interface RoleService {
     Role getRoleById(String id);
     List<Role>getAllRoles();
     List<Role>getRolesById(List<String> ids);
+    List<Role>assignRoles(List<String>roles);
 
 }
