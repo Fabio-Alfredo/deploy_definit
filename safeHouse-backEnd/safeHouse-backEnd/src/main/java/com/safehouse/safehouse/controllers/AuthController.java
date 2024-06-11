@@ -42,7 +42,7 @@ public class AuthController {
                 userService.createUser(user, roles);
             }
 
-            User res = userService.findByEmail(user.getEmail());
+            User res = userService.getByEmail(user.getEmail());
             Token token = userService.registerToken(res);
             return GeneralResponse.getResponse(HttpStatus.OK, new TokenDto(token));
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -12,7 +13,7 @@ import java.util.List;
 public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
     @Column(name ="house_number")
     private String address;
 
@@ -25,6 +26,7 @@ public class House {
     private List<Request> requests;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User residentAdmin;
 
 }

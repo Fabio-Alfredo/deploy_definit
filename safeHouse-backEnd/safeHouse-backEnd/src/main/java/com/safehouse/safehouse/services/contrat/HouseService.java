@@ -15,4 +15,5 @@ public interface HouseService {
     List<House>getAllHouses();
     Boolean existHouseByAddress(String address);
     void assignResidents(List<User>residents, House house);
+    void assignResidentAdmin(House house, User user);
 }

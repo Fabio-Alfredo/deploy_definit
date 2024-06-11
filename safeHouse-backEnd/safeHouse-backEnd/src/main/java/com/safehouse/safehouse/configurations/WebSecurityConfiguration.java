@@ -43,7 +43,7 @@ public class WebSecurityConfiguration {
 
         managerBuilder
                 .userDetailsService(identifier -> {
-                    User user = userService.findByEmail(identifier);
+                    User user = userService.getByEmail(identifier);
 
                     if(user == null)
                         throw new UsernameNotFoundException("User: " + identifier + ", not found!");

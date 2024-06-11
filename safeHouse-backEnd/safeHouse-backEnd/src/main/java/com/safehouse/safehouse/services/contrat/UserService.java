@@ -17,11 +17,14 @@ public interface UserService {
 
     UserDTO getUserInformation(String token);
     boolean existUserByEmail(String email);
-    User findByEmail(String email);
+    User getByEmail(String email);
     void createUser(UserDTO user, List<Role> roles);
     User findUserAuthenticated();
     List<User>getAllUsers();
     List<User>getAllUsersByEmail(List<String> email);
     void assignHouses(House house, List<User>users);
+    void assignHouseAdmin(User user, House house);
 
+
+//    void updateUser(User user);
 }

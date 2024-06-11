@@ -5,6 +5,7 @@ import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.services.contrat.HouseService;
+import com.safehouse.safehouse.services.contrat.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class HouseServiceImpl implements HouseService {
     public HouseServiceImpl(HouseRepository houseRepository, ModelMapper modelMapper) {
         this.houseRepository = houseRepository;
         this.modelMapper = modelMapper;
+
     }
 
     @Override
@@ -57,5 +59,21 @@ public class HouseServiceImpl implements HouseService {
     public void assignResidents(List<User> residents, House house) {
         house.setUsers(residents);
         houseRepository.save(house) ;
+    }
+
+    //asigna un administrador a una casa
+    @Override
+    public void assignResidentAdmin(House house, User user) {
+        if(house.getResidentAdmin() == null){
+            house.setResidentAdmin(user);
+            houseRepository.save(house);
+
+//            List<House> admHouses = user.getAdmHouse();
+//            if(!admHouses.contains(house)){
+//                admHouses.add(house);
+//                user.setAdmHouse(admHouses);
+//                userService.updateUser(user);
+//            }
+        }
     }
 }

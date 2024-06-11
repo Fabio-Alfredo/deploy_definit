@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User getByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -153,4 +153,18 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    //asigna la casa al usuario administrador
+    @Override
+    public void assignHouseAdmin(User user, House house) {
+
+        List<House> admHouses = user.getAdmHouse();
+        if(!admHouses.contains(house)){
+            admHouses.add(house);
+            user.setAdmHouse(admHouses);
+            userRepository.save(user);
+        }
+    }
+
+
 }

@@ -30,8 +30,8 @@ public class RequestController {
     @PostMapping("/new")
     public ResponseEntity<GeneralResponse> createRequest(@RequestBody CreateRequestDTO req) {
         try {
-            User visitor = userService.findByEmail(req.getVisitor());
-            User resident = userService.findByEmail(req.getResident());
+            User visitor = userService.getByEmail(req.getVisitor());
+            User resident = userService.getByEmail(req.getResident());
             House hose = houseService.getHouseById(req.getHouse());
             if(visitor == null || resident == null || hose == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");

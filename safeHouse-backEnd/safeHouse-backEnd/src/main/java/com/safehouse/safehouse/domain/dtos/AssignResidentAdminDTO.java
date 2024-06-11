@@ -6,6 +6,6 @@ import java.util.UUID;
 
 @Data
 public class AssignResidentAdminDTO {
-    private UUID id;
+    private UUID house;
     private String email;
 }
