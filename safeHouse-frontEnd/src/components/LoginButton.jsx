@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 //import { credentialResponse } from '../service/connecctionGoogle';
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
 
 /**<GoogleLogin
                 width={300}
@@ -15,10 +16,14 @@ import { FcGoogle } from "react-icons/fc";
 
 const LoginButton = () => {
 
+    const navigate = useNavigate();
+
     const credentialResponse = async (response) => {
         try{
             const { access_token } = response;
             console.log(access_token);
+            localStorage.setItem('access_token', access_token);
+            navigate('/home');
         }catch(error){
             console.log(error);
         }

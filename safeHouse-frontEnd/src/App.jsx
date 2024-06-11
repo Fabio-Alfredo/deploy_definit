@@ -1,7 +1,7 @@
 import AdminHouse from "./page/AdminHouse"
 import Auth from "./page/Auth"
 import ListView from "./page/ListView"
-import Home from "./page/Home"  
+import Home from "./page/Home"
 import GenerateQR from "./page/GenerateQR"
 import ReaderQr from "./page/ReaderQr"
 import RegisterEntry from "./page/RegisterEntry"
@@ -10,20 +10,27 @@ import EntryRep from "./page/EntryRep"
 import RequestVisit from "./page/RequestVisit"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ResiterPage from "./page/ResiterPage"
+import ProtectedRoute from "./service/ProtectedRoute"
 
 
 
 function App() {
 
+  //tomamos el token de localstorae
+  const token = localStorage.getItem('access_token');
+
+
   return (
     <>
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Home />} />
+          <Route path="/" element={<Auth />} />
+          <Route  element={<ProtectedRoute canActivate={token} />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
           <Route path="/adminhouse" element={<AdminHouse />} />
           <Route path="/aduser" element={<ListView />} />
           <Route path="/generateqr" element={<GenerateQR />} />
-          <Route path="/auth" element={<Auth />} />
           <Route path="/readerqr" element={<ReaderQr />} />
           <Route path="/registerentry" element={<RegisterEntry />} />
           <Route path="/invitations" element={<Invitations />} />

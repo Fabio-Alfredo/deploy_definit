@@ -6,7 +6,7 @@ const Navigation = ({ title }) => {
     return (
         <>
             <nav className='flex felx-row items-center justify-center p-4 sm:mb-6 group/item'> {/* query */}
-                <Link to='/'>
+                <Link to='/home'>
                     <RiArrowLeftCircleLine className='hidden text-5xl flex-shrink-0 md:block cursor-pointer group-hover/item:scale-110 duration-500' />
                 </Link>
 
