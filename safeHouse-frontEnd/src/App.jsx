@@ -10,33 +10,32 @@ import EntryRep from "./page/EntryRep"
 import RequestVisit from "./page/RequestVisit"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ResiterPage from "./page/ResiterPage"
-import ProtectedRoute from "./service/ProtectedRoute"
+import ProtectedRoute from "./service/ProtectedRoute" 
+import { useContext } from "react"
+import { AuthContext } from "./context/AuthContext"
 
 
 
 function App() {
-
-  //tomamos el token de localstorae
-  const token = localStorage.getItem('access_token');
-
+  const { token, removeToken } = useContext(AuthContext);
 
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route  element={<ProtectedRoute canActivate={token} />}>
+          <Route element={<ProtectedRoute canActivate={token} />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/adminhouse" element={<AdminHouse />} />
+            <Route path="/aduser" element={<ListView />} />
+            <Route path="/generateqr" element={<GenerateQR />} />
+            <Route path="/readerqr" element={<ReaderQr />} />
+            <Route path="/registerentry" element={<RegisterEntry />} />
+            <Route path="/invitations" element={<Invitations />} />
+            <Route path="/entryrep" element={<EntryRep />} />
+            <Route path="/requestvisit" element={<RequestVisit />} />
+            <Route path="/assingrole" element={<ResiterPage />} />
           </Route>
-          <Route path="/adminhouse" element={<AdminHouse />} />
-          <Route path="/aduser" element={<ListView />} />
-          <Route path="/generateqr" element={<GenerateQR />} />
-          <Route path="/readerqr" element={<ReaderQr />} />
-          <Route path="/registerentry" element={<RegisterEntry />} />
-          <Route path="/invitations" element={<Invitations />} />
-          <Route path="/entryrep" element={<EntryRep />} />
-          <Route path="/requestvisit" element={<RequestVisit />} />
-          <Route path="/assingrole" element={<ResiterPage />} />
         </Routes>
       </BrowserRouter>
 
