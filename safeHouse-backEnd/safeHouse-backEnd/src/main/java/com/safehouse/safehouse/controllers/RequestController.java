@@ -3,6 +3,7 @@ package com.safehouse.safehouse.controllers;
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.RequestService;
@@ -36,7 +37,11 @@ public class RequestController {
             if(visitor == null || resident == null || hose == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");
             }
-                requestService.createRequest(req, visitor, resident, hose);
+
+            Request reque = requestService.createRequest(req, visitor, resident, hose);
+            //TODO complete route
+
+
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");

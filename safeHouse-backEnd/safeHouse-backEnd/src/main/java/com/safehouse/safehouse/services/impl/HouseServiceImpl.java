@@ -2,6 +2,7 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.CreateHouseDTO;
 import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.services.contrat.HouseService;
@@ -73,5 +74,14 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public Boolean existHouseByAdmin(User admin, UUID id) {
         return houseRepository.existsByResidentAdminAndId(admin, id);
+    }
+
+    @Override
+    public void creteRequest(House house, Request request) {
+        List<Request>requests = house.getRequests();
+        if(house.getRequests().contains(request)){
+            requests.add(request);
+            houseRepository.save(house);
+        }
     }
 }

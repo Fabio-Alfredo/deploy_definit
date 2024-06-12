@@ -2,6 +2,7 @@ package com.safehouse.safehouse.services.contrat;
 
 import com.safehouse.safehouse.domain.dtos.CreateHouseDTO;
 import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface HouseService {
     void assignResidents(List<User>residents, House house);
     void assignResidentAdmin(House house, User user);
     Boolean existHouseByAdmin(User admin, UUID id);
+    void creteRequest(House house, Request request);
 }

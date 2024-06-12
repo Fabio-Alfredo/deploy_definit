@@ -24,13 +24,13 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public void createRequest(CreateRequestDTO req, User visitor, User resident, House house) {
+    public Request createRequest(CreateRequestDTO req, User visitor, User resident, House house) {
         Request request = modelMapper.map(req, Request.class);
         request.setCreateAt(Date.from(Instant.now()));
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
         request.setPhase("PENDING");
-        requestRepository.save(request);
+        return requestRepository.save(request);
     }
 }
