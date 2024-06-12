@@ -7,8 +7,11 @@ import { IoMail } from "react-icons/io5";
 import { FaUser } from "react-icons/fa6";
 import { TbReportAnalytics } from "react-icons/tb";
 import Header from '../components/Header.jsx';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 const Home = () => {
+    const { token, removeToken } = useContext(AuthContext);
 
     const adminOption = [
         {
@@ -91,6 +94,13 @@ const Home = () => {
         }
     ]
 
+    //borrar token de local storage
+    const logout = () =>{
+        removeToken();
+        console.log('cerrar sesion')
+        window.location.href = '/';
+    }    
+
     return (
         <div>
             <Header />
@@ -101,6 +111,7 @@ const Home = () => {
                     <p className='md:col-span-2 text-lg sm:text-xl md:text-4xl  font-popins font-bold text-center self-end'>Nombre Apellido</p>
                     <p className='md:col-span-2 text-sm sm:text-base md:text-xl text-center self-start'>administrador@gmail.com</p>
                     <Button
+                        onClick={logout}
                         type={'button'}
                         name={'Log out'}
                         value={'Cerrar sesión'} />

@@ -25,7 +25,7 @@ const LoginButton = () => {
     const credentialResponse = async (response) => {
         try{
             const { access_token } = response;
-            console.log("token",access_token);
+            console.log("token", access_token);
             saveToken(access_token);
             navigateTo('/home');
         }catch(error){
