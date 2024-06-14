@@ -27,7 +27,7 @@ const LinearChartGraphic = () => {
                 margin={{
                     top: 10,
                     right: 50,
-                    left: 30,
+                    left: 20,
                     bottom: 0,
                 }}
             >

@@ -5,7 +5,7 @@ const NavigationGraphics = ({ handleNextGraphic, currentGraphic, handlePreviewGr
 
     return (
         <>
-            <h1 className='text-2xl text-center w-full gap-8 flex justify-center items-center'>
+            <h1 className='text-sm md:text-2xl text-center w-full gap-8 flex justify-center items-center'>
                 <GrPrevious
                     className={`icon ${currentGraphic === 0 ? 'disabled text-slate-300' : 'cursor-pointer hover:scale-110 duration-500'}`}
                     onClick={handlePreviewGraphic}

@@ -25,7 +25,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="/graphics" element={<Graphics/>}/>
           <Route element={<ProtectedRoute canActivate={token} />}>
             <Route path="/home" element={<Home />} />
             <Route path="/adminhouse" element={<AdminHouse />} />
