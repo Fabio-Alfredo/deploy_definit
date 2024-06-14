@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Navigation from '../Navigation';
 import PieChartGraphic from './PieChartGraphic';
-import { GrNext, GrPrevious } from "react-icons/gr";
 import BarChartGraphic from './BarChartGraphic';
+import NavigationGraphics from './NavigationGraphics';
 
 
 const ContainerGraphics = () => {
@@ -27,17 +27,7 @@ const ContainerGraphics = () => {
                 <Navigation title={"Invitaciones"} />
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
                 <div className='flex font-brygada-1918 text-xs md:text-xl justify-center items-center flex-col'>
-                    <h1 className=' text-2xl text-center w-full gap-8 flex justify-center items-center'>
-                        <GrPrevious
-                            className={`icon ${currentGraphic === 0 ? 'disabled text-slate-300 ' : ' cursor-pointer'}`}
-                            onClick={handlePreviewGraphic}
-                        />
-                        {currentGraphic === 0 ? 'Entradas por tipo' : 'Entradas por día de la semana'}
-                        <GrNext
-                            className={`icon ${currentGraphic === 1 ? 'disabled text-slate-300' : ' cursor-pointer'}`}
-                            onClick={handleNextGraphic}
-                        />
-                    </h1>
+                    <NavigationGraphics handleNextGraphic={handleNextGraphic} handlePreviewGraphic={handlePreviewGraphic} currentGraphic={currentGraphic} />
                     {currentGraphic === 0 ? <BarChartGraphic /> : <PieChartGraphic />}
                 </div>
                 <hr className='h-0.5 bg-black my-8 mx-4' />
