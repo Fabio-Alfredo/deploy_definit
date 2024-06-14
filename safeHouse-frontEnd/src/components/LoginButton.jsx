@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 //import { credentialResponse } from '../service/connecctionGoogle';
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 /**<GoogleLogin
                 width={300}
@@ -12,13 +14,20 @@ import { FcGoogle } from "react-icons/fc";
             /> */
 
 
+            
+
 
 const LoginButton = () => {
+
+    const navigateTo = useNavigate();
+    const { saveToken } = useContext(AuthContext );
 
     const credentialResponse = async (response) => {
         try{
             const { access_token } = response;
-            console.log(access_token);
+            console.log("token", access_token);
+            saveToken(access_token);
+            navigateTo('/home');
         }catch(error){
             console.log(error);
         }
