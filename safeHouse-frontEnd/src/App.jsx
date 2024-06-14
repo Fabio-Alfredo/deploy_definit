@@ -13,6 +13,7 @@ import ResiterPage from "./page/ResiterPage"
 import ProtectedRoute from "./service/ProtectedRoute" 
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
+import Graphics from "./page/Graphics"
 
 
 
@@ -24,6 +25,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/graphics" element={<Graphics/>}/>
           <Route element={<ProtectedRoute canActivate={token} />}>
             <Route path="/home" element={<Home />} />
             <Route path="/adminhouse" element={<AdminHouse />} />
