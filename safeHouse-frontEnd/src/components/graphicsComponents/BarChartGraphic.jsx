@@ -1,14 +1,19 @@
 import React from 'react';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const data = [
-    { name: 'lunes', entries: 200 },
-    { name: 'martes', entries: 100 },
-    { name: 'miercoles', entries: 40 },
-    { name: 'jueves', entries: 40 },
-    { name: 'viernes', entries: 40 },
-    { name: 'sabado', entries: 40 },
-    { name: 'domingo', entries: 40 }
+    { name: 'lunes', entries: 200, color: '#00C49F'},
+    { name: 'martes', entries: 100, color: '#FFBB28'},
+    { name: 'miercoles', entries: 40, color: '#FF8042'},
+    { name: 'jueves', entries: 100, color: '#0088FE'},
+    { name: 'viernes', entries: 40, color: '#00C49F'},
+    { name: 'sabado', entries: 57, color: '#FFBB28'},
+    { name: 'domingo', entries: 40, color: '#FF8042'}
+]
+
+const color = [
+    
+
 ]
 
 const BarChartGraphic = () => {
@@ -29,7 +34,7 @@ const BarChartGraphic = () => {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="entries" fill="#8884d8" />
+                <Bar dataKey="entries" fill="#008D62" />
             </BarChart>
         </ResponsiveContainer>
     );

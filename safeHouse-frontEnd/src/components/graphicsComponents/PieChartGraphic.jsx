@@ -17,24 +17,25 @@ const color = [
 const PieChartGraphic = () => {
     return (
         <div style={{ width: '100%', height: 350 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer >
                 <PieChart>
                     <Pie
+                        className="cursor-pointer"
                         dataKey={'entries'}
                         name={'name'}
                         data={data}
                         innerRadius={50}
                         outerRadius={130}
-                        fill='#8884d8'
+                        animationDuration={400}
                     >
                         {
                             data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={color[index % color.length]} />
-                                
+                                <Cell key={`cell-${index}`} fill={color[index % color.length]} className='hover:translate-x-1 duration-500' />
+
                             ))
-                            
+
                         }
-                        <LabelList dataKey="name" position="top" fill="white"  />
+                        <LabelList dataKey="name" position="top" fill="white" />
                     </Pie>
                     <Tooltip />
                 </PieChart>

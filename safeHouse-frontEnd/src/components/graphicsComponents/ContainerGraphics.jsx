@@ -24,7 +24,7 @@ const ContainerGraphics = () => {
     return (
         <>
             <div className='w-full p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
-                <Navigation title={"Invitaciones"} />
+                <Navigation title={"Entadas"} />
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
                 <div className='flex font-brygada-1918 text-xs md:text-xl justify-center items-center flex-col'>
                     <NavigationGraphics handleNextGraphic={handleNextGraphic} handlePreviewGraphic={handlePreviewGraphic} currentGraphic={currentGraphic} />
