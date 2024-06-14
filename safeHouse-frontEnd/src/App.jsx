@@ -37,6 +37,7 @@ function App() {
             <Route path="/entryrep" element={<EntryRep />} />
             <Route path="/requestvisit" element={<RequestVisit />} />
             <Route path="/assingrole" element={<ResiterPage />} />
+            <Route path="/graphics" element={<Graphics />} />
           </Route>
         </Routes>
       </BrowserRouter>

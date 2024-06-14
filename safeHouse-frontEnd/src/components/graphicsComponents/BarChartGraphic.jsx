@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid   , ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const data = [
     { name: 'lunes', entries: 200, color: '#00C49F'},
@@ -9,11 +9,6 @@ const data = [
     { name: 'viernes', entries: 40, color: '#00C49F'},
     { name: 'sabado', entries: 57, color: '#FFBB28'},
     { name: 'domingo', entries: 40, color: '#FF8042'}
-]
-
-const color = [
-    
-
 ]
 
 const BarChartGraphic = () => {
@@ -29,6 +24,7 @@ const BarChartGraphic = () => {
                     left: 5,
                     bottom: 0,
                 }}
+
             >
                 <CartesianGrid strokeDasharray="4 1 2" />
                 <XAxis dataKey="name" />

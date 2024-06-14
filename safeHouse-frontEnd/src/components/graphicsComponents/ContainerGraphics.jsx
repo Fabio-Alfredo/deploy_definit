@@ -5,6 +5,7 @@ import BarChartGraphic from './BarChartGraphic';
 import NavigationGraphics from './NavigationGraphics';
 
 
+
 const ContainerGraphics = () => {
 
     const [currentGraphic, setCurrentGraphic] = useState(0);
