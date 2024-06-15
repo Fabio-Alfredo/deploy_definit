@@ -16,8 +16,8 @@ const color = [
 
 const PieChartGraphic = () => {
     return (
-        <div style={{ width: '100%', height: 350 }}>
-            <ResponsiveContainer >
+        // <div style={{ width: '100%', height: 350 }}>
+            <ResponsiveContainer width="100%" aspect={2} >
                 <PieChart>
                     <Pie
                         className="cursor-pointer"
@@ -25,7 +25,7 @@ const PieChartGraphic = () => {
                         name={'name'}
                         data={data}
                         innerRadius={50}
-                        outerRadius={130}
+                        outerRadius={120}
                         animationDuration={400}
                     >
                         {
@@ -40,7 +40,7 @@ const PieChartGraphic = () => {
                     <Tooltip />
                 </PieChart>
             </ResponsiveContainer>
-        </div>
+        // </div>
     );
 };
 
