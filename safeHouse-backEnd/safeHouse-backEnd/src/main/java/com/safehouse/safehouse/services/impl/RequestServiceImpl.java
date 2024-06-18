@@ -10,7 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class RequestServiceImpl implements RequestService{
@@ -26,11 +29,21 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public Request createRequest(CreateRequestDTO req, User visitor, User resident, House house) {
         Request request = modelMapper.map(req, Request.class);
-        request.setCreateAt(Date.from(Instant.now()));
+        request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
         request.setPhase("PENDING");
         return requestRepository.save(request);
+    }
+
+    @Override
+    public List<Request> getAllRequests() {
+        return requestRepository.findAll();
+    }
+
+    @Override
+    public Boolean existsRequestByHouseAndVisitorAndcreationDate(House house, User visitor, Date enableTme, Date disableTime) {
+        return requestRepository.existsByHouseAndVisitorAndCreationDateBetween(house, visitor, enableTme, disableTime);
     }
 }

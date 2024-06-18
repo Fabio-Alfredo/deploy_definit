@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/assign/admin-house")
-    @PreAuthorize("hasAnyAuthority('ADMN')")
+//    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseToUser(@RequestBody AssignResidentAdminDTO req){
         try {
             User user = userService.getByEmail(req.getEmail());
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/assign/users-house")
-    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
+//    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
     public ResponseEntity<GeneralResponse>assignHouseUsers(@RequestBody AssignHousesUsersDTO req){
         try{
             User user = userService.getByEmail(req.getAdmin());

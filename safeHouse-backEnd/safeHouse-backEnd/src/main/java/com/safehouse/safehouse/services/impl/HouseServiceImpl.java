@@ -77,7 +77,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void creteRequest(House house, Request request) {
+    public void assignRequest(House house, Request request) {
         List<Request>requests = house.getRequests();
         if(house.getRequests().contains(request)){
             requests.add(request);

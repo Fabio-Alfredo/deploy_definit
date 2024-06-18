@@ -2,10 +2,7 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
-import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.Role;
-import com.safehouse.safehouse.domain.models.Token;
-import com.safehouse.safehouse.domain.models.User;
+import com.safehouse.safehouse.domain.models.*;
 import com.safehouse.safehouse.repositories.RoleRepository;
 import com.safehouse.safehouse.repositories.TokenRepository;
 import com.safehouse.safehouse.repositories.UserRepository;
@@ -169,6 +166,26 @@ public class UserServiceImpl implements UserService {
             admHouses.add(house);
             user.setRoles(userRole);
             user.setAdmHouse(admHouses);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void assignResidentRequest(User user, Request request) {
+        List<Request>requests = user.getCreatedRequests();
+        if(!user.getCreatedRequests().contains(request)){
+            requests.add(request);
+            user.setCreatedRequests(requests);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void assignVisitorRequest(User user, Request request) {
+        List<Request>requests = user.getRequests();
+        if(!user.getRequests().contains(request)){
+            requests.add(request);
+            user.setRequests(requests);
             userRepository.save(user);
         }
     }

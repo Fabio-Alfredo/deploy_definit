@@ -2,10 +2,7 @@ package com.safehouse.safehouse.services.contrat;
 
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
-import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.Role;
-import com.safehouse.safehouse.domain.models.Token;
-import com.safehouse.safehouse.domain.models.User;
+import com.safehouse.safehouse.domain.models.*;
 
 import java.util.List;
 
@@ -24,6 +21,8 @@ public interface UserService {
     List<User>getAllUsersByEmail(List<String> email);
     void assignHouses(House house, List<User>users, Role role);
     void assignHouseAdmin(User user, House house, Role role);
+    void assignResidentRequest(User user, Request request);
+    void assignVisitorRequest(User user, Request request);
 
 
 //    void updateUser(User user);

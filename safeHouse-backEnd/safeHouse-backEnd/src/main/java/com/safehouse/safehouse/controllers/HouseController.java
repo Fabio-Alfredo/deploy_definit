@@ -23,7 +23,7 @@ public class HouseController {
     }
 
     @PostMapping("/new")
-    @PreAuthorize("hasAnyAuthority('ADMN')")
+//    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> createHouse(@RequestBody CreateHouseDTO house) {
         try {
             if(houseService.existHouseByAddress(house.getAddress())){

@@ -10,10 +10,7 @@ import com.safehouse.safehouse.services.contrat.RequestService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/request")
@@ -37,12 +34,28 @@ public class RequestController {
             if(visitor == null || resident == null || hose == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");
             }
-
+            req.setEnableAndDisableTime();
+            if(requestService.existsRequestByHouseAndVisitorAndcreationDate(hose, visitor, req.getEnableTme(), req.getDisableTime())) {
+                return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
+            }
             Request reque = requestService.createRequest(req, visitor, resident, hose);
-            //TODO complete route
 
+            if(reque == null) {
+                return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            }
+            houseService.assignRequest(hose, reque);
+            userService.assignResidentRequest(resident, reque);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<GeneralResponse> getAllRequests() {
+        try {
+            return GeneralResponse.getResponse(HttpStatus.OK, requestService.getAllRequests());
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }

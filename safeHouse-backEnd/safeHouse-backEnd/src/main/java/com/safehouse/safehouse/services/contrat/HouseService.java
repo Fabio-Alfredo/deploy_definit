@@ -18,5 +18,5 @@ public interface HouseService {
     void assignResidents(List<User>residents, House house);
     void assignResidentAdmin(House house, User user);
     Boolean existHouseByAdmin(User admin, UUID id);
-    void creteRequest(House house, Request request);
+    void assignRequest(House house, Request request);
 }
