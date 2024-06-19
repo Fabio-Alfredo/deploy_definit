@@ -28,7 +28,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="/createInv" element={<CreateInvitations />} />
           <Route element={<ProtectedRoute canActivate={token} />}>
             <Route path="/home" element={<Home />} />
             <Route path="/adminhouse" element={<AdminHouse />} />
@@ -41,6 +40,7 @@ function App() {
             <Route path="/requestvisit" element={<RequestVisit />} />
             <Route path="/assingrole" element={<ResiterPage />} />
             <Route path="/graphics" element={<Graphics />} />
+            <Route path="/createInvitatios" element={<CreateInvitations />} />
           </Route>
         </Routes>
       </BrowserRouter>
