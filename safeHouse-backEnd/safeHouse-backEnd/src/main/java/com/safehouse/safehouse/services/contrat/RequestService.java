@@ -7,9 +7,12 @@ import com.safehouse.safehouse.domain.models.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public interface RequestService {
     Request createRequest(CreateRequestDTO req, User visitor, User resident, House house);
     List<Request>getAllRequests();
     Boolean existsRequestByHouseAndVisitorAndcreationDate(House house, User visitor, Date enableTme, Date disableTime);
+    Request getRequestById(UUID id);
+    void updateRequest(Request request);
 }

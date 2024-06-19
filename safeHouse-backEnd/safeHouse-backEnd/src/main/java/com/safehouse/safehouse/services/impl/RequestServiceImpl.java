@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RequestServiceImpl implements RequestService{
@@ -45,5 +46,15 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public Boolean existsRequestByHouseAndVisitorAndcreationDate(House house, User visitor, Date enableTme, Date disableTime) {
         return requestRepository.existsByHouseAndVisitorAndCreationDateBetween(house, visitor, enableTme, disableTime);
+    }
+
+    @Override
+    public Request getRequestById(UUID id) {
+        return requestRepository.getReferenceById(id);
+    }
+
+    @Override
+    public void updateRequest(Request request) {
+        requestRepository.save(request);
     }
 }

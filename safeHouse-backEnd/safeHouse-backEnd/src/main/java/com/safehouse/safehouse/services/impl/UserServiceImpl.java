@@ -190,10 +190,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public Boolean existUserByHouse(List<House> house, User user) {
-        return null;
-    }
 
 
 }

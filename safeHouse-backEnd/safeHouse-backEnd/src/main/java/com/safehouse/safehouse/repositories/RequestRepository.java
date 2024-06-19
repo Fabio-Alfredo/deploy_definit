@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.swing.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public interface RequestRepository extends JpaRepository<Request, UUID>{

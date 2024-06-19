@@ -29,7 +29,7 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMN')")
+//    @PreAuthorize("hasAnyAuthority('ADMN')")
     @GetMapping("all")
     public ResponseEntity<GeneralResponse> findAllUsers(){
         try {
