@@ -13,6 +13,7 @@ import ResiterPage from "./page/ResiterPage"
 import ProtectedRoute from "./service/ProtectedRoute" 
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
+import Graphics from "./page/Graphics"
 
 
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/entryrep" element={<EntryRep />} />
             <Route path="/requestvisit" element={<RequestVisit />} />
             <Route path="/assingrole" element={<ResiterPage />} />
+            <Route path="/graphics" element={<Graphics />} />
           </Route>
         </Routes>
       </BrowserRouter>
