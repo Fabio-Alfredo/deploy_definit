@@ -9,6 +9,7 @@ import { TbReportAnalytics } from "react-icons/tb";
 import Header from '../components/Header.jsx';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const { token, removeToken } = useContext(AuthContext);
@@ -104,6 +105,7 @@ const Home = () => {
     return (
         <div>
             <Header />
+            <Link to='/createInv'>invitaciones</Link>
             <div className="min-w-screen min-h-[90vh] flex flex-col pt-6 md:pt-0 md:justify-center items-center gap-10 bg-color-primary ">
                 <h1 className='w-full font-brygada-1918 text-2xl md:text-4xl xl:text-6xl md:pl-24 xl:pl-36 text-center md:text-start'>Bienvenido</h1>
                 <div className='w-[320px] xs:w-[360px] h-80 sm:h-[360px] md:w-[700px] md:h-[360px] p-8 md:p-12 bg-white grid grid-flow-dense grid-rows-8 grid-cols-1 md:grid-rows-3 md:grid-cols-3 justify-center items-center shadow-2xl rounded-xl'>

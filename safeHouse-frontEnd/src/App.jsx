@@ -10,10 +10,11 @@ import EntryRep from "./page/EntryRep"
 import RequestVisit from "./page/RequestVisit"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ResiterPage from "./page/ResiterPage"
-import ProtectedRoute from "./service/ProtectedRoute" 
+import ProtectedRoute from "./service/ProtectedRoute"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 import Graphics from "./page/Graphics"
+import CreateInvitations from "./page/CreateInvitations"
 
 
 
@@ -22,9 +23,12 @@ function App() {
 
   return (
     <>
+      
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/createInv" element={<CreateInvitations />} />
           <Route element={<ProtectedRoute canActivate={token} />}>
             <Route path="/home" element={<Home />} />
             <Route path="/adminhouse" element={<AdminHouse />} />
