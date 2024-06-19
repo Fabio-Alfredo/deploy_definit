@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/request")
 public class RequestController {
@@ -34,9 +36,16 @@ public class RequestController {
             if(visitor == null || resident == null || hose == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");
             }
+            //Obtiene fecha de incio de qr y fecha de fin
             req.setEnableAndDisableTime();
+            //valida que el usuario no sea invitado de nuevo dentro del rango de la invitacion anterior
             if(requestService.existsRequestByHouseAndVisitorAndcreationDate(hose, visitor, req.getEnableTme(), req.getDisableTime())) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
+            }
+
+            //validar que el usuario sea residente de la casa, y alguna otra
+            if(!userService.existUserByHouse(List.of(hose), resident)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
             Request reque = requestService.createRequest(req, visitor, resident, hose);
 

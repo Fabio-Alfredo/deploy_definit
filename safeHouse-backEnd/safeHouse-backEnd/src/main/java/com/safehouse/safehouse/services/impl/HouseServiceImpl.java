@@ -84,4 +84,9 @@ public class HouseServiceImpl implements HouseService {
             houseRepository.save(house);
         }
     }
+
+    @Override
+    public Boolean existHouseByUser(House house, User user) {
+        return null;
+    }
 }

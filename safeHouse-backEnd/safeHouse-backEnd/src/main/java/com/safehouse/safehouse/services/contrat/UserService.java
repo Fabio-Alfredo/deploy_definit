@@ -23,7 +23,7 @@ public interface UserService {
     void assignHouseAdmin(User user, House house, Role role);
     void assignResidentRequest(User user, Request request);
     void assignVisitorRequest(User user, Request request);
-
+    Boolean existUserByHouse(List<House> houses, User user);
 
 //    void updateUser(User user);
 }
