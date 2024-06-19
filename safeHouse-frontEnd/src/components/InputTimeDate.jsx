@@ -12,7 +12,7 @@ const InputTimeDate = ({ name, label, inputValue, inputOnchange }) => {
         <>
             <div className='grid grid-cols-3 sm:mx-12 items-center m-4 lg:m-4 xl:m-8 '>
                 <label htmlFor={name} className='col-span-1 font-popins text-sm sm:text-2xl'> {label} </label> {/* query */}
-                <div className='col-span-2 flex flex-col overflow-auto sm:ml-11 shadow-md font-popins bg-input-color rounded-md h-40 '>
+                <div className='col-span-2 flex flex-col sm:ml-11 shadow-md font-popins bg-input-color rounded-md h-10 '>
                     <DatePicker
                         format='MM/DD/YYYY HH:mm'
                         value={inputValue}
@@ -20,7 +20,7 @@ const InputTimeDate = ({ name, label, inputValue, inputOnchange }) => {
                         style={{
                             width: '100%',
                             backgroundColor: 'transparent',
-                            height: '160px',
+                            height: '40px',
                             border: 'none',
                             fontSize: '1rem',
                             color: 'black',
@@ -44,3 +44,14 @@ const InputTimeDate = ({ name, label, inputValue, inputOnchange }) => {
 
 export default InputTimeDate;
 
+
+{/* <div className='m-2 p-4 text-center bg-green-400  min-h-36 w-full '>
+                        {
+                            inputValue.map((date, index) => (
+                                <span key={index} className='text-black bg-red-300 mb-2 rounded-md'>
+                                    {date.format('MM/DD/YYYY HH:mm')}
+                                    <br />
+                                </span>
+                            ))
+                        }
+                    </div> */}

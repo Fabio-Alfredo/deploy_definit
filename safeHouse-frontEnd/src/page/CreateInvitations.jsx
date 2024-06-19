@@ -24,12 +24,14 @@ const CreateInvitations = () => {
         e.preventDefault()
 
         const formattedDates = date.map(d => d.format('YYYY-MM-DDTHH:mm:00.000+00:00'));
-        console.log('Fechas formateadas:', formattedDates);
-        console.log('Datos a enviar:', reason, visitor);
+        const formDate = {
+            visitor,
+            reason,
+            date: formattedDates
+        }
+        console.log(formDate)
 
     }
-
-
 
     return (
         <div className='h-screen'>
