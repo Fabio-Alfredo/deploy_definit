@@ -15,6 +15,7 @@ import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 import Graphics from "./page/Graphics"
 import CreateInvitations from "./page/CreateInvitations"
+import CreateInvitation from "./page/CreateInvitation"
 
 
 
@@ -40,7 +41,8 @@ function App() {
             <Route path="/requestvisit" element={<RequestVisit />} />
             <Route path="/assingrole" element={<ResiterPage />} />
             <Route path="/graphics" element={<Graphics />} />
-            <Route path="/createInvitatios" element={<CreateInvitations />} />
+            <Route path="/createInvitations" element={<CreateInvitations />} />
+            <Route path="/createInvitation" element={<CreateInvitation />} />
           </Route>
         </Routes>
       </BrowserRouter>

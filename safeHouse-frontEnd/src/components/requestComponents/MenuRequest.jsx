@@ -17,10 +17,12 @@ const MenuRequest = () => {
 
             <div onClick={handleEvent} className='relative pr-4 sm:pr-8 pb-2 cursor-pointer group/item'>
                 <ul className={`absolute right-7 sm:right-11  top-7 mt-2 p-1 rounded-lg bg-slate-100 shadow-md ${state ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} z-50`}>
-                    <Link to='/createInvitatios'>
+                    <Link to='/createInvitation'>
                         <li className='font-popins text-sm flex sm:text-lg lg:text-xl items-center select-none py-2 px-4 hover:bg-white duration-500 rounded-lg'>Casual</li>
                     </Link>
-                    <li className='font-popins text-sm flex sm:text-lg lg:text-xl items-center select-none py-2 px-4 hover:bg-white  duration-500 rounded-lg'>Repetitiva</li>
+                    <Link to='/createInvitations'>
+                        <li className='font-popins text-sm flex sm:text-lg lg:text-xl items-center select-none py-2 px-4 hover:bg-white  duration-500 rounded-lg'>Repetitiva</li>
+                    </Link>
                 </ul>
                 <p className='font-popins text-sm flex sm:text-lg lg:text-xl items-center select-none py-2 px-4 rounded-full hover:bg-slate-100 duration-500 '>
                     Nueva solicitud
