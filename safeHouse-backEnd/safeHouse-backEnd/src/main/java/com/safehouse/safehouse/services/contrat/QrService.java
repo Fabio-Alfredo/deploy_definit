@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface QrService {
     QR generateQR(Request request);
+    QR getQR(UUID qrId, Date lastUpdate);
     Boolean existsByRequest(Request request);
     Boolean connectionESP32();
 }

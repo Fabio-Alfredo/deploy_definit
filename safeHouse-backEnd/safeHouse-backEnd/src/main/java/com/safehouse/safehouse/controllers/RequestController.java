@@ -87,6 +87,7 @@ public class RequestController {
             }
 
             req.setPhase("APPROVED");
+            userService.assignVisitorRequest(req.getVisitor(), req);
             requestService.updateRequest(req);
             return GeneralResponse.getResponse(HttpStatus.OK, "Request approved!");
         } catch (Exception e) {

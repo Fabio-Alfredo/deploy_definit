@@ -27,9 +27,15 @@ public class QrServiceImpl implements QrService {
     public QR generateQR(Request request) {
         QR qr = new QR();
         qr.setRequest(request);
+        qr.setLastUpdate(new Date());
         qr.setState("PENDING");
 
         return qrRepository.save(qr);
+    }
+
+    @Override
+    public QR getQR(UUID qrId, Date lastUpdate) {
+        return qrRepository.findByIdAndLastUpdate(qrId, lastUpdate).orElse(null);
     }
 
     @Override
