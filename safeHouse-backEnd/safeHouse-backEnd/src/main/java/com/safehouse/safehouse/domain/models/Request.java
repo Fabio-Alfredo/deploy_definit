@@ -37,6 +37,7 @@ public class Request {
     private User resident;
 
     @ManyToOne(optional = false, fetch=FetchType.EAGER)
+    @JsonIgnore
     private User visitor;
 
     @ManyToOne(optional = false, fetch=FetchType.EAGER)

@@ -1,9 +1,11 @@
 package com.safehouse.safehouse.services.impl;
 
+import com.safehouse.safehouse.domain.dtos.QRDataDTO;
 import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.repositories.QrRepository;
 import com.safehouse.safehouse.services.contrat.QrService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,20 +19,23 @@ public class QrServiceImpl implements QrService {
 
     private final QrRepository qrRepository;
     private final RestTemplate restTemplate;
+    private final ModelMapper modelMapper;
 
-    public QrServiceImpl(QrRepository qrRepository, RestTemplate restTemplate) {
+    public QrServiceImpl(QrRepository qrRepository, RestTemplate restTemplate, ModelMapper modelMapper) {
         this.qrRepository = qrRepository;
         this.restTemplate = restTemplate;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public QR generateQR(Request request) {
+    public QRDataDTO generateQR(Request request) {
         QR qr = new QR();
         qr.setRequest(request);
         qr.setLastUpdate(new Date());
         qr.setState("PENDING");
+        qrRepository.save(qr);
 
-        return qrRepository.save(qr);
+        return modelMapper.map(qr, QRDataDTO.class);
     }
 
     @Override

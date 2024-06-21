@@ -8,11 +8,17 @@ import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.QrService;
 import com.safehouse.safehouse.services.contrat.RequestService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -32,40 +38,95 @@ public class QrController {
         this.userService = userService;
     }
 
+//    @GetMapping("/qr-generate")
+//    public ResponseEntity<GeneralResponse> generateQR() {
+//        try {
+//
+//            Date currentDate = new Date();
+//            System.out.println(currentDate);
+//            User visitor = userService.findUserAuthenticated();
+//            if(visitor == null) {
+//                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+//            }
+//            List<Request> requests = visitor.getRequests();
+//            if(requests.isEmpty()) {
+//                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Requests not found!");
+//            }
+//            QR newQr = new QR();
+//            for(Request req : requests) {
+//                if(req.getQr() == null){
+//                    System.out.println(req.getEnableTme());
+//                    if(!req.getEnableTme().before(currentDate) || !req.getDisableTime().after(currentDate)) {
+//
+//                        return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
+//                    }
+//                }
+//                if(req.getQr().getState().equals("USED")) {
+//                    return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
+//                }
+//               newQr =  qrService.generateQR(req);
+//
+//                break;
+//            }
+//
+//            return  GeneralResponse.getResponse(HttpStatus.OK, newQr);
+//
+//        }catch (Exception e) {
+//            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+//        }
+//    }
+
     @GetMapping("/qr-generate")
     public ResponseEntity<GeneralResponse> generateQR() {
         try {
-            Date currentDate = new Date();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+
             User visitor = userService.findUserAuthenticated();
-            if(visitor == null) {
+            if (visitor == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
+
             List<Request> requests = visitor.getRequests();
-            if(requests.isEmpty()) {
+            if (requests.isEmpty()) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Requests not found!");
             }
-            QR newQr = new QR();
-            for(Request req : requests) {
-                if(req.getQr() == null){
-                    if(!req.getEnableTme().before(currentDate) || !req.getDisableTime().after(currentDate)) {
 
-                        return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
+            QRDataDTO newQr = null;
+            for (Request req : requests) {
+
+                if (req.getQr() == null || !req.getQr().getState().equals("USED")) {
+                    System.out.println("aqui 1");
+//                    if (req.getEnableTme().before(elSalvadorDate) && req.getDisableTime().after(elSalvadorDate)){
+//                        newQr = qrService.generateQR(req);
+//                        System.out.println("aqui 2");
+//                        break;
+//                    }
+                    System.out.println(req.getEnableTme().toInstant());
+                    System.out.println(req.getDisableTime().toInstant());
+                    System.out.println(currentDate);
+
+                    if(req.getEnableTme().toInstant().isBefore(currentDate) && req.getDisableTime().toInstant().isAfter(currentDate)) {
+                        newQr = qrService.generateQR(req);
+                        System.out.println("aqui 2");
+                        break;
                     }
                 }
-                if(req.getQr().getState().equals("USED")) {
-                    return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
-                }
-               newQr =  qrService.generateQR(req);
-
-                break;
             }
 
-            return  GeneralResponse.getResponse(HttpStatus.OK, newQr);
+            if (newQr == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No valid requests found to generate QR!");
+            }
 
-        }catch (Exception e) {
-            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            return GeneralResponse.getResponse(HttpStatus.OK, newQr);
+
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
+
+
+
 
     @PostMapping("/qr-success")
     public ResponseEntity<GeneralResponse>qrSuccess(@RequestBody QRDataDTO data) {

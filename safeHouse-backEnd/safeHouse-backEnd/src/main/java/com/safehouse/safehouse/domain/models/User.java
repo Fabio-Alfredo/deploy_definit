@@ -52,7 +52,7 @@ public class User implements UserDetails {
 
     //adding one to many relationship
     @OneToMany(mappedBy = "visitor", fetch = FetchType.LAZY)
-    @JsonIgnore
+
     private List<Request> requests;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

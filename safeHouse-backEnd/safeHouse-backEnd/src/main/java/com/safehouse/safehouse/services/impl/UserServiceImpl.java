@@ -190,11 +190,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public void setRequestVisitor(Request request, User user) {
-        user.setRequests(List.of(request));
-        userRepository.save(user);
-    }
-
 
 }
