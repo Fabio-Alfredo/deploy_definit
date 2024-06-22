@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -79,11 +80,17 @@ public class RequestController {
         try {
             Request req = requestService.getRequestById(id);
             User user = userService.findUserAuthenticated();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
             if(req == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
             }
+
             if(!req.getHouse().getResidentAdmin().equals(user)) {
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+            if(req.getEnableTme().toInstant().isAfter(currentDate)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
             }
 
             req.setPhase("APPROVED");
