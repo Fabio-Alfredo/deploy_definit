@@ -57,4 +57,14 @@ public class RequestServiceImpl implements RequestService{
     public void updateRequest(Request request) {
         requestRepository.save(request);
     }
+
+    @Override
+    public List<Request> getAllRequestsByResident(User resident) {
+        return requestRepository.findAllByResident(resident);
+    }
+
+    @Override
+    public List<Request> getAllRequestsByResidentAndPhase(User resident, String phase) {
+        return requestRepository.findAllByResidentAndPhase(resident, phase);
+    }
 }

@@ -15,5 +15,7 @@ public interface RequestService {
     Boolean existsRequestByHouseAndVisitorAndcreationDate(House house, User visitor, Date enableTme, Date disableTime);
     Request getRequestById(UUID id);
     void updateRequest(Request request);
+    List<Request>getAllRequestsByResident(User resident);
+    List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -114,13 +115,31 @@ public class RequestController {
             }
 
             List<Request> requests = requestService.getAllRequests();
-            Date now = new Date();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+
             List<Request> pendingRequests = requests.stream()
                     .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("PENDING"))
-                    .filter(request -> request.getDisableTime().after(now))
+                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/requests/user-resident")
+    public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("RESD"))){
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            List<Request> requests = new ArrayList<>();
+            if(phase == null) requests = requestService.getAllRequestsByResident(user);
+            else requests = requestService.getAllRequestsByResidentAndPhase(user, phase);
+            return GeneralResponse.getResponse(HttpStatus.OK, requests);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }

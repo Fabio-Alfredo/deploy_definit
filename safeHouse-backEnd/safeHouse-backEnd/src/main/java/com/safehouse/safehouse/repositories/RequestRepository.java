@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface RequestRepository extends JpaRepository<Request, UUID>{
 
     Boolean existsByHouseAndVisitorAndCreationDateBetween(House house, User visitor, Date enableTme, Date disableTime);
+    List<Request>findAllByResident(User resident);
+    List<Request>findAllByResidentAndPhase(User resident, String phase);
 }
