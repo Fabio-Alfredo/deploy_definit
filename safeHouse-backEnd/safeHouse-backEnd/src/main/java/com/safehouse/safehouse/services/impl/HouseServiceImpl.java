@@ -89,4 +89,9 @@ public class HouseServiceImpl implements HouseService {
     public Boolean existHouseByUser(House house, User user) {
         return null;
     }
+
+    @Override
+    public House getHouseByAdress(String address) {
+        return houseRepository.findByAddress(address).orElse(null);
+    }
 }

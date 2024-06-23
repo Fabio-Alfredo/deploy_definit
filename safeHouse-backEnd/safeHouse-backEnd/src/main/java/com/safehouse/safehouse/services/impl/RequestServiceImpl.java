@@ -1,6 +1,7 @@
 package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
+import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
@@ -66,5 +67,11 @@ public class RequestServiceImpl implements RequestService{
     @Override
     public List<Request> getAllRequestsByResidentAndPhase(User resident, String phase) {
         return requestRepository.findAllByResidentAndPhase(resident, phase);
+    }
+
+    @Override
+    public Request createRequestAnonymous(RequestAnonymousDTO req, House house) {
+        Request request = modelMapper.map(req, Request.class);
+        return requestRepository.save(request);
     }
 }

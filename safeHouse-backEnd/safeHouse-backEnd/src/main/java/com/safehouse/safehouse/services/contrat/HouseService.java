@@ -20,4 +20,5 @@ public interface HouseService {
     Boolean existHouseByAdmin(User admin, UUID id);
     void assignRequest(House house, Request request);
     Boolean existHouseByUser(House house, User user);
+    House getHouseByAdress(String address);
 }

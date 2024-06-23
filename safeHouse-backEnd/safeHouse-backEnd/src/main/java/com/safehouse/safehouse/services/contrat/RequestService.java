@@ -1,6 +1,7 @@
 package com.safehouse.safehouse.services.contrat;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
+import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
@@ -17,5 +18,5 @@ public interface RequestService {
     void updateRequest(Request request);
     List<Request>getAllRequestsByResident(User resident);
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
-
+    Request createRequestAnonymous(RequestAnonymousDTO req, House house);
 }

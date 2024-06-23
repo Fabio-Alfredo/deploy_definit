@@ -4,22 +4,16 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.UUID;
 
 @Data
-public class CreateRequestDTO {
-
+public class RequestAnonymousDTO {
+    private String name;
     private Date creationDate;
-    private String reason;
     private Date enableTme;
     private Date disableTime;
-    private String visitor;
-    private UUID house;
-
-
-
+    private String reason;
+    private String house;
 
     public void setEnableAndDisableTime() {
         if (this.creationDate != null) {

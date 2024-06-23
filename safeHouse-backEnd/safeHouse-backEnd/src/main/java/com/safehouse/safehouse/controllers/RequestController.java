@@ -2,6 +2,7 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
+import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
@@ -140,6 +141,35 @@ public class RequestController {
             if(phase == null) requests = requestService.getAllRequestsByResident(user);
             else requests = requestService.getAllRequestsByResidentAndPhase(user, phase);
             return GeneralResponse.getResponse(HttpStatus.OK, requests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    //TODO: probar y revisar si se puede unificar con el anterior
+    @PostMapping("/entry-anonymous")
+    public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
+        try {
+            User employee = userService.findUserAuthenticated();
+
+            if(employee == null || employee.getRoles().stream().noneMatch(role -> role.getId().equals("EMPL"))){
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            req.setEnableAndDisableTime();
+            House house = houseService.getHouseByAddress(req.getHouse());
+            if(house == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
+            }
+            Request reque = requestService.createRequestAnonymous(req, house);
+
+            if(reque == null) {
+                return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            }
+            houseService.assignRequest(house, reque);
+
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
+
+
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }

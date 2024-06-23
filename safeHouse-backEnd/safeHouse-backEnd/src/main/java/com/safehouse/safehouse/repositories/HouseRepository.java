@@ -13,4 +13,5 @@ public interface HouseRepository extends JpaRepository<House, UUID> {
     Boolean existsByAddress(String address);
     Optional<House> findByAddress(String address);
     Boolean existsByResidentAdminAndId(User residentAdmin, UUID id);
+    Optional<House>findAllByAddress(String address);
 }
