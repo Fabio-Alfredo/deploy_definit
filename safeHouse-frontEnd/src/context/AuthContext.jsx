@@ -23,11 +23,11 @@ const AuthProvider = ({ children }) => {
         setToken(null);
     };
 
-    return (
+    return(
         <AuthContext.Provider value={{ token, saveToken, removeToken }}>
             {children}
         </AuthContext.Provider>
-    );
+    )
 };
 
 export { AuthContext, AuthProvider };
