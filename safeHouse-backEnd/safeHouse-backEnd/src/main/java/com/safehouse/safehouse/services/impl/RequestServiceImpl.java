@@ -70,8 +70,11 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public Request createRequestAnonymous(RequestAnonymousDTO req, House house) {
+    public Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident) {
         Request request = modelMapper.map(req, Request.class);
+        request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+        request.setHouse(house);
+        request.setResident(resident);
         return requestRepository.save(request);
     }
 }

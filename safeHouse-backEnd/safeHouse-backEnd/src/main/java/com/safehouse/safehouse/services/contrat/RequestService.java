@@ -18,5 +18,5 @@ public interface RequestService {
     void updateRequest(Request request);
     List<Request>getAllRequestsByResident(User resident);
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
-    Request createRequestAnonymous(RequestAnonymousDTO req, House house);
+    Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident);
 }
