@@ -8,14 +8,16 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "Role")
+@Table(name = "role")
 public class Role {
+
     @Id
     @Column(name = "id_role")
     private String id;
     private String name;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles")
     @JsonIgnore
-    private List<User> user;
+    private List<User> users;
 }
+
