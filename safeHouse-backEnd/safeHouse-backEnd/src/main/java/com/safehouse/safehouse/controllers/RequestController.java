@@ -104,7 +104,7 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/request/pending")
+    @GetMapping("/pending")
     public ResponseEntity<GeneralResponse> getPendingRequests() {
         try {
             User user = userService.findUserAuthenticated();
@@ -146,7 +146,8 @@ public class RequestController {
         }
     }
 
-    //TODO: probar y revisar si se puede unificar con el anterior
+    //TODO: probar y revisar si se puede unificar con el anterior revisar campos vacios
+
     @PostMapping("/entry-anonymous")
     public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
         try {
@@ -160,10 +161,13 @@ public class RequestController {
             if(house == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
             }
-            Request reque = requestService.createRequestAnonymous(req, house);
+            User resident = house.getResidentAdmin();
+            //TODO: toda request resive un visitor per en este caso solo se tiene el nombre de la persona
+            
+            Request reque = requestService.createRequestAnonymous(req, house, resident);
 
             if(reque == null) {
-                return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+                return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error jfajdfk!");
             }
             houseService.assignRequest(house, reque);
 
@@ -171,7 +175,7 @@ public class RequestController {
 
 
         } catch (Exception e) {
-            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
 }
