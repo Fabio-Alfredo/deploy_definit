@@ -45,6 +45,7 @@ public class User implements UserDetails {
     private List<House> houses;
 
     @OneToMany(mappedBy = "residentAdmin", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<House>admHouse;
 
     //adding one to many relationship

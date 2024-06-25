@@ -2,12 +2,17 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.CreateHouseDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
+import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/house")
@@ -38,9 +43,15 @@ public class HouseController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> getAllHouses(){
         try {
-            return GeneralResponse.getResponse(HttpStatus.OK, houseService.getAllHouses());
+            User user = userService.findUserAuthenticated();
+            if(user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            List<House> houses = houseService.getAllHouses();
+            houses.sort(Comparator.comparing(House::getAddress));
+
+            return GeneralResponse.getResponse(HttpStatus.OK, houses);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }

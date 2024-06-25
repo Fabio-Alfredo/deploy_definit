@@ -18,7 +18,6 @@ public class House {
     private String address;
 
     @ManyToMany(mappedBy = "houses")
-    @JsonIgnore
     private List<User> users;
 
     @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
@@ -26,7 +25,6 @@ public class House {
     private List<Request> requests;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private User residentAdmin;
 
 }
