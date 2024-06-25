@@ -152,7 +152,6 @@ public class RequestController {
     public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
         try {
             User employee = userService.findUserAuthenticated();
-
             if(employee == null || employee.getRoles().stream().noneMatch(role -> role.getId().equals("EMPL"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
@@ -163,8 +162,8 @@ public class RequestController {
             }
             User resident = house.getResidentAdmin();
             //TODO: toda request resive un visitor per en este caso solo se tiene el nombre de la persona
-            
-            Request reque = requestService.createRequestAnonymous(req, house, resident);
+            User emp = userService.createUserAnonymous(req.getName(), req.getCompany());
+            Request reque = requestService.createRequestAnonymous(req, house, resident, emp);
 
             if(reque == null) {
                 return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error jfajdfk!");

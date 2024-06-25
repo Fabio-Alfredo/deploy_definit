@@ -9,7 +9,8 @@ import java.util.Date;
 @Data
 public class RequestAnonymousDTO {
     private String name;
-    private Date creationDate;
+    private String company;
+    private Date creationDate = Date.from(new Date().toInstant().minusSeconds(21600));
     private Date enableTme;
     private Date disableTime;
     private String reason;

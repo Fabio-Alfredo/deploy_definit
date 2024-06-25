@@ -35,7 +35,7 @@ public class RequestServiceImpl implements RequestService{
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
-        request.setPhase("PENDING");
+        request.setPhase("EXPIRED");
         return requestRepository.save(request);
     }
 
@@ -70,11 +70,18 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident) {
+    public Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident, User visitor) {
         Request request = modelMapper.map(req, Request.class);
         request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         request.setHouse(house);
+        request.setVisitor(visitor);
         request.setResident(resident);
+        request.setPhase("APPROVED");
         return requestRepository.save(request);
+    }
+
+    @Override
+    public List<Request> findAllRequestsByQRUsed() {
+        return List.of();
     }
 }

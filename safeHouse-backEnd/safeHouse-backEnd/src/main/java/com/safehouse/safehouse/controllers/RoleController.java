@@ -38,4 +38,6 @@ public class RoleController {
             return GeneralResponse.getResponse(HttpStatus.BAD_REQUEST, "Error getting roles");
         }
     }
+
+
 }

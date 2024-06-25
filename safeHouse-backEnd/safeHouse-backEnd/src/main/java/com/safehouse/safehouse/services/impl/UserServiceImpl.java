@@ -198,5 +198,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User createUserAnonymous(String name, String company) {
+        User user = new User();
+        user.setName(name);
+        user.setLastname("Anonymous");
+        user.setEmail( name+"@"+company+".com");
+        return userRepository.save(user);
+    }
+
 
 }
