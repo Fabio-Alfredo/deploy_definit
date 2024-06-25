@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { AuthConecction } from '../service/AuthService';
-import { GetUserData } from '../service/AuthService';
+import { GetUserData } from '../service/UserService';
             
 const LoginButton = () => {
 

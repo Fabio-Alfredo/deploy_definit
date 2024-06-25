@@ -25,6 +25,7 @@
     "react-spinners": "^0.13.8",
     "react-use": "^17.5.0",
     "recharts": "^2.12.7",
+    "sweetalert2": "^11.12.0",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
