@@ -1,19 +1,32 @@
 import Header from "../components/Header";
-import fetchHouses from "../service/fetchHouses";
+import { GetHouseData } from "../service/HouseService";
 import { useEffect, useState } from "react";
 import House from "../components/adminHousesComponents/House";
 import Navigation from "../components/Navigation";
+import Swal from "sweetalert2";
 
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])
 
     useEffect(() => {
-        const getHouse = async () => {
-            const fetcheHouse = await fetchHouses();
-            setHouse(fetcheHouse);
-        };
+        try {
+            const getHouse = async () => {
+                const res = await GetHouseData();
+                console.log(res.data);
+                setHouse(res.data);
+            };
+            getHouse();
+        } catch (e) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${e.data.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
 
-        getHouse();
+
     }, [])
 
     return (
