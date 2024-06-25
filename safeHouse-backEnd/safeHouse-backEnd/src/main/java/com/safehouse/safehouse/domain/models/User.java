@@ -37,6 +37,7 @@ public class User implements UserDetails {
     private List<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "owner",
             joinColumns = @JoinColumn(name = "id_user"),
