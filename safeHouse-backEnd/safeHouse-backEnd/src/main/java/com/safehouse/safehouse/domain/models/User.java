@@ -28,7 +28,6 @@ public class User implements UserDetails {
     private String photo;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinTable(
             name = "permission",
             joinColumns = @JoinColumn(name = "id_user"),

@@ -28,7 +28,7 @@ public class Request {
     @Column(name = "disable_time")
     private Date disableTime;
     @Column(name = "end_time")
-    private String endTime;
+    private Date endTime;
     private String reason;
     private String phase;
 

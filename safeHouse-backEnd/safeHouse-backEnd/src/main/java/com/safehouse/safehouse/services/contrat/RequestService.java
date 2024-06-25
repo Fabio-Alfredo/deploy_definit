@@ -19,5 +19,4 @@ public interface RequestService {
     List<Request>getAllRequestsByResident(User resident);
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
     Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident, User visitor);
-    List<Request>findAllRequestsByQRUsed();
 }

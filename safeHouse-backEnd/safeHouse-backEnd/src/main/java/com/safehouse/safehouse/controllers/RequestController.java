@@ -2,13 +2,17 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
+import com.safehouse.safehouse.domain.dtos.RecordDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
+import com.safehouse.safehouse.services.contrat.QrService;
 import com.safehouse.safehouse.services.contrat.RequestService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +30,13 @@ public class RequestController {
     private final RequestService requestService;
     private final UserService userService;
     private final HouseService houseService;
+    private final ModelMapper modelMapper;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/new/casual")
@@ -146,7 +152,6 @@ public class RequestController {
         }
     }
 
-    //TODO: probar y revisar si se puede unificar con el anterior revisar campos vacios
 
     @PostMapping("/entry-anonymous")
     public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
@@ -161,7 +166,6 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
             }
             User resident = house.getResidentAdmin();
-            //TODO: toda request resive un visitor per en este caso solo se tiene el nombre de la persona
             User emp = userService.createUserAnonymous(req.getName(), req.getCompany());
             Request reque = requestService.createRequestAnonymous(req, house, resident, emp);
 
@@ -175,6 +179,22 @@ public class RequestController {
 
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
+    @GetMapping("/record")
+    public ResponseEntity<GeneralResponse>getRecordEntry(){
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            List<Request> requests = requestService.getAllRequests();
+            requests.removeIf(r -> r.getQr() == null || !r.getQr().getState().equals("USED") || !r.getPhase().equals("EXPIRED"));
+            List<RecordDTO> reqs = requests.stream().map(request -> modelMapper.map(request, RecordDTO.class)).collect(Collectors.toList());
+            return GeneralResponse.getResponse(HttpStatus.OK, reqs);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
     }
 }

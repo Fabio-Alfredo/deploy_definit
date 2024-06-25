@@ -13,6 +13,5 @@ import java.util.UUID;
 @Repository
 public interface QrRepository extends JpaRepository<QR, UUID>{
     Boolean existsByRequest(Request request);
-    Optional<QR> findByIdAndLastUpdate(UUID id, Date lastUpdate);
     List<QR>findAllByState(String state);
 }

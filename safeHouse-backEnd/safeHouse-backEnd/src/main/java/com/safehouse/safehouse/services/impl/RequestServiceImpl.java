@@ -35,7 +35,7 @@ public class RequestServiceImpl implements RequestService{
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
-        request.setPhase("EXPIRED");
+        request.setPhase("PENDING");
         return requestRepository.save(request);
     }
 
@@ -80,8 +80,4 @@ public class RequestServiceImpl implements RequestService{
         return requestRepository.save(request);
     }
 
-    @Override
-    public List<Request> findAllRequestsByQRUsed() {
-        return List.of();
-    }
 }

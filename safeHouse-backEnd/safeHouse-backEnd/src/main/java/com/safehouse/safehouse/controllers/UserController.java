@@ -8,6 +8,7 @@ import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.RoleService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -91,5 +92,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/by-role")
+    public ResponseEntity<GeneralResponse>usersByRole(){
+        try {
+            List<User> users = userService.getAllUsers();
+            return GeneralResponse.getResponse(HttpStatus.OK, users);
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 
 }
