@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import fetchUsers from '../../service/fetchUsers';
 import VisitorsList from '../adminHousesComponents/VisitorsList';
 import TabOpt from './TabOpt';
+import { GetUsersInfo } from '../../service/UserService';
 
 const ListContainer = () => {
     const [users, setUser] = useState([]);
@@ -18,8 +19,10 @@ const ListContainer = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const fetchUser = await fetchUsers();
-            setUser(fetchUser);
+            // const fetchUser = await fetchUsers();
+            const res = await GetUsersInfo();
+            setUser(res.data);
+            // setUser(fetchUser);
         };
 
         getUser();
@@ -32,17 +35,17 @@ const ListContainer = () => {
                 <TabOpt toggle={toggle} setToggle={setToggle} />
             </div>
 
-            <div className="overflow-y-auto max-h-[50vh] sn:mx-3 " id="scroll-container">
+            <div className="overflow-y-auto min-h-[50vh] max-h-[50vh] sn:mx-3 " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
-                        {users.filter(user => user.rol ==='user' ).map((user) => (
+                        {users.filter(user => user.roles.map(r=>r.id).includes("VIST") ).map((user) => (
                             <VisitorsList key={user.id} user={user} />
                         ))}
                     </div>
                 )}
                 {toggle === 2 && (
                     <div id="employees">
-                        {users.filter(user => user.rol ==='employee' ).map((user) => (
+                        {users.filter(user => user.roles.map(r=>r.id).includes("EMPL") ).map((user) => (
                             <VisitorsList key={user.id} user={user} />
                         ))}
                     </div>
@@ -50,7 +53,7 @@ const ListContainer = () => {
                 {toggle === 3 && (
                     <div id="residents">
                         {
-                            users.filter(user => user.rol ==='resident' ).map((user) => (
+                            users.filter(user => user.roles.map(r=>r.id).includes("RESD") ).map((user) => (
                                 <VisitorsList key={user.id} user={user} />
                             ))
                         }

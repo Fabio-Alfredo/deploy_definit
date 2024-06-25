@@ -1,35 +1,33 @@
 import axios from "axios";
-import { json } from "react-router-dom";
 
 const BASE_URL = 'http://localhost:8080/api';
 
-const getToken = ()=> JSON.parse(localStorage.getItem('token')).token;
+const getToken = () => JSON.parse(localStorage.getItem('token')).token;
 
-export const GetUserData = async () => {
-    try{
-        const res = await axios.get(`${BASE_URL}/user/one`,{
+export const RequestAnonimous = async (data) => {
+    try {
+        const res = await axios.post(`${BASE_URL}/request/entry-anonymous`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
-        });
+        })
         return res.data;
-    }catch(error){
+    } catch (error) {
         throw error.response;
     }
 }
 
-export const GetUsersInfo= async ()=>{
-    try{
-        const res = await axios.get(`${BASE_URL}/user/by-role`,{
+export const GetEntrys = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/request/record`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
-        });
-
+        })
         return res.data;
-    }catch(error){
+    } catch (error) {
         throw error.response;
     }
 }

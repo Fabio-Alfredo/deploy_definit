@@ -5,7 +5,7 @@ import Textarea from '../components/Textarea';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import { useForm } from '../hooks/useForm';
-import { AppointmentAnonimous } from '../service/AppointmentService';
+import { RequestAnonimous } from '../service/RequestService';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -30,7 +30,7 @@ const RegisterEntry = () => {
                 reason: reason,
                 house: house
             }
-            const res = await AppointmentAnonimous(formValues);
+            const res = await RequestAnonimous(formValues);
             Swal.fire({
                 position: "center",
                 icon: "success",
