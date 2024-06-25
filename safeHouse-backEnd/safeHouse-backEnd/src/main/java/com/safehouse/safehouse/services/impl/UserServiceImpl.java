@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserInformation(String token) {
+
         //System.out.println("Token: " + token.getToken());
 
         String url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token;
@@ -89,12 +90,13 @@ public class UserServiceImpl implements UserService {
         if(response.getStatusCode() != HttpStatus.OK){
             throw new RuntimeException("Failed to retrieve user information from Google OAuth API");
         }
-        System.out.println(requestEntity);
+
 
         UserDTO user = new UserDTO();
         user.setName((String)((Map)response.getBody()).get("name"));
         user.setLastname((String)((Map)response.getBody()).get("family_name"));
         user.setEmail((String)((Map)response.getBody()).get("email"));
+        user.setPhoto((String)((Map)response.getBody()).get("picture"));
         return user;
     }
 
@@ -109,10 +111,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void createUser(UserDTO user, List<Role>roles) {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setName(user.getName());
+        newUser.setPhoto(user.getPhoto());
         newUser.setLastname(user.getLastname());
 
         newUser.setRoles(roles);
@@ -140,6 +144,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void assignHouses(House house, List<User>users, Role role) {
 
         for (User user : users) {
@@ -157,6 +162,7 @@ public class UserServiceImpl implements UserService {
 
     //asigna la casa al usuario administrador
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void assignHouseAdmin(User user, House house, Role role) {
 
         List<House> admHouses = user.getAdmHouse();
@@ -171,6 +177,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void assignResidentRequest(User user, Request request) {
         List<Request>requests = user.getCreatedRequests();
         if(!user.getCreatedRequests().contains(request)){
@@ -181,6 +188,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void assignVisitorRequest(User user, Request request) {
         List<Request>requests = user.getRequests();
         if(!user.getRequests().contains(request)){

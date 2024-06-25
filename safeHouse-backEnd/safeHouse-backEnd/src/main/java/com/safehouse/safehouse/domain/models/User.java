@@ -25,8 +25,10 @@ public class User implements UserDetails {
     private String name;
     private String lastname;
     private String email;
+    private String photo;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "permission",
             joinColumns = @JoinColumn(name = "id_user"),

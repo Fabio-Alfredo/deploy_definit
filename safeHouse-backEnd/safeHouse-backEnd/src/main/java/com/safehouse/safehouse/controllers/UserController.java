@@ -29,8 +29,19 @@ public class UserController {
         this.roleService = roleService;
     }
 
+    @GetMapping("/one")
+    public ResponseEntity<GeneralResponse> getUser(){
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            return GeneralResponse.getResponse(HttpStatus.OK, user);
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
 //    @PreAuthorize("hasAnyAuthority('ADMN')")
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<GeneralResponse> findAllUsers(){
         try {
             List<User> users = userService.getAllUsers();
