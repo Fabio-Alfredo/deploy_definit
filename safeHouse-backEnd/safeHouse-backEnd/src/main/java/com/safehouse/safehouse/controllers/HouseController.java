@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,9 +50,15 @@ public class HouseController {
             User user = userService.findUserAuthenticated();
             if(user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             List<House> houses = houseService.getAllHouses();
-            houses.sort(Comparator.comparing(House::getAddress));
+            List<House>houses1= new ArrayList<>();
+            for(House h:houses){
+                if(h.getResidentAdmin() != null){
+                   houses1.add(h);
+                }
+            }
+            houses1.sort(Comparator.comparing(House::getAddress));
 
-            return GeneralResponse.getResponse(HttpStatus.OK, houses);
+            return GeneralResponse.getResponse(HttpStatus.OK, houses1);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
