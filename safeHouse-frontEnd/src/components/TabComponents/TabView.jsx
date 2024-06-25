@@ -5,6 +5,7 @@ import { VscGraph } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GetEntrys } from "../../service/RequestService";
+import Swal from "sweetalert2";
 
 const TabView = ({ title, reports = [] }) => {
     const [entrys, setEntrys] = useState([]);
@@ -15,14 +16,21 @@ const TabView = ({ title, reports = [] }) => {
     const handleGraph = () => {
         nav('/graphics');
     }
-    //TODO: MAPEAR LOS DATOS DE LA RESPUESTA FECCHA Y HORA DE VISITA
     useEffect(() => {
-        const getEntrys = async () => {
-            const response = await GetEntrys();
-            console.log(response.data);
-            setEntrys(response.data);
+        try {
+            const getEntrys = async () => {
+                const response = await GetEntrys();
+                setEntrys(response.data);
+            }
+            getEntrys();
+        } catch (e) {
+            Swal.fire({
+                title: 'Error',
+                text: `${e.data}`,
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
         }
-        getEntrys();
     }, [])
 
     return (
@@ -39,7 +47,7 @@ const TabView = ({ title, reports = [] }) => {
                             <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
 
                                 {entrys.map((entry, index) => (
-                                    <CardReport key={index} name={entry.visitor.name} dateVisit={"hola"} hourVisit={"perro pirobo"} />
+                                    <CardReport key={index} name={entry.visitor.name} dateVisit={entry.endTime} />
                                 )
                                 )}
                             </div>
