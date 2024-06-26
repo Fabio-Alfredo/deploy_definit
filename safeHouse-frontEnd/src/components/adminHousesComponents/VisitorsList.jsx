@@ -4,10 +4,6 @@ import { Link } from "react-router-dom";
 
 const VisitorsList = ({ user }) => {
 
-    const handleClick = (u) => {
-        console.log(u);
-    }
-
     return (
         <ul>
             <li className='font-popins pt-2 sm:text-lg text-xs' key={user.id}>

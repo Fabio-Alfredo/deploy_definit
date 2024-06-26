@@ -134,8 +134,8 @@ const Home = () => {
                             to={item.route}
                             image={item.icon}
                             title={item.title} />
-                    )
-                    )}
+                    ))}
+
                 </div>
             </div>
         </div>

@@ -19,10 +19,8 @@ const ListContainer = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            // const fetchUser = await fetchUsers();
             const res = await GetUsersInfo();
             setUser(res.data);
-            // setUser(fetchUser);
         };
 
         getUser();
@@ -53,7 +51,7 @@ const ListContainer = () => {
                 {toggle === 3 && (
                     <div id="residents">
                         {
-                            users.filter(user => user.roles.map(r=>r.id).includes("RESD") ).map((user) => (
+                            users.filter(user => user.roles.map(r=>r.id).includes("RESD", "RSAD") ).map((user) => (
                                 <VisitorsList key={user.id} user={user} />
                             ))
                         }

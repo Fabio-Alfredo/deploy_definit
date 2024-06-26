@@ -9,35 +9,59 @@ import Header from '../components/Header';
 import { useLocation } from 'react-router-dom';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const ResiterPage = () => {
 
     const location = useLocation();
+    const nav = useNavigate();
     const user = location.state;
+    const [house, houses] = useState(null);
 
-    console.log(user);
-
-    const { userName, email, role, InputChange } = useForm({
+    const { userName, email, role, InputChange, } = useForm({
         userName: user.name,
         email: user.email,
         role: ''
     })
 
+    const handleChangeRole = async (role) => {
+        if (role == 'RSAD') {
+            const { value: text } = await Swal.fire({
+                input: "number",
+                inputLabel: "Casa",
+                inputPlaceholder: "Ingrese el número de casa",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            });
+            if (text) {
+                houses(text);
+            }
+        } else {
+            houses(null);
+        }
+    }
+
+    useEffect(() => {
+        handleChangeRole(role);
+    }, [role])
+
+
+
+
     //TODO: Implementar la asignación de rol
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const formValues = {
-            name: userName,
-            email: email,
-            role: role
-        }
+        let formValues;
+        house == null ? formValues = { name: userName, email: email, role: role } : formValues = { name: userName, email: email, role: role, house: house }
+        house ? 
+        nav(-1)
         console.log(formValues);
     }
 
     //TODO: Implementar la eliminación de usuario
-
     const handleDelete = () => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -82,7 +106,7 @@ const ResiterPage = () => {
                     <Navigation title={"Asignar rol"} />
                     <Input name={"userName"} label={"Nombre:"} type={"text"} inputValue={userName} readOnly={true} inputOnchange={InputChange} />
                     <Input name={"email"} label={"Email:"} type={"email"} inputValue={email} readOnly={true} inputOnchange={InputChange} />
-                    <CatalogRole inputValue={role} inputOnchange={InputChange} />
+                    <CatalogRole inputValue={role} house={house} inputOnchange={InputChange} />
                     <div className='flex pl-[50%] w-full  items-center mt-6 lg:mt-4 '>
                         <Button class={'grow-0'} value={"Registrar"} type={"submit"} name={"RegisterButton"} />
                         <RiDeleteBin5Line onClick={handleDelete} className='text-5xl grow ml-28 mt-3 cursor-pointer hover:text-gray-600 hover:-translate-y-1 duration-300 ' />
