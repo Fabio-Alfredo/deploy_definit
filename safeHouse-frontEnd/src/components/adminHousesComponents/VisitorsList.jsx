@@ -1,7 +1,13 @@
 /* eslint-disable react/prop-types */
 import { IoMdSettings } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const VisitorsList = ({ user }) => {
+
+    const handleClick = (u) => {
+        console.log(u);
+    }
+
     return (
         <ul>
             <li className='font-popins pt-2 sm:text-lg text-xs' key={user.id}>
@@ -9,10 +15,12 @@ const VisitorsList = ({ user }) => {
                     <p className="font-bold pl-7">
                         {user.name}
                     </p>
-                    <div className='flex items-center   sm:pr-3'>
-                        <p className='flex font-xs font-popins font-xs '> Editar  </p>
-                        <IoMdSettings className='text-3xl pl-2 ' />
-                    </div>
+                    <Link to='/assingrole' state = {user}>
+                        <div  className='flex items-center   sm:pr-3'>
+                            <p className='flex font-xs font-popins font-xs '> Editar  </p>
+                            <IoMdSettings className='text-3xl pl-2 ' />
+                        </div>
+                    </Link>
                 </div>
                 <hr className='w-full bg-black  sm:h-[2px] h-[1px]' />
                 <p className="pl-14 pt-2">
@@ -22,7 +30,7 @@ const VisitorsList = ({ user }) => {
 
             </li>
 
-        </ul>
+        </ul >
     )
 }
 

@@ -64,7 +64,7 @@ function App() {
           </Route>
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
-            <Route path="/assingrole" element={<ResiterPage />} />
+            <Route  path="/assingrole" element={<ResiterPage />} />
           </Route>
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
