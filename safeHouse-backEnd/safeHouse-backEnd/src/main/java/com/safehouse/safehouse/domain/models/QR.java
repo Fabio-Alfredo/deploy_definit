@@ -18,7 +18,6 @@ public class QR{
     private Date lastUpdate;
 
     @OneToOne(mappedBy = "qr", fetch = FetchType.LAZY)
-    @JsonIgnore
     private Request request;
 
 

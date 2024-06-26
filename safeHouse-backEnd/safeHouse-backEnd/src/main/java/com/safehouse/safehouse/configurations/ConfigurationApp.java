@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class ConfigurationApp {
@@ -24,5 +26,6 @@ public class ConfigurationApp {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 
 }

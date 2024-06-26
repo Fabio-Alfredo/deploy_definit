@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String name;
     private String lastname;
     private String email;
+    private String photo;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,6 +36,7 @@ public class User implements UserDetails {
     private List<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "owner",
             joinColumns = @JoinColumn(name = "id_user"),
@@ -43,6 +45,7 @@ public class User implements UserDetails {
     private List<House> houses;
 
     @OneToMany(mappedBy = "residentAdmin", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<House>admHouse;
 
     //adding one to many relationship
@@ -52,7 +55,7 @@ public class User implements UserDetails {
 
     //adding one to many relationship
     @OneToMany(mappedBy = "visitor", fetch = FetchType.LAZY)
-
+    @JsonIgnore
     private List<Request> requests;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

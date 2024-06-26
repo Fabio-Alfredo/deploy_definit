@@ -28,19 +28,19 @@ public class QrServiceImpl implements QrService {
     }
 
     @Override
-    public QRDataDTO generateQR(Request request) {
+    public QR generateQR(Request request) {
         QR qr = new QR();
         qr.setRequest(request);
         qr.setLastUpdate(new Date());
         qr.setState("PENDING");
-        qrRepository.save(qr);
 
-        return modelMapper.map(qr, QRDataDTO.class);
+
+        return qrRepository.save(qr);
     }
 
     @Override
-    public QR getQR(UUID qrId, Date lastUpdate) {
-        return qrRepository.findByIdAndLastUpdate(qrId, lastUpdate).orElse(null);
+    public QR getQR(UUID qrId) {
+        return qrRepository.findById(qrId).orElse(null);
     }
 
     @Override
@@ -56,5 +56,11 @@ public class QrServiceImpl implements QrService {
         ResponseEntity<String> response = restTemplate.postForEntity(esp32Url, null, String.class);
 
         return response.getStatusCode().is2xxSuccessful();
+    }
+
+    @Override
+    public void qrUpdate(QR qr) {
+        qr.setState("USED");
+        qrRepository.save(qr);
     }
 }

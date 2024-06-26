@@ -7,7 +7,7 @@ const VisitorsList = ({ user }) => {
             <li className='font-popins pt-2 sm:text-lg text-xs' key={user.id}>
                 <div className="flex justify-between">
                     <p className="font-bold pl-7">
-                        {user.user}
+                        {user.name}
                     </p>
                     <div className='flex items-center   sm:pr-3'>
                         <p className='flex font-xs font-popins font-xs '> Editar  </p>

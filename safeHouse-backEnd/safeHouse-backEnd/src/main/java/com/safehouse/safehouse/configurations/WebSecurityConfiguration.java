@@ -64,7 +64,7 @@ public class WebSecurityConfiguration {
         //Route filter
         http.authorizeHttpRequests(auth ->
                 auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("api/auth/**").permitAll()
                         .requestMatchers("/api/qr/qr-success").permitAll()
                         .anyRequest().authenticated()
         );

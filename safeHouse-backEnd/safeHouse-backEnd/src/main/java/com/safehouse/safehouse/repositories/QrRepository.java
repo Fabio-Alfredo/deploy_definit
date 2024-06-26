@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface QrRepository extends JpaRepository<QR, UUID>{
     Boolean existsByRequest(Request request);
-    Optional<QR> findByIdAndLastUpdate(UUID id, Date lastUpdate);
+    List<QR>findAllByState(String state);
 }
