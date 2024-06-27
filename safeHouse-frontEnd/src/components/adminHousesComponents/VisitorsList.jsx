@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
-import { IoMdSettings } from "react-icons/io";
-import { Link } from "react-router-dom";
-
-const VisitorsList = ({ user }) => {
+const VisitorsList = ({ user, children }) => {
 
     return (
         <ul>
@@ -11,12 +8,7 @@ const VisitorsList = ({ user }) => {
                     <p className="font-bold pl-7">
                         {user.name}
                     </p>
-                    <Link to='/assingrole' state = {user}>
-                        <div  className='flex items-center   sm:pr-3'>
-                            <p className='flex font-xs font-popins font-xs '> Editar  </p>
-                            <IoMdSettings className='text-3xl pl-2 ' />
-                        </div>
-                    </Link>
+                    {children}
                 </div>
                 <hr className='w-full bg-black  sm:h-[2px] h-[1px]' />
                 <p className="pl-14 pt-2">

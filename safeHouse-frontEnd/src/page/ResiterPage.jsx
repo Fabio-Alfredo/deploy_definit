@@ -86,7 +86,7 @@ const ResiterPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const roleArray = role === '' ? [] : [role];
+        
         if (role == '') {
             const formValues = { name: userName, email: email, role: role }
         } else if (role == 'RSAD') {
