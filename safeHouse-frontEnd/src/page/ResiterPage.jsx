@@ -7,9 +7,9 @@ import Button from '../components/Button';
 import { useForm } from '../hooks/useForm';
 import Header from '../components/Header';
 import { useLocation } from 'react-router-dom';
-import { RiDeleteBin5Line } from "react-icons/ri";
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { AssignAdminHouse, AssignUsersHouse } from '../service/UserService'
 
 
 const ResiterPage = () => {
@@ -26,7 +26,7 @@ const ResiterPage = () => {
     })
 
     const handleChangeRole = async (role) => {
-        if (role == 'RSAD') {
+        if (role == 'RSAD' || role == 'RESD') {
             const { value: text } = await Swal.fire({
                 input: "number",
                 inputLabel: "Casa",
@@ -48,54 +48,58 @@ const ResiterPage = () => {
         handleChangeRole(role);
     }, [role])
 
-
-
-
-    //TODO: Implementar la asignación de rol
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let formValues;
-        house == null ? formValues = { name: userName, email: email, role: role } : formValues = { name: userName, email: email, role: role, house: house }
-        house ? 
-        nav(-1)
-        console.log(formValues);
+    const handleHouseAdmin = async (formValues) => {
+        try {
+            const res = await AssignAdminHouse(formValues);
+            Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: ` ${res.message}`
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: ` ${error.data.message}`
+            });
+        }
     }
 
-    //TODO: Implementar la eliminación de usuario
-    const handleDelete = () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            buttonsStyling: false
-        });
-        swalWithBootstrapButtons.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                });
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelled",
-                    text: "Your imaginary file is safe :)",
-                    icon: "error"
-                });
-            }
-        });
+    const handleAssignUserHouse = async (formValues) => {
+        try {
+            const res = await AssignUsersHouse(formValues);
+            Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: ` ${res.message}`
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: ` ${error.data.message}`
+            });
+        }
+    }
+
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // const roleArray = role === '' ? [] : [role];
+        if (role == '') {
+            const formValues = { name: userName, email: email, role: role }
+        } else if (role == 'RSAD') {
+            const formValues = { name: userName, email: [email], house: house }
+            console.log(formValues);
+            handleHouseAdmin(formValues);
+        }
+        else {
+            const formValues = { name: userName, emails: [email], house:house}
+            console.log(formValues);
+            handleAssignUserHouse(formValues);
+        }
+        nav(-1);
     }
 
     return (
@@ -109,7 +113,6 @@ const ResiterPage = () => {
                     <CatalogRole inputValue={role} house={house} inputOnchange={InputChange} />
                     <div className='flex pl-[50%] w-full  items-center mt-6 lg:mt-4 '>
                         <Button class={'grow-0'} value={"Registrar"} type={"submit"} name={"RegisterButton"} />
-                        <RiDeleteBin5Line onClick={handleDelete} className='text-5xl grow ml-28 mt-3 cursor-pointer hover:text-gray-600 hover:-translate-y-1 duration-300 ' />
                     </div>
 
                 </form>
