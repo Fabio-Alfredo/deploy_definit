@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 public class AssignHousesUsersDTO {
-    private UUID house;
-    private String admin;
+    private String house;
+//    private String admin;
     private List<String>emails;
 }

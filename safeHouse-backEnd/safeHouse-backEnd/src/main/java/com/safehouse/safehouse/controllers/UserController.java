@@ -56,12 +56,14 @@ public class UserController {
 //    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseToUser(@RequestBody AssignResidentAdminDTO req){
         try {
-            User user = userService.getByEmail(req.getEmail());
-            House house = houseService.getHouseById(req.getHouse());
+            System.out.println(req.getEmail().get(0));
+            User user = userService.getByEmail(req.getEmail().get(0));
 
-            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+            House house = houseService.getHouseByAddress(req.getHouse());
+
+            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found! ++");
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
-
+            if(house.getResidentAdmin()!=null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House already has an admin!");
 
             userService.assignHouseAdmin(user, house, roleService.assignRole("RSAD"));
             houseService.assignResidentAdmin(house, user);
@@ -76,12 +78,12 @@ public class UserController {
 //    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
     public ResponseEntity<GeneralResponse>assignHouseUsers(@RequestBody AssignHousesUsersDTO req){
         try{
-            User user = userService.getByEmail(req.getAdmin());
+            User user = userService.findUserAuthenticated();
             List<User> users = userService.getAllUsersByEmail(req.getEmails());
-            House house = houseService.getHouseById(req.getHouse());
+            House house = houseService.getHouseByAddress(req.getHouse());
 
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
-            if(!houseService.existHouseByAdmin(user, req.getHouse())) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+            if(!houseService.existHouseByAdmin(user, req.getHouse()) && !user.getRoles().contains("ADMN")) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found! ==");
 
             houseService.assignResidents(users, house);
             userService.assignHouses(house, users, roleService.assignRole("RESD"));
