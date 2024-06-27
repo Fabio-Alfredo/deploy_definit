@@ -9,7 +9,11 @@ import { TbReportAnalytics } from "react-icons/tb";
 import Header from '../components/Header.jsx';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
+
+import { Link } from 'react-router-dom';
+
 import { HashLoader } from 'react-spinners'
+
 
 const Home = () => {
     const { token, removeData, user } = useContext(AuthContext);
@@ -77,10 +81,12 @@ const Home = () => {
         {
             title: `Generar entrada`,
             icon: MdOutlineQrCode2,
+            route: '/generateqr'
         },
         {
             title: `Solicitud visita`,
             icon: IoMail,
+            route: '/requestvisit'
         }
     ]
 
@@ -134,8 +140,18 @@ const Home = () => {
                             to={item.route}
                             image={item.icon}
                             title={item.title} />
-                    )
-                    )}
+                    ))}
+
+                    {
+                        resOpt.map((item) => (
+                            <Option
+                                key={item.title}
+                                image={item.icon}
+                                to={item.route}
+                                title={item.title} />
+                        ))
+                    }
+ 
                 </div>
             </div>
         </div>
