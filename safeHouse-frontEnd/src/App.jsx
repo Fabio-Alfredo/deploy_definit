@@ -10,7 +10,9 @@ import EntryRep from "./page/EntryRep"
 import RequestVisit from "./page/RequestVisit"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ResiterPage from "./page/ResiterPage"
-import ProtectedRoute from "./service/ProtectedRoute"
+
+import ProtectedRoute from "./protected/ProtectedRoute"
+
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 import Graphics from "./page/Graphics"
@@ -28,25 +30,57 @@ function App() {
 
       <BrowserRouter>
         <Routes>
+
           <Route path="/" element={<Auth />} />
-          <Route element={<ProtectedRoute canActivate={token} />}>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/home" element={<Home />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/adminhouse" element={<AdminHouse />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/aduser" element={<ListView />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/generateqr" element={<GenerateQR />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/readerqr" element={<ReaderQr />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/registerentry" element={<RegisterEntry />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/invitations" element={<Invitations />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/entryrep" element={<EntryRep />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/requestvisit" element={<RequestVisit />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/assingrole" element={<ResiterPage />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/graphics" element={<Graphics />} />
             <Route path="/createInvitations" element={<CreateInvitations />} />
             <Route path="/createInvitation" element={<CreateInvitation />} />
           </Route>
+
         </Routes>
       </BrowserRouter>
-
 
       {/* <AdminHouse/> ya */}
       {/* <GenerateQR/> ya */}
@@ -63,3 +97,4 @@ function App() {
 }
 
 export default App
+

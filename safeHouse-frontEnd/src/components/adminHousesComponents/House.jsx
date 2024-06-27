@@ -9,7 +9,7 @@ const House = ({ house }) => {
             <div className='flex-col pb-1' >
                 <div className='flex justify-between pt-5'>
                     <h2 className='flex font-popins sm:font-bold text-lg sm:text-2xl font-medium'>
-                        {house.direction}
+                        {/* {house.direction} */}Casa # {house.address}
                     </h2>
                     <div className='flex items-center sm:pr-3'>
                         <p className='flex font-xs font-popins font-xs '> Editar  </p>
@@ -21,7 +21,12 @@ const House = ({ house }) => {
             <div>
                 <div className='flex items-center'>
                     <FaStar className='text-lg ' />
-                    <h3 className='flex font-popins text-lg pl-2'>  {house.owner.name}</h3>
+                    <h3 className='flex font-popins text-lg pl-2'>  
+                    {/* {house.owner.name} */}
+                    {
+                    house.residentAdmin ? house.residentAdmin.name : 'No hay residentes'
+                    }
+                     </h3>
                 </div>
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>

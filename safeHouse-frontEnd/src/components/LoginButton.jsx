@@ -1,33 +1,36 @@
 import React, { useContext, useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-//import { credentialResponse } from '../service/connecctionGoogle';
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-
-/**<GoogleLogin
-                width={300}
-                logo_alignment='center'
-                theme='filled_black'
-                text='Iniciar con Google'
-                onSuccess={credentialResponse}
-            /> */
-
-
+import { AuthConecction } from '../service/AuthService';
+import { GetUserData } from '../service/UserService';
             
-
-
 const LoginButton = () => {
 
     const navigateTo = useNavigate();
-    const { saveToken } = useContext(AuthContext );
+    const { saveToken, saveUser } = useContext(AuthContext );
 
     const credentialResponse = async (response) => {
         try{
             const { access_token } = response;
-            console.log("token", access_token);
-            saveToken(access_token);
+            const data = {
+                token: access_token
+            }
+            const res = await AuthConecction(data);
+            saveToken(res.data);
+            getUserData();
             navigateTo('/home');
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const getUserData = async () => {
+        try{
+            const res =  await GetUserData();
+
+            saveUser(res.data);
         }catch(error){
             console.log(error);
         }
