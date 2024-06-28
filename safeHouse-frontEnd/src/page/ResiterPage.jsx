@@ -82,20 +82,20 @@ const ResiterPage = () => {
         }
     }
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        if (role == '') {
-            const formValues = { name: userName, email: email, role: role }
+
+        if (role == '') {            
+            console.log(email);
+
         } else if (role == 'RSAD') {
+
             const formValues = { name: userName, email: [email], house: house }
             console.log(formValues);
             handleHouseAdmin(formValues);
         }
         else {
-            const formValues = { name: userName, emails: [email], house:house}
+            const formValues = { name: userName, emails: [email], house: house }
             console.log(formValues);
             handleAssignUserHouse(formValues);
         }

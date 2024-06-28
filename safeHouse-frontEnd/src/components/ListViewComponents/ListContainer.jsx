@@ -6,6 +6,7 @@ import { GetUsersInfo } from '../../service/UserService';
 import { IoMdSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AiTwotoneDelete } from "react-icons/ai";
+import { DeleteRolesUsers } from '../../service/UserService';
 import Swal from 'sweetalert2'
 
 
@@ -31,7 +32,7 @@ const ListContainer = () => {
         getUser();
     }, []);
 
-    const handdleDelete = async () => {
+    const handleSelectDelete = async (email) => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: "btn btn-success",
@@ -49,11 +50,8 @@ const ListContainer = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                });
+                console.log(email)
+                handleDeleteRoles(email);
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
@@ -64,6 +62,26 @@ const ListContainer = () => {
                 });
             }
         });
+    }
+
+    const handleDeleteRoles = async (email) => {
+        try {
+            console.log(email);
+            const res = await DeleteRolesUsers(email);
+            Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: ` ${res.message}`
+            })
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: ` ${error.data.message}`
+            })
+        }
+
     }
 
 
@@ -92,7 +110,7 @@ const ListContainer = () => {
                     <div id="employees">
                         {users.filter(user => user.roles.map(r => r.id).includes("EMPL")).map((user) => (
                             <VisitorsList key={user.id} user={user} >
-                                <div onClick={handdleDelete} className='flex items-center   sm:pr-3 cursor-pointer'>
+                                <div onClick={() => handleSelectDelete(user.email)} className='flex items-center   sm:pr-3 cursor-pointer'>
                                     <p className='flex font-xs font-popins font-xs '> Eliminar  </p>
                                     <AiTwotoneDelete className='text-3xl pl-2 ' />
                                 </div>
@@ -105,10 +123,12 @@ const ListContainer = () => {
                         {
                             users.filter(user => user.roles.map(r => r.id).includes("RESD", "RSAD")).map((user) => (
                                 <VisitorsList key={user.id} user={user} >
-                                    <div onClick={handdleDelete} className='flex items-center   sm:pr-3 cursor-pointer'>
-                                        <p className='flex font-xs font-popins font-xs '> Eliminar  </p>
-                                        <AiTwotoneDelete className='text-3xl pl-2 ' />
-                                    </div>
+                                    <Link to='/editResident' state={user}>
+                                        <div className='flex items-center cursor-pointer sm:pr-3'>
+                                            <p className='flex font-xs font-popins font-xs '> Editar  </p>
+                                            <IoMdSettings className='text-3xl pl-2 ' />
+                                        </div>
+                                    </Link>
                                 </VisitorsList>
                             ))
                         }

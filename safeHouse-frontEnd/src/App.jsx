@@ -14,6 +14,7 @@ import ProtectedRoute from "./protected/ProtectedRoute"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 import Graphics from "./page/Graphics"
+import EditResidents from "./page/EditResidents"
 
 
 
@@ -71,19 +72,11 @@ function App() {
             <Route path="/graphics" element={<Graphics />} />
           </Route>
 
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="/home"/>}>
+            <Route path="/editResident" element={<EditResidents/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
-
-      {/* <AdminHouse/> ya */}
-      {/* <GenerateQR/> ya */}
-      {/* <Auth/> ya */}
-      {/* <ListView/> ya */}
-      {/* <ReaderQr/>  ya*/}
-      {/* <RegisterEntry/> ya*/}
-      {/* <Invitations/> ya */}
-      {/*<EntryRep /> ya*/}
-      {/* <RequestVisit/> ya*/}
-      {/* <ResiterPage/> ya*/}
     </>
   )
 }
