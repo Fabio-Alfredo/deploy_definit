@@ -85,8 +85,8 @@ public class UserController {
             House house = houseService.getHouseByAddress(req.getHouse());
 
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
-            Role role = roleService.getRoleById("ADMN");
-            if(!houseService.existHouseByAdmin(user, req.getHouse()) && user.getRoles().contains(role) ) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+
+            if(!houseService.existHouseByAdmin(user, req.getHouse()) && user.getRoles().contains(roleService.getRoleById("ADMN")) ) return GeneralResponse.getResponse(HttpStatus.FOUND, "Admin house invalid!");
 
             houseService.assignResidents(users, house);
             userService.assignHouses(house, users, roleService.getRoleById("RESD"));
@@ -113,10 +113,9 @@ public class UserController {
         try{
             System.out.println(email);
             User user = userService.findUserAuthenticated();
-            Role role = roleService.getRoleById("ADMN");
-            if(user == null || !user.getRoles().contains(role)) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 1");
+            if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Invalid admin!");
             User userUpdate = userService.getByEmail(email);
-            if(userUpdate == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 2");
+            if(userUpdate == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("VIST")));
 
             return GeneralResponse.getResponse(HttpStatus.OK, "User deleted!");
@@ -143,8 +142,8 @@ public class UserController {
             User user = userService.findUserAuthenticated();
             User employee = userService.getByEmail(req.getEmployee());
 
-            if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 1");
-            if(employee == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Employee not found! 2");
+            if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Invalid admin! ");
+            if(employee == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Employee not found!");
 
             userService.contractEmployee(employee, roleService.getRoleById(req.getRole()));
 
