@@ -4,6 +4,7 @@ import com.safehouse.safehouse.domain.dtos.AssignHousesUsersDTO;
 import com.safehouse.safehouse.domain.dtos.AssignResidentAdminDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.models.House;
+import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.RoleService;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -56,7 +58,6 @@ public class UserController {
 //    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseToUser(@RequestBody AssignResidentAdminDTO req){
         try {
-            System.out.println(req.getEmail().get(0));
             User user = userService.getByEmail(req.getEmail().get(0));
 
             House house = houseService.getHouseByAddress(req.getHouse());
@@ -65,7 +66,7 @@ public class UserController {
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
             if(house.getResidentAdmin()!=null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House already has an admin!");
 
-            userService.assignHouseAdmin(user, house, roleService.assignRole("RSAD"));
+            userService.assignHouseAdmin(user, house, roleService.getRoleById("RSAD"));
             houseService.assignResidentAdmin(house, user);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "House assigned to user!");
@@ -83,10 +84,11 @@ public class UserController {
             House house = houseService.getHouseByAddress(req.getHouse());
 
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
-            if(!houseService.existHouseByAdmin(user, req.getHouse()) && !user.getRoles().contains("ADMN")) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found! ==");
+            Role role = roleService.getRoleById("ADMN");
+            if(!houseService.existHouseByAdmin(user, req.getHouse()) && user.getRoles().contains(role) ) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
 
             houseService.assignResidents(users, house);
-            userService.assignHouses(house, users, roleService.assignRole("RESD"));
+            userService.assignHouses(house, users, roleService.getRoleById("RESD"));
 
             return   GeneralResponse.getResponse(HttpStatus.OK, "House assigned the users!");
         }catch (Exception e){
@@ -99,6 +101,25 @@ public class UserController {
         try {
             List<User> users = userService.getAllUsers();
             return GeneralResponse.getResponse(HttpStatus.OK, users);
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<GeneralResponse>deleteRoles(@RequestParam("email") String email){
+
+        try{
+            System.out.println(email);
+            User user = userService.findUserAuthenticated();
+            Role role = roleService.getRoleById("ADMN");
+            if(user == null || !user.getRoles().contains(role)) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 1");
+            User userUpdate = userService.getByEmail(email);
+            if(userUpdate == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 2");
+            userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("VIST")));
+
+            return GeneralResponse.getResponse(HttpStatus.OK, "User deleted!");
+
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

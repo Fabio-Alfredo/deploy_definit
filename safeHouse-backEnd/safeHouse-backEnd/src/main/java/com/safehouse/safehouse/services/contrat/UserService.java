@@ -11,7 +11,7 @@ public interface UserService {
     Token registerToken(User user) throws Exception;
     Boolean isTokenValid(User user, String token);
     void cleanTokens(User user) throws Exception;
-
+    void deleteRoles(User user, List<Role>roles);
     UserDTO getUserInformation(String token);
     boolean existUserByEmail(String email);
     User getByEmail(String email);

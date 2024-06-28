@@ -76,6 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteRoles(User user, List<Role> roles) {
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+
+    @Override
     public UserDTO getUserInformation(String token) {
 
         //System.out.println("Token: " + token.getToken());
