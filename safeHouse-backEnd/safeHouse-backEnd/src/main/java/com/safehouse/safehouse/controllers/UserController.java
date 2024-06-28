@@ -2,6 +2,7 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.AssignHousesUsersDTO;
 import com.safehouse.safehouse.domain.dtos.AssignResidentAdminDTO;
+import com.safehouse.safehouse.domain.dtos.ContractEmployeeDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Role;
@@ -120,6 +121,34 @@ public class UserController {
 
             return GeneralResponse.getResponse(HttpStatus.OK, "User deleted!");
 
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @GetMapping("/employ-visitor")
+    public ResponseEntity<GeneralResponse>getUsersEmployVisitor(){
+        try {
+            List<User> users = userService.getUsersByRole(roleService.getRolesById(List.of("VIST", "EMPL")));
+            return GeneralResponse.getResponse(HttpStatus.OK,users);
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @PostMapping("/contract-employee")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
+    public ResponseEntity<GeneralResponse>contractEmployee(@RequestBody ContractEmployeeDTO req){
+        try {
+            User user = userService.findUserAuthenticated();
+            User employee = userService.getByEmail(req.getEmployee());
+
+            if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found! 1");
+            if(employee == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Employee not found! 2");
+
+            userService.contractEmployee(employee, roleService.getRoleById(req.getRole()));
+
+            return GeneralResponse.getResponse(HttpStatus.OK, "Employee contrated!");
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

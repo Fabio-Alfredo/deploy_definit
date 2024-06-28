@@ -12,10 +12,12 @@ public interface UserService {
     Boolean isTokenValid(User user, String token);
     void cleanTokens(User user) throws Exception;
     void deleteRoles(User user, List<Role>roles);
+    void contractEmployee(User user, Role roles);
     UserDTO getUserInformation(String token);
     boolean existUserByEmail(String email);
     User getByEmail(String email);
     void createUser(UserDTO user, List<Role> roles);
+    List<User>getUsersByRole(List<Role> role);
     User findUserAuthenticated();
     List<User>getAllUsers();
     List<User>getAllUsersByEmail(List<String> email);
