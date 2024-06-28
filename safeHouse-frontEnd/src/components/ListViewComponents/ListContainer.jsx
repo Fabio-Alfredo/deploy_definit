@@ -17,17 +17,17 @@ const ListContainer = () => {
         const scrollContainer = document.getElementById('scroll-container');
         scrollContainer.scrollTop = 0;
     };
+    
+    const getUser = async () => {
+        const res = await GetUsersInfo();
+        setUser(res.data);
+    };
 
     useEffect(() => {
         resetScroll();
     }, [toggle]);
 
     useEffect(() => {
-        const getUser = async () => {
-            const res = await GetUsersInfo();
-            setUser(res.data);
-        };
-
         getUser();
     }, []);
 
@@ -39,7 +39,7 @@ const ListContainer = () => {
             },
             buttonsStyling: false
         });
-        swalWithBootstrapButtons.fire({
+        swalWithBootstrapButtons.fire({  
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -50,6 +50,7 @@ const ListContainer = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 handleDeleteRoles(email);
+                getUser();
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
