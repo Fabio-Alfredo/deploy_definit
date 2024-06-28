@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const CatalogRole = ({ inputValue, inputOnchange, house }) => {
+const CatalogRole = ({ inputValue, inputOnchange }) => {
 
 
     return (
@@ -10,11 +10,7 @@ const CatalogRole = ({ inputValue, inputOnchange, house }) => {
                 <select  name='role' required value={inputValue} onChange={inputOnchange} className='col-span-2 justify-self-center pl-3 sm:ml-11 shadow-md font-popins  bg-input-color rounded-md text-xs sm:text-xl h-6 sm:h-10 w-1/2'> {/* query */}
                     <option value='' disabled>Role</option>
                     <option value='EMPL'>Empleado</option>
-                    <option value='RESD'>Residente</option>
-                    <option value='RSAD'>Resd. Admin</option>
-                    <option value='VIST'>Visitante</option>
                 </select>
-                <p className={`${house? '':'hidden'} font-bold sm:text-3xl text-gray-500`} > Casa #{house}.</p>
             </div>
         </>
     );

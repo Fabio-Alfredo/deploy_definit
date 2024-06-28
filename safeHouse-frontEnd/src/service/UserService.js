@@ -18,15 +18,28 @@ export const GetUserData = async () => {
     }
 }
 
-export const GetUsersInfo = async () => {
+export const ContractEmployee = async (data) => {
     try {
-        const res = await axios.get(`${BASE_URL}/by-role`, {
+        const res = await axios.post(`${BASE_URL}/contract-employee`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         });
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
 
+export const GetUsersInfo = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/employ-visitor`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        });
         return res.data;
     } catch (error) {
         throw error.response;
@@ -64,8 +77,8 @@ export const AssignUsersHouse = async (data) => {
 export const DeleteRolesUsers = async (email) => {
     try {
         console.log(getToken());
-        const res = await axios.post(`${BASE_URL}/delete?email=${email}`, 
-        {} ,{
+        const res = await axios.post(`${BASE_URL}/delete?email=${email}`,
+            {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`,

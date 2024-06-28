@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import fetchUsers from '../../service/fetchUsers';
 import VisitorsList from '../adminHousesComponents/VisitorsList';
 import TabOpt from './TabOpt';
 import { GetUsersInfo } from '../../service/UserService';
@@ -50,7 +49,6 @@ const ListContainer = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(email)
                 handleDeleteRoles(email);
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
@@ -66,7 +64,6 @@ const ListContainer = () => {
 
     const handleDeleteRoles = async (email) => {
         try {
-            console.log(email);
             const res = await DeleteRolesUsers(email);
             Swal.fire({
                 icon: "success",
@@ -94,7 +91,10 @@ const ListContainer = () => {
             <div className="overflow-y-auto min-h-[50vh] max-h-[50vh] sn:mx-3 " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
-                        {users.filter(user => user.roles.map(r => r.id).includes("VIST")).map((user) => (
+                        {users.filter(user => {
+                            const rolesId = user.roles.map(r => r.id);
+                            return rolesId.includes("VIST") && !rolesId.includes("EMPL")
+                        } ).map((user) => (
                             <VisitorsList key={user.id} user={user} >
                                 <Link to='/assingrole' state={user}>
                                     <div className='flex items-center cursor-pointer sm:pr-3'>
@@ -118,22 +118,7 @@ const ListContainer = () => {
                         ))}
                     </div>
                 )}
-                {toggle === 3 && (
-                    <div id="residents">
-                        {
-                            users.filter(user => user.roles.map(r => r.id).includes("RESD", "RSAD")).map((user) => (
-                                <VisitorsList key={user.id} user={user} >
-                                    <Link to='/editResident' state={user}>
-                                        <div className='flex items-center cursor-pointer sm:pr-3'>
-                                            <p className='flex font-xs font-popins font-xs '> Editar  </p>
-                                            <IoMdSettings className='text-3xl pl-2 ' />
-                                        </div>
-                                    </Link>
-                                </VisitorsList>
-                            ))
-                        }
-                    </div>
-                )}
+
             </div>
         </div>
     );
