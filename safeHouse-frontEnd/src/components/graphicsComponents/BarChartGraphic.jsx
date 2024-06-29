@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Bar, BarChart, CartesianGrid   , ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { GetEntrysByDate } from '../../service/RequestService';
 
-const data = [
-    { name: 'lunes', entries: 200, color: '#00C49F'},
-    { name: 'martes', entries: 100, color: '#FFBB28'},
-    { name: 'miercoles', entries: 40, color: '#FF8042'},
-    { name: 'jueves', entries: 100, color: '#0088FE'},
-    { name: 'viernes', entries: 40, color: '#00C49F'},
-    { name: 'sabado', entries: 57, color: '#FFBB28'},
-    { name: 'domingo', entries: 40, color: '#FF8042'}
-]
+
+const abbreviations = {
+    "MONDAY": "Mon",
+    "TUESDAY": "Tue",
+    "WEDNESDAY": "Wed",
+    "THURSDAY": "Thu",
+    "FRIDAY": "Fri",
+    "SATURDAY": "Sat",
+    "SUNDAY": "Sun"
+};
 
 const BarChartGraphic = () => {
+
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const res = await GetEntrysByDate();
+        const modifiedData = res.data.map(item => ({
+            ...item,
+            abbreviation: abbreviations[item.name] 
+        }));
+        setData(modifiedData);
+        console.log(res);
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <ResponsiveContainer width="90%" aspect={2} >
             <BarChart
@@ -27,7 +46,7 @@ const BarChartGraphic = () => {
 
             >
                 <CartesianGrid strokeDasharray="4 1 2" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="abbreviation" />
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey="entries" fill="#008D62" />
