@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Bar, BarChart, CartesianGrid   , ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { GetEntrysByDate } from '../../service/RequestService';
+import { GetEntrysByDay } from '../../service/RequestService';
 
 
 const abbreviations = {
@@ -18,7 +18,7 @@ const BarChartGraphic = () => {
     const [data, setData] = useState([]);
 
     const getData = async () => {
-        const res = await GetEntrysByDate();
+        const res = await GetEntrysByDay();
         const modifiedData = res.data.map(item => ({
             ...item,
             abbreviation: abbreviations[item.name] 
