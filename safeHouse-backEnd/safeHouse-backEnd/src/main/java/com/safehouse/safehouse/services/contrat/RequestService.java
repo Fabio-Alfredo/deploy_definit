@@ -9,6 +9,7 @@ import com.safehouse.safehouse.domain.models.User;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface RequestService {
@@ -20,6 +21,6 @@ public interface RequestService {
     List<Request>getAllRequestsByResident(User resident);
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
     Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident, User visitor);
-    List<Request> findAllByDay(LocalDate oneWeekAgo);
-    List<Request>findAllByMonth(LocalDate oneMonthAgo);
+    Map<String, Long> findAllByDay(LocalDate oneWeekAgo);
+    Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
 }

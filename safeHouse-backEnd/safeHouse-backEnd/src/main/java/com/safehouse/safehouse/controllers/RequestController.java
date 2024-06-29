@@ -204,13 +204,7 @@ public class RequestController {
             }
             LocalDate today = LocalDate.now();
             LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            List<Request> requests = requestService.findAllByDay(lastMonday);
-
-            Map<String, Long> requestsByDate = requests.stream()
-                    .collect(Collectors.groupingBy(
-                            r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
-                            Collectors.counting()
-                    ));
+            Map<String, Long> requests = requestService.findAllByDay(lastMonday);
 
             List<String> daysOfWeek = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
 
@@ -218,7 +212,7 @@ public class RequestController {
                     .map(day -> {
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("name", day);
-                        entry.put("entries", requestsByDate.getOrDefault(day, 0L));
+                        entry.put("entries", requests.getOrDefault(day, 0L));
                         return entry;
                     })
                     .collect(Collectors.toList());
@@ -238,21 +232,14 @@ public class RequestController {
             }
             LocalDate today = LocalDate.now();
             LocalDate startOfMonth = today.withDayOfMonth(1);  // Primer día del mes actual
-            List<Request> requests = requestService.findAllByMonth(startOfMonth);
-
-            Map<String, Long> requestsByMonth = requests.stream()
-                    .collect(Collectors.groupingBy(
-                            r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
-                            Collectors.counting()
-                    ));
-
+            Map<String, Long> requests = requestService.findAllByMonth(startOfMonth);
             List<String> monthsOfYear = Arrays.asList("JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER");
 
             List<Map<String, Object>> entriesByMonth = monthsOfYear.stream()
                     .map(month -> {
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("name", month);
-                        entry.put("entries", requestsByMonth.getOrDefault(month, 0L));
+                        entry.put("entries", requests.getOrDefault(month, 0L));
                         return entry;
                     })
                     .collect(Collectors.toList());
