@@ -16,12 +16,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ls.LSException;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -195,6 +194,41 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.OK, reqs);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    //para las graficas
+    @GetMapping("/by-date")
+    public ResponseEntity<GeneralResponse>getRecordEntryByDate(){
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            LocalDate today = LocalDate.now();
+            LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            List<Request> requests = requestService.findAllByDates(lastMonday);
+
+            Map<String, Long> requestsByDate = requests.stream()
+                    .collect(Collectors.groupingBy(
+                            r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
+                            Collectors.counting()
+                    ));
+
+            List<String> daysOfWeek = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
+
+            List<Map<String, Object>> entriesByDay = daysOfWeek.stream()
+                    .map(day -> {
+                        Map<String, Object> entry = new HashMap<>();
+                        entry.put("name", day);
+                        entry.put("entries", requestsByDate.getOrDefault(day, 0L));
+                        return entry;
+                    })
+                    .collect(Collectors.toList());
+
+            return GeneralResponse.getResponse(HttpStatus.OK, entriesByDay);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
 }

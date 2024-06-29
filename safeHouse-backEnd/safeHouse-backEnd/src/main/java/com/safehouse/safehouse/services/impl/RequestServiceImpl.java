@@ -11,11 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class RequestServiceImpl implements RequestService{
@@ -78,6 +77,14 @@ public class RequestServiceImpl implements RequestService{
         request.setResident(resident);
         request.setPhase("APPROVED");
         return requestRepository.save(request);
+    }
+
+    @Override
+    public List<Request> findAllByDates(LocalDate oneWeekAgo) {
+        List<Request> requests = requestRepository.findAll();
+        requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
+
+        return requests;
     }
 
 }
