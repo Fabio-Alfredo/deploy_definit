@@ -5,18 +5,15 @@ import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.dtos.RecordDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
-import com.safehouse.safehouse.services.contrat.QrService;
 import com.safehouse.safehouse.services.contrat.RequestService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSException;
 
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
@@ -198,8 +195,8 @@ public class RequestController {
     }
 
     //para las graficas
-    @GetMapping("/by-date")
-    public ResponseEntity<GeneralResponse>getRecordEntryByDate(){
+    @GetMapping("/by-day")
+    public ResponseEntity<GeneralResponse>getRecordEntryByDay(){
         try {
             User user = userService.findUserAuthenticated();
             if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
@@ -207,7 +204,7 @@ public class RequestController {
             }
             LocalDate today = LocalDate.now();
             LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            List<Request> requests = requestService.findAllByDates(lastMonday);
+            List<Request> requests = requestService.findAllByDay(lastMonday);
 
             Map<String, Long> requestsByDate = requests.stream()
                     .collect(Collectors.groupingBy(
@@ -231,4 +228,40 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
+
+    @GetMapping("/by-month")
+    public ResponseEntity<GeneralResponse>getRecordEntryByMonth(){
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            LocalDate today = LocalDate.now();
+            LocalDate startOfMonth = today.withDayOfMonth(1);  // Primer día del mes actual
+            List<Request> requests = requestService.findAllByMonth(startOfMonth);
+
+            Map<String, Long> requestsByMonth = requests.stream()
+                    .collect(Collectors.groupingBy(
+                            r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
+                            Collectors.counting()
+                    ));
+
+            List<String> monthsOfYear = Arrays.asList("JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER");
+
+            List<Map<String, Object>> entriesByMonth = monthsOfYear.stream()
+                    .map(month -> {
+                        Map<String, Object> entry = new HashMap<>();
+                        entry.put("name", month);
+                        entry.put("entries", requestsByMonth.getOrDefault(month, 0L));
+                        return entry;
+                    })
+                    .collect(Collectors.toList());
+
+            return GeneralResponse.getResponse(HttpStatus.OK, entriesByMonth);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
+
 }

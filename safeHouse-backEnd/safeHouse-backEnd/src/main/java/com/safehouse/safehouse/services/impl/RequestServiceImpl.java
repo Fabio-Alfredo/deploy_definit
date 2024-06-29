@@ -80,9 +80,17 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<Request> findAllByDates(LocalDate oneWeekAgo) {
+    public List<Request> findAllByDay(LocalDate oneWeekAgo) {
         List<Request> requests = requestRepository.findAll();
         requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
+
+        return requests;
+    }
+
+    @Override
+    public List<Request> findAllByMonth(LocalDate oneMonthAgo) {
+        List<Request> requests = requestRepository.findAll();
+        requests.removeIf(r -> r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneMonthAgo));
 
         return requests;
     }
