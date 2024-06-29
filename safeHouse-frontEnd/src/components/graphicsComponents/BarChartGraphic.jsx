@@ -4,13 +4,13 @@ import { GetEntrysByDay } from '../../service/RequestService';
 
 
 const abbreviations = {
-    "MONDAY": "Mon",
-    "TUESDAY": "Tue",
-    "WEDNESDAY": "Wed",
-    "THURSDAY": "Thu",
-    "FRIDAY": "Fri",
-    "SATURDAY": "Sat",
-    "SUNDAY": "Sun"
+    "MONDAY": "Lun",
+    "TUESDAY": "Mar",
+    "WEDNESDAY": "Mie",
+    "THURSDAY": "Jue",
+    "FRIDAY": "Vie",
+    "SATURDAY": "Sab",
+    "SUNDAY": "Dom"
 };
 
 const BarChartGraphic = () => {
