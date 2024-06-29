@@ -21,12 +21,12 @@ const House = ({ house }) => {
             <div>
                 <div className='flex items-center'>
                     <FaStar className='text-lg ' />
-                    <h3 className='flex font-popins text-lg pl-2'>  
-                    {/* {house.owner.name} */}
-                    {
-                    house.residentAdmin ? house.residentAdmin.name : 'No hay residentes'
-                    }
-                     </h3>
+                    <h3 className='flex font-popins text-lg pl-2'>
+                        {/* {house.owner.name} */}
+                        {
+                            house.residentAdmin ? house.residentAdmin.name : 'No hay residentes'
+                        }
+                    </h3>
                 </div>
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>

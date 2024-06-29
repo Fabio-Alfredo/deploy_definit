@@ -31,3 +31,17 @@ export const GetEntrys = async () => {
         throw error.response;
     }
 }
+
+export const GetAllRequest = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/request/all`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
