@@ -1,13 +1,10 @@
 import React from 'react';
 import {getPhaseStyles} from '../../hooks/useColor';
+import { formDate, formatTime } from "../../utils/MapDate";
 
 const RequestCard = ({enableTme,disableTime, phase, visitor}) => {
 
     const {text, color} = getPhaseStyles(phase)
-
-    const formattedDate = formatDate(enableTme);
-    const formattedTime = formatTime(enableTme);
-
 
     return (
         <>
@@ -19,11 +16,11 @@ const RequestCard = ({enableTme,disableTime, phase, visitor}) => {
                 </div>
                 <div className=' flex-col justify-end items-end my-1 hidden group-hover/item:flex'>
                     <p className='font-popins font-bold text-sm sm:text-lg lg:text-xl items-center p-0 md:px-2 select-none '>Fecha</p>
-                    <p className='font-popins text-center text-xs sm:text-lg lg:text-xl  text-gray-500 select-none'>{formattedDate}</p>
+                    <p className='font-popins text-center text-xs sm:text-lg lg:text-xl  text-gray-500 select-none'>{formDate(enableTme)}</p>
                 </div>
                 <div className=' flex-col justify-end items-end my-1 hidden group-hover/item:flex'>
                     <p className='font-popins font-bold text-sm sm:text-lg lg:text-xl items-center p-0 md:px-2 select-none'>Hora</p>
-                    <p className='font-popins text-center text-xs sm:text-lg lg:text-xl  text-gray-500 select-none'>{formattedTime}</p>
+                    <p className='font-popins text-center text-xs sm:text-lg lg:text-xl  text-gray-500 select-none'>{formatTime(enableTme)}</p>
                 </div>
                 <div className=' items-center w-full md:w-fit justify-center md:justify-end gap-2 my-1'>
                     <p className={`font-popins text-center text-sm sm:text-lg lg:text-xl  text-gray-500 select-none font-semibold ${color}`}>{text}</p>
@@ -38,12 +35,3 @@ const RequestCard = ({enableTme,disableTime, phase, visitor}) => {
 
 export default RequestCard;
 
-const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-}
-
-const formatTime = (dateString) => {
-    const options = {  hour: '2-digit', minute: '2-digit', hour12: true};
-    return new Date(dateString).toLocaleTimeString(undefined, options);
-}

@@ -24,16 +24,6 @@ const ContainerRequest = () => {
         fetchRequest();
     }, [])
     
-    // useEffect(() => {
-
-    //     const getRequest = async () => {
-    //         const res = await GetAllRequest()
-    //         console.log({ res });
-    //         setRequest(res)
-    //     }
-
-    //     getRequest()
-    // }, [])
 
     return (
         <>
