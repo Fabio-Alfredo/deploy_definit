@@ -3,27 +3,38 @@ import QrReader from 'modern-react-qr-reader'
 import ScanOverlay from './Overlay';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-
+import { ValidateQr } from '../../service/QrService';
 export const CreateReaderQr = () => {
 
-    const [data, setData] = useState();
     const nav = useNavigate();
 
 
-    const handleScan = (info) => {
+    const handleScan = async (info) => {
         if (info) {
-            setData(JSON.parse(info));
-            console.log(data);
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Your work has been saved",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                nav('/home')
-            });
-            
+            try {
+                const res = await ValidateQr(info)
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `${res.message}`,
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then(() => {
+                    nav('/home')
+                });
+
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: `${error.data.message}`,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    nav('/home')
+                })
+            }
+
         }
 
     }
@@ -31,8 +42,6 @@ export const CreateReaderQr = () => {
     const handleError = (err) => {
         console.error(err)
     }
-
-
 
     return (
         <div className='flex flex-col lg:w-4/5 w-full'>
