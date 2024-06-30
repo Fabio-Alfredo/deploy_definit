@@ -138,21 +138,21 @@ public class QrController {
             newReq.setCreationDate();
             newReq.setEnableAndDisableTime();
             newReq.setReason("QR");
+            QR newQr ;
 
             Request request = requestService.getLastRequest(resident);
             if(request != null && !request.getPhase().equals("EXPIRED")) {
                 request.setCreationDate(newReq.getCreationDate());
                 request.setEnableTme(newReq.getEnableTme());
                 request.setDisableTime(newReq.getDisableTime());
-                QR qr = qrService.generateQR(request);
-                request.setQr(qr);
+                newQr = qrService.generateQR(request);
+                request.setQr(newQr);
 
                 requestService.updateRequest(request);
-                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(qr, QRDataDTO.class));
+                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
             }
-            System.out.println(request.getId());
             Request req = requestService.createRequest(newReq, resident, resident, resident.getHouses().get(0));
-            QR newQr = qrService.generateQR(req);
+            newQr = qrService.generateQR(req);
             req.setQr(newQr);
             requestService.updateRequest(req);
             return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
@@ -179,9 +179,7 @@ public class QrController {
             if(qr.getState().equals("USED")) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
             }
-            System.out.println(req.getEnableTme().toInstant());
-            System.out.println(req.getDisableTime().toInstant());
-            System.out.println(currentDate);
+
             if(!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }
@@ -197,15 +195,7 @@ public class QrController {
         }
     }
 
-    //primer intento
-//    private boolean qrValid = false;
-//
-//    @GetMapping("/state-qr")
-//    public ResponseEntity<Boolean> estadoQR() {
-//        return ResponseEntity.ok(qrValid);
-//    }
 
-//
     //codigo valido
 //    @PostMapping("/qr-success")
 //    public ResponseEntity<String> qrSuccess(@RequestBody QRDataDTO data) {
