@@ -170,7 +170,7 @@ public class QrController {
         try {
 
             Instant instant = Instant.now();
-//            Instant currentDate = instant.minusSeconds(21600);
+            Instant currentDate = instant.minusSeconds(21600);
             QR qr = qrService.getQR(data.getQrId());
             Request req = requestService.getRequestById(qr.getRequest().getId());
             if(qr==null || req == null) {
@@ -181,8 +181,8 @@ public class QrController {
             }
             System.out.println(req.getEnableTme().toInstant());
             System.out.println(req.getDisableTime().toInstant());
-            System.out.println(instant);
-            if(!req.getEnableTme().toInstant().isBefore(instant) || !req.getDisableTime().toInstant().isAfter(instant)) {
+            System.out.println(currentDate);
+            if(!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }
             qrService.qrUpdate(qr);

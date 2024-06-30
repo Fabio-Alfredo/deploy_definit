@@ -38,8 +38,9 @@ public class CreateRequestDTO {
     public void setCreationDate() {
         Date date = new Date();
         LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//        LocalDateTime adjustedDateTime = localDateTime.minusHours(6);
 
-        this.creationDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        this.creationDate = Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
     }
 
 
