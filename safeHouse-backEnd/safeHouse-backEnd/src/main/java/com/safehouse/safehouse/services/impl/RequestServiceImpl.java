@@ -105,4 +105,9 @@ public class RequestServiceImpl implements RequestService{
         return requestsByMonth;
     }
 
+    @Override
+    public Request getLastRequest(User user) {
+        return requestRepository.findTopByVisitorOrderByCreateAtDesc(user).orElse(null);
+    }
+
 }

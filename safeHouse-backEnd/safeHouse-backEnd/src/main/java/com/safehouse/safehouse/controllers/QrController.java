@@ -133,15 +133,28 @@ public class QrController {
             if(resident == null || !new HashSet<>(resident.getRoles()).containsAll(roles)) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
+
             CreateRequestDTO newReq = new CreateRequestDTO();
             newReq.setCreationDate();
-            newReq.setReason("QR");
             newReq.setEnableAndDisableTime();
+            newReq.setReason("QR");
+
+            Request request = requestService.getLastRequest(resident);
+            if(request != null && !request.getPhase().equals("EXPIRED")) {
+                request.setCreationDate(newReq.getCreationDate());
+                request.setEnableTme(newReq.getEnableTme());
+                request.setDisableTime(newReq.getDisableTime());
+                QR qr = qrService.generateQR(request);
+                request.setQr(qr);
+
+                requestService.updateRequest(request);
+                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(qr, QRDataDTO.class));
+            }
+            System.out.println(request.getId());
             Request req = requestService.createRequest(newReq, resident, resident, resident.getHouses().get(0));
             QR newQr = qrService.generateQR(req);
             req.setQr(newQr);
             requestService.updateRequest(req);
-
             return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
         }catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
