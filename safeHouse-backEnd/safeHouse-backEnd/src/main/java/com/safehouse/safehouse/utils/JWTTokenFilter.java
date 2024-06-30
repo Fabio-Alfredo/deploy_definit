@@ -3,6 +3,7 @@ package com.safehouse.safehouse.utils;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,7 +41,6 @@ public class JWTTokenFilter extends OncePerRequestFilter {
 
         if(tokenHeader != null && tokenHeader.startsWith("Bearer ") && tokenHeader.length() > 7) {
             token = tokenHeader.substring(7);
-
 
             try {
                 email = jwtTools.getUsernameFrom(token);

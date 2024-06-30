@@ -65,6 +65,7 @@ public class WebSecurityConfiguration {
         http.authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers("api/auth/**").permitAll()
+                        .requestMatchers("api/hello").permitAll()
                         .requestMatchers("/api/qr/qr-success").permitAll()
                         .anyRequest().authenticated()
         );
