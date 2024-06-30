@@ -2,6 +2,7 @@ package com.safehouse.safehouse.domain.dtos;
 
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -33,5 +34,13 @@ public class CreateRequestDTO {
             this.disableTime = Date.from(disableDateTime.atZone(ZoneId.of("UTC")).toInstant());
         }
     }
+
+    public void setCreationDate() {
+        Date date = new Date();
+        LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        this.creationDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
 
 }
