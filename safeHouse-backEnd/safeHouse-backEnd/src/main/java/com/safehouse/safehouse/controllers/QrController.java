@@ -183,6 +183,11 @@ public class QrController {
             if(!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }
+            //validar si aun no han pasado 10 minutos
+//            System.out.println(qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600) )));
+            if(qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600) ))){
+                return GeneralResponse.getResponse(HttpStatus.FOUND, "QR expired!");
+            }
             qrService.qrUpdate(qr);
             req.setPhase("EXPIRED");
             req.setEndTime(new Date());
