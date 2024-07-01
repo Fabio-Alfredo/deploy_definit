@@ -35,7 +35,7 @@ export const GetEntrys = async () => {
 
 export const GetAllRequest = async () => {
     try {
-        const res = await axios.get(`${BASE_URL}/request/all`, {
+        const res = await axios.get(`${BASE_URL}/request/user-resident`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
