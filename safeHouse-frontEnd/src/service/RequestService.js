@@ -35,7 +35,7 @@ export const GetEntrys = async () => {
 
 export const GetAllRequest = async () => {
     try {
-        const res = await axios.get(`${BASE_URL}/request/user-resident`, {
+        const res = await axios.get(`${BASE_URL}/user-resident  `, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
@@ -57,6 +57,21 @@ export const GetEntrysByMonth = async () => {
         });
         return res.data;
     }catch(error){
+        throw error.response;
+    }
+}
+
+export const GetEntrysByDay = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/by-day`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+
+    } catch (error) {
         throw error.response;
     }
 }
