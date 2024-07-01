@@ -116,7 +116,7 @@ public class UserController {
             if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Invalid admin!");
             User userUpdate = userService.getByEmail(email);
             if(userUpdate == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
-            userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("VIST")));
+            userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("EMPL")));
 
             return GeneralResponse.getResponse(HttpStatus.OK, "User deleted!");
 

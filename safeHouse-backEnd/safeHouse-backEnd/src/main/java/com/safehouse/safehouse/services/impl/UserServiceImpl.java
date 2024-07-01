@@ -77,7 +77,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteRoles(User user, List<Role> roles) {
-        user.setRoles(roles);
+        List<Role> rolesUser = user.getRoles();
+        rolesUser.removeIf(roles::contains);
+        user.setRoles(rolesUser);
         userRepository.save(user);
     }
 
