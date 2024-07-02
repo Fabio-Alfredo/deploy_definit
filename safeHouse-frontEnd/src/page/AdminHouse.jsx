@@ -42,7 +42,7 @@ const AdminHouse = () => {
                 toggle ?
                     (
 
-                        <div className='w-8/10 px-4 lg:w-4/5 md:w-3/4 md:h-5/6 min-h-[90%] xl:w-3/5 bg-white  shadow-2xl br-20 rounded-3xl py-11'>
+                        <div className='w-full min-h-[90%] xl:w-3/5 bg-white  shadow-2xl br-20 rounded-3xl py-11'>
                             <ToggleHouse handdleToggle={handdleToggle} state={toggle} />
                             <Navigation title={"Creation House de casas"} />
                             <FormHouseComponent />
