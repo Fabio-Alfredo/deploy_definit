@@ -13,7 +13,6 @@ const AdminHouse = () => {
     const handleGetter = async (toggle) => {
         try {
             const res = toggle ? await GetHouseData() : await GetHouseEmty('filter');
-            console.log(res.data)
             setHouse(res.data);
         } catch (e) {
             Swal.fire({
@@ -24,10 +23,8 @@ const AdminHouse = () => {
                 timer: 1500
             });
         }
-
-
     }
-    console.log(toggle)
+
 
     useEffect(() => {
         handleGetter(toggle)
