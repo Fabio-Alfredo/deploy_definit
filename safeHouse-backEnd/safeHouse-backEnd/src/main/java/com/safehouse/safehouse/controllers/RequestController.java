@@ -6,9 +6,11 @@ import com.safehouse.safehouse.domain.dtos.RecordDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
+import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.RequestService;
+import com.safehouse.safehouse.services.contrat.RoleService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,14 @@ public class RequestController {
     private final UserService userService;
     private final HouseService houseService;
     private final ModelMapper modelMapper;
+    private final RoleService roleService;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
         this.modelMapper = modelMapper;
+        this.roleService = roleService;
     }
 
     @PostMapping("/new/casual")
@@ -132,11 +136,11 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/requests/user-resident")
+    @GetMapping("/user-resident")
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
-            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("RESD"))){
+            if(user == null || !user.getRoles().contains(roleService.getRoleById("RESD"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = new ArrayList<>();

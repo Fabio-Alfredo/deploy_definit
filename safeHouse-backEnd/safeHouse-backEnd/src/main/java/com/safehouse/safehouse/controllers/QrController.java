@@ -23,9 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/qr")
@@ -130,7 +128,9 @@ public class QrController {
         try {
             User resident = userService.findUserAuthenticated();
             List<Role> roles = roleService.getRolesById(List.of("RESD", "RSAD"));
-            if(resident == null || !new HashSet<>(resident.getRoles()).containsAll(roles)) {
+            List<Role> userRoles = resident.getRoles();
+
+            if(resident == null || Collections.disjoint(roles, userRoles)) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
 
