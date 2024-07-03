@@ -191,7 +191,7 @@ public class RequestController {
         }
     }
 
-    @PostMapping("/create/multirequest")
+    @PostMapping("/create/multi-request")
     public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
         try {
 
