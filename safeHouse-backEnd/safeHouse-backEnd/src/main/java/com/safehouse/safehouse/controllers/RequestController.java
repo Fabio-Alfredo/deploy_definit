@@ -1,17 +1,8 @@
 package com.safehouse.safehouse.controllers;
 
-import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
-import com.safehouse.safehouse.domain.dtos.GeneralResponse;
-import com.safehouse.safehouse.domain.dtos.RecordDTO;
-import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
-import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.QR;
-import com.safehouse.safehouse.domain.models.Request;
-import com.safehouse.safehouse.domain.models.User;
-import com.safehouse.safehouse.services.contrat.HouseService;
-import com.safehouse.safehouse.services.contrat.QrService;
-import com.safehouse.safehouse.services.contrat.RequestService;
-import com.safehouse.safehouse.services.contrat.UserService;
+import com.safehouse.safehouse.domain.dtos.*;
+import com.safehouse.safehouse.domain.models.*;
+import com.safehouse.safehouse.services.contrat.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +22,14 @@ public class RequestController {
     private final UserService userService;
     private final HouseService houseService;
     private final ModelMapper modelMapper;
+    private final RoleService roleService;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
         this.modelMapper = modelMapper;
+        this.roleService = roleService;
     }
 
     @PostMapping("/new/casual")
@@ -195,6 +188,37 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.OK, reqs);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @PostMapping("/create/multirequest")
+    public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
+        try {
+            User resident = userService.findUserAuthenticated();
+            if (resident == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+
+            House house = houseService.getHouseById(resident.getHouses().get(0).getId());
+
+            if(house == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
+            }
+
+            if(resident.getRoles().contains(roleService.getRoleById("RESD"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
+            }
+            User visitor = userService.getByEmail(req.getVisitor());
+
+
+
+
+
+
+
+            return null;
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
 }
