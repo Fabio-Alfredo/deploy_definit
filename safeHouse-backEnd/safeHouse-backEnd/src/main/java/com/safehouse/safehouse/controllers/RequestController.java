@@ -129,7 +129,7 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/requests/user-resident")
+    @GetMapping("/user-resident")
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
@@ -194,7 +194,9 @@ public class RequestController {
     @PostMapping("/create/multirequest")
     public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
         try {
+
             User resident = userService.findUserAuthenticated();
+
             if (resident == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
@@ -205,18 +207,15 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
             }
 
-            if(resident.getRoles().contains(roleService.getRoleById("RESD"))){
+            if(!resident.getRoles().contains(roleService.getRoleById("RESD"))){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
             User visitor = userService.getByEmail(req.getVisitor());
-
-
-
-
-
-
-
-            return null;
+            if(visitor == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Visitor not found!");
+            }
+            requestService.createMultipleRequest(req, house, resident, visitor);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
