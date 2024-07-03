@@ -51,7 +51,7 @@ const AdminHouse = () => {
 
                         {
                             houses.map((house) => (
-                                <House key={house.id} house={house} state = {toggle} />
+                                <House key={house.id} house={house} state = {toggle} updateState={setToggle} />
                             ))
                         }
                     </div>

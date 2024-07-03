@@ -30,3 +30,17 @@ export const GetHouseEmty = async (filter) => {
         throw error.response;
     }
 }
+
+export const DeleteResident = async (house, user) => {
+    try{
+        const res = await axios.delete(`${BASE_URL}delete?houseId=${house}&email=${user}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    }catch(error){
+        throw error.response;
+    }
+}
