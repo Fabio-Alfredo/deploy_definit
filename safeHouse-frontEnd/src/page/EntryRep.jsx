@@ -19,7 +19,7 @@ class EntryRep extends Component {
             <div className="min-w-screen min-h-screen">
                 <Header />
                 <div className='flex items-center justify-center w-full bg-color-primary px-6 min-h-[90vh]'>
-                    <TabView title={"Registros"} />
+                    <TabView title={"Entradas"} />
                 </div>
             </div>
         )

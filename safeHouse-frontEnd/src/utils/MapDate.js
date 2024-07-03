@@ -21,3 +21,4 @@ export const formatTime = (dateString) => {
 
     return formattedTime;
 }
+    

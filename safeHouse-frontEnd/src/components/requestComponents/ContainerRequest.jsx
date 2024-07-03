@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import EmptyReport from '../EmtyContent';
 import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
-import { fetchReques } from '../../service/fetchHouses';
 import MenuRequest from './MenuRequest';
 import { GetAllRequest } from '../../service/RequestService';
 

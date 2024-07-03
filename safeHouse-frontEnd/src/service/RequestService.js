@@ -47,8 +47,50 @@ export const GetAllRequest = async () => {
     }
 }
 
+export const GetPendingRequestAdmin = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/pending`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
+
+export const GetApprovedRequestAdmin = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/approved`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
+
+export const fecthRequestPendingByHouse = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/pending-by-house`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
+
 export const GetEntrysByMonth = async () => {
-    try{
+    try {
         const res = await axios.get(`${BASE_URL}/by-month`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +98,7 @@ export const GetEntrysByMonth = async () => {
             }
         });
         return res.data;
-    }catch(error){
+    } catch (error) {
         throw error.response;
     }
 }

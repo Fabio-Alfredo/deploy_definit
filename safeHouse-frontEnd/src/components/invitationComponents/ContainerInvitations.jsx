@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from '../Navigation';
 import InvitationCard from '../invitationComponents/InvitationCard'
-import { fetchInvitation } from '../../service/fetchHouses';
 import EmptyReport from '../EmtyContent';
+import { fecthRequestPendingByHouse } from '../../service/RequestService';
 
 
 const ContainerInvitations = () => {
     const [invitations, setInvitations] = useState([])
 
-    useEffect(() => {
-
-        const getInvitations = async () => {
-            const res = await fetchInvitation()
-            console.log({ res });
-            setInvitations(res)
+    const requestByHouse = async () => {
+        try {
+            const response = await fecthRequestPendingByHouse();
+            setInvitations(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
         }
+    }
 
-        getInvitations()
+    useEffect(() => {
+        requestByHouse();
     }, [])
 
     return (
@@ -30,7 +33,7 @@ const ContainerInvitations = () => {
                         <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
                             {
                                 invitations.map((_i) => (
-                                    <InvitationCard key={_i.id} house={_i.house} fecha={_i.fecha} />
+                                    <InvitationCard key={_i.id} house={_i.house.address} fecha={_i.enableTme} invitado={_i.visitor.name} reason={_i.reason}/>
                                 ))
                             }
                         </div>
