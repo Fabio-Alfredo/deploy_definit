@@ -30,8 +30,7 @@ const InputTimeDate = ({ name, label, inputValue, inputOnchange, dates }) => {
 
                         }}
                         plugins={[
-                            <TimePicker hideSeconds position="bottom" />,
-                            <Datepanel markFocused />,
+                            <Datepanel markFocused />
                         ]}
                     />
                 </div>
