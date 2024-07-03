@@ -220,6 +220,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateAdminHouse(User newUser,User oldUser, House house, Role role) {
+        oldUser.getAdmHouse().removeIf(h -> h.getId().equals(house.getId()));
+
+        if(!oldUser.getAdmHouse().isEmpty()){
+            oldUser.getRoles().removeIf(r -> r.getId().contains("RSAD"));
+        }
+
+        List<House> admHouses = newUser.getAdmHouse();
+        List<Role> userRole = newUser.getRoles();
+        if(admHouses.contains(house)){
+            userRole.add(role);
+            admHouses.add(house);
+            newUser.setRoles(userRole);
+            newUser.setAdmHouse(admHouses);
+            userRepository.save(newUser);
+        }
+
+    }
+
+    @Override
     @Transactional(rollbackOn = Exception.class)
     public void assignResidentRequest(User user, Request request) {
         List<Request>requests = user.getCreatedRequests();

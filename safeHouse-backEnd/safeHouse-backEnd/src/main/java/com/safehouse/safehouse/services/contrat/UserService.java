@@ -26,6 +26,7 @@ public interface UserService {
     List<User>getAllUsersByEmail(List<String> email);
     void assignHouses(House house, List<User>users, Role role);
     void assignHouseAdmin(User user, House house, Role role);
+    void updateAdminHouse(User newUser,User oldUser,  House house, Role role);
     void assignResidentRequest(User user, Request request);
     void assignVisitorRequest(User user, Request request);
     User createUserAnonymous(String name, String company);

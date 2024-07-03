@@ -2,6 +2,7 @@ package com.safehouse.safehouse.controllers;
 
 import com.safehouse.safehouse.domain.dtos.CreateHouseDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
+import com.safehouse.safehouse.domain.dtos.UpdateResidentAdminTDO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.HouseService;
@@ -97,6 +98,25 @@ public class HouseController {
 
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @PatchMapping("/assign/new-admin")
+    public ResponseEntity<GeneralResponse>assignHouseAdmin(@RequestBody UpdateResidentAdminTDO req){
+        try {
+
+            User newAdmin = userService.getByEmail(req.getNewAdmin());
+            User oldUser = userService.getByEmail(req.getOldAdmin());
+            House updateHouse = houseService.getHouseById(req.getHouse());
+
+            if(newAdmin == null || !userService.existUserByEmail(req.getNewAdmin())) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+
+
+            userService.updateAdminHouse(newAdmin,oldUser, updateHouse, roleService.getRoleById("RSAD"));
+            houseService.assignResidentAdmin(updateHouse, newAdmin);
+            return GeneralResponse.getResponse(HttpStatus.OK, "House assigned to user!");
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
 

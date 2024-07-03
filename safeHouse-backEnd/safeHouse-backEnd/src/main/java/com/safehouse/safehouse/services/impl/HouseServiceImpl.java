@@ -73,10 +73,8 @@ public class HouseServiceImpl implements HouseService {
     //asigna un administrador a una casa
     @Override
     public void assignResidentAdmin(House house, User user) {
-        if(house.getResidentAdmin() == null){
             house.setResidentAdmin(user);
             houseRepository.save(house);
-        }
     }
 
     @Override
