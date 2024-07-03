@@ -27,15 +27,16 @@ const CreateInvitations = () => {
         const formattedTime = time.format('HH:mm:00.000+00:00');
         const formattedTime1 = time1.format('HH:mm:00.000+00:00');
 
+        const enableTimes = formattedDates.map(fd => `${fd}${formattedTime}`);
+        const disableTimes = formattedDates.map(fd => `${fd}${formattedTime1}`);
+
         const formDate = {
             visitor,
             reason,
-            date: formattedDates,
-            enableTime: formattedTime,
-            disableTime: formattedTime1
+            enableTime: enableTimes,
+            disableTime: disableTimes
         }
-        console.log(formDate)
-
+        console.log(formDate);
     }
 
     return (
