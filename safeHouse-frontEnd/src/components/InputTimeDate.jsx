@@ -4,7 +4,7 @@ import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import Datepanel from 'react-multi-date-picker/plugins/date_panel'
 
 
-const InputTimeDate = ({ name, label, inputValue, inputOnchange }) => {
+const InputTimeDate = ({ name, label, inputValue, inputOnchange, dates }) => {
 
     return (
         <>
@@ -12,7 +12,7 @@ const InputTimeDate = ({ name, label, inputValue, inputOnchange }) => {
                 <label htmlFor={name} className='col-span-1 font-popins text-sm sm:text-2xl'> {label} </label> {/* query */}
                 <div className='col-span-2 flex overflow-auto flex-col sm:ml-11 shadow-md font-popins bg-input-color rounded-md h-10 '>
                     <DatePicker
-                        format='MM/DD/YYYY HH:mm'
+                        format='MM/DD/YYYY'
                         value={inputValue}
                         onChange={inputOnchange}
                         style={{
