@@ -63,7 +63,7 @@ public class UserController {
 
             House house = houseService.getHouseByAddress(req.getHouse());
 
-            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found! ++");
+            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
             if(house.getResidentAdmin()!=null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House already has an admin!");
 

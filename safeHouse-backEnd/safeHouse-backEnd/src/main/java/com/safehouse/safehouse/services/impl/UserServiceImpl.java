@@ -3,6 +3,7 @@ package com.safehouse.safehouse.services.impl;
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.*;
+import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.repositories.RoleRepository;
 import com.safehouse.safehouse.repositories.TokenRepository;
 import com.safehouse.safehouse.repositories.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,12 +25,14 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
+    private final HouseRepository houseRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate ) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate, HouseRepository houseRepository) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
+        this.houseRepository = houseRepository;
     }
 
     @Override
@@ -42,6 +46,22 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(token);
 
         return token;
+    }
+
+    @Override
+    public House getHouseById(UUID id) {
+        return houseRepository.getReferenceById(id);
+    }
+
+    @Override
+    public void deleteHouseUser(House house, User user) {
+        List<House>houses= user.getHouses();
+        houses.remove(house);
+        user.setHouses(houses);
+        if(user.getHouses().isEmpty()){
+            user.getRoles().removeIf(role -> role.getId().contains("RESD"));
+        }
+        userRepository.save(user);
     }
 
     @Override

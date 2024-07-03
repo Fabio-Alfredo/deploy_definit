@@ -31,6 +31,14 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public void deleteUserHouse(House house, User user) {
+        List<User> users = house.getUsers();
+        users.remove(user);
+        house.setUsers(users);
+        houseRepository.save(house);
+    }
+
+    @Override
     public House getHouseByAddress(String address) {
         return houseRepository.findByAddress(address).orElse(null);
     }

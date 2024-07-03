@@ -5,10 +5,13 @@ import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
 
     Token registerToken(User user) throws Exception;
+    House getHouseById(UUID id);
+    void deleteHouseUser(House house, User user);
     Boolean isTokenValid(User user, String token);
     void cleanTokens(User user) throws Exception;
     void deleteRoles(User user, List<Role>roles);
