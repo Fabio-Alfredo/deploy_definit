@@ -2,11 +2,13 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
+import com.safehouse.safehouse.domain.dtos.RequestMultipleDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.RequestRepository;
 import com.safehouse.safehouse.services.contrat.RequestService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class RequestServiceImpl implements RequestService{
+public class RequestServiceImpl implements RequestService {
 
     private final RequestRepository requestRepository;
     private final ModelMapper modelMapper;
@@ -78,6 +80,24 @@ public class RequestServiceImpl implements RequestService{
         request.setResident(resident);
         request.setPhase("APPROVED");
         return requestRepository.save(request);
+    }
+
+    @Override
+    @Transactional
+    public void createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor) {
+
+        for(Date date : req.getDate()){
+            Request request = new Request();
+            request.setResident(resident);
+            request.setVisitor(visitor);
+            request.setPhase("PENDING");
+            request.setHouse(house);
+            request.setCreateAt(new Date());
+            request.setCreationDate(date);
+            request.setEnableTme(req.getEnableTme());
+            request.setDisableTime(req.getDisableTime());
+            requestRepository.save(request);
+        }
     }
 
 }
