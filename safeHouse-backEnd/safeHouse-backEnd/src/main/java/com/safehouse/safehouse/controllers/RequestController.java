@@ -116,18 +116,44 @@ public class RequestController {
             if(user == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
-            if(user.getRoles().stream().noneMatch(role -> role.getId().equals("RSAD"))){
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
 
             List<Request> requests = requestService.getAllRequests();
-            Instant instant = Instant.now();
-            Instant currentDate = instant.minusSeconds(21600);
-
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
             List<Request> pendingRequests = requests.stream()
-                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("PENDING"))
-                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/approved")
+    public ResponseEntity<GeneralResponse> getApprovedRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
+            List<Request> pendingRequests = requests.stream()
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("APPROVED"))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
         } catch (Exception e) {
