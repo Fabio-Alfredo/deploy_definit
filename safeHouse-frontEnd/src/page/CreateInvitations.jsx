@@ -5,13 +5,13 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { useForm } from '../hooks/useForm';
 import InputTimeDate from '../components/InputTimeDate';
-
-// import TimePicker from 'react-time-picker';
-// import DateTimeField from 'react-datetime-picker';
+import TimeMultiSelection from '../components/TimeMultiSelection';
 
 const CreateInvitations = () => {
 
     const [date, setDate] = useState([])
+    const [time, setTime] = useState()
+    const [time1, setTime1] = useState()
 
     const { reason, visitor, InputChange } = useForm({
         reason: '',
@@ -21,13 +21,18 @@ const CreateInvitations = () => {
 
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        const formattedDates = date.map(d => d.format('YYYY-MM-DDTHH:mm:00.000+00:00'));
+        const formattedDates = date.map(d => d.format('YYYY-MM-DDT'));
+        const formattedTime = time.format('HH:mm:00.000+00:00');
+        const formattedTime1 = time1.format('HH:mm:00.000+00:00');
+
         const formDate = {
             visitor,
             reason,
-            date: formattedDates
+            date: formattedDates,
+            enableTime: formattedTime,
+            disableTime: formattedTime1
         }
         console.log(formDate)
 
@@ -44,6 +49,7 @@ const CreateInvitations = () => {
                     <Input name={"visitor"} label={"Visitante:"} type={"email"} inputValue={visitor} inputOnchange={InputChange} />
                     <Input name={"reason"} label={"Razon:"} type={"text"} inputValue={reason} inputOnchange={InputChange} />
                     <InputTimeDate name={"date"} label={"Fecha y hora:"} type={"datetime-local"} inputValue={date} inputOnchange={setDate} />
+                    <TimeMultiSelection name={"time"} label={"Hora:"} inputValue={time} inputOnchange={setTime} inputValue1={time1} inputOnchange1={setTime1}/>
                     <div className='flex w-full justify-center items-center mb-8 pt-6 lg:pt-4'>
                         <Button value={"Registrar"} type={"submit"} name={"RegisterButton"} />
                     </div>
