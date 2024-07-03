@@ -6,6 +6,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { AssignAdminHouse } from "../../service/UserService";
+import AdminHouseComponent from "./AdminHouseComponent";
 
 
 
@@ -51,6 +52,8 @@ const House = ({ house, state, updateState }) => {
         }
     }
 
+
+
     return (
         <div>
             <div className='flex-col pb-1' >
@@ -66,19 +69,7 @@ const House = ({ house, state, updateState }) => {
                 <hr className='w-full bg-black mt-2 h-1' />
             </div>
             <div>
-                <div className='flex items-center'>
-                    <FaStar className={`text-lg ${state ? '' : 'hidden'} `} />
-                    <h3 className='flex font-popins w-4/5  text-lg pl-2'>
-                        {/* {house.owner.name} */}
-                        {
-                            house.residentAdmin ? house.residentAdmin.name : 'No hay residentes'
-                        }
-                    </h3>
-                    <div className={`w-full flex items-center justify-end pr-2 group cursor-pointer ${state ? '' : 'hidden'}`}>
-                        <p className='font-xs font-popins font-xs group-hover:block hidden text-red-500'> Eliminar  </p>
-                        <AiTwotoneDelete className='text-3xl pl-1 text-end group-hover:text-red-500' />
-                    </div>
-                </div>
+                <AdminHouseComponent state={state} house={house} />
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>
             <UserList users={house.users} house={house.id} state={state} />
