@@ -6,8 +6,13 @@ import Button from '../components/Button';
 import { useForm } from '../hooks/useForm';
 import InputTimeDate from '../components/InputTimeDate';
 import TimeMultiSelection from '../components/TimeMultiSelection';
+import { createMultipleRequest } from '../service/RequestService';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const CreateInvitations = () => {
+
+    const navigation = useNavigate()
 
     const [date, setDate] = useState([])
     const [time, setTime] = useState()
@@ -20,7 +25,7 @@ const CreateInvitations = () => {
     })
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formattedDates = date.map(d => d.format('YYYY-MM-DDT'));
@@ -33,10 +38,31 @@ const CreateInvitations = () => {
         const formDate = {
             visitor,
             reason,
-            enableTime: enableTimes,
+            enableTme: enableTimes,
             disableTime: disableTimes
+        }  
+
+        try{
+
+            const res = await createMultipleRequest(formDate);
+
+            Swal.fire({
+                title: "Exitoso!",
+                text: `${res.message}`,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                navigation(-1)
+            })
+        }catch (error){
+            Swal.fire({
+                title: "Error!",
+                text: `${error.data.message}`,
+                icon: "error",
+            })
         }
-        console.log(formDate);
+
     }
 
     return (
