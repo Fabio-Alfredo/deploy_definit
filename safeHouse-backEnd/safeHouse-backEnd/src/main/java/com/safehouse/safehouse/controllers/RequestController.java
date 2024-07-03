@@ -135,6 +135,32 @@ public class RequestController {
         }
     }
 
+    @GetMapping("/pending-by-house")
+    public ResponseEntity<GeneralResponse> getPendingByHouseRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("RSAD"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+
+            List<Request> pendingRequests = requests.stream()
+                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("PENDING"))
+                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
     @GetMapping("/approved")
     public ResponseEntity<GeneralResponse> getApprovedRequests() {
         try {
