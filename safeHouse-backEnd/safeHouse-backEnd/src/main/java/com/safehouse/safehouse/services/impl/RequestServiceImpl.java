@@ -8,6 +8,7 @@ import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.RequestRepository;
 import com.safehouse.safehouse.services.contrat.RequestService;
+import com.safehouse.safehouse.services.contrat.RoleService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,12 @@ import java.util.UUID;
 @Service
 public class RequestServiceImpl implements RequestService {
 
+    private final RoleService roleService;
     private final RequestRepository requestRepository;
     private final ModelMapper modelMapper;
 
-    public RequestServiceImpl(RequestRepository requestRepository, ModelMapper modelMapper) {
+    public RequestServiceImpl(RoleService roleService, RequestRepository requestRepository, ModelMapper modelMapper) {
+        this.roleService = roleService;
         this.requestRepository = requestRepository;
         this.modelMapper = modelMapper;
     }
@@ -86,16 +89,21 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public void createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor) {
 
-        for(Date date : req.getDate()){
+        for(int i = 0; i < req.getEnableTme().size(); i++){
             Request request = new Request();
             request.setResident(resident);
             request.setVisitor(visitor);
-            request.setPhase("PENDING");
+            if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
+                request.setPhase("APPROVEDz");
+            }else {
+                request.setPhase("PENDING");
+            }
             request.setHouse(house);
-            request.setCreateAt(new Date());
-            request.setCreationDate(date);
-            request.setEnableTme(req.getEnableTme());
-            request.setDisableTime(req.getDisableTime());
+            request.setReason(req.getReason());
+            request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+            request.setCreationDate(req.getEnableTme().get(i));
+            request.setEnableTme(req.getEnableTme().get(i));
+            request.setDisableTime(req.getDisableTime().get(i));
             requestRepository.save(request);
         }
     }
