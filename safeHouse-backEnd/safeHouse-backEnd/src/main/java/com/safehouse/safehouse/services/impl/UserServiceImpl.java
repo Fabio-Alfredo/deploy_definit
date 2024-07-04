@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.services.impl;
 
+import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.*;
@@ -271,6 +272,15 @@ public class UserServiceImpl implements UserService {
         user.setLastname("Anonymous");
         user.setEmail( name+"@"+company+".com");
         return userRepository.save(user);
+    }
+
+    @Override
+    public CreateRequestDTO createRequestDTO() {
+        CreateRequestDTO newReq = new CreateRequestDTO();
+        newReq.setCreationDate();
+        newReq.setEnableAndDisableTime();
+        newReq.setReason("Entrar a mi casa");
+        return newReq;
     }
 
 

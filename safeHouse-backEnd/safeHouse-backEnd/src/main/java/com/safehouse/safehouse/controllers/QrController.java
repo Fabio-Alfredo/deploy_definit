@@ -42,65 +42,54 @@ public class QrController {
         try {
             Instant instant = Instant.now();
             Instant currentDate = instant.minusSeconds(21600);
-
+            QR newQr; Request req;
             User user = userService.findUserAuthenticated();
             if (user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
 
             if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD")).contains(role))) {
                 if (user.getRequests().isEmpty()) {
                     CreateRequestDTO newReq = new CreateRequestDTO();
-                    newReq.setCreationDate();
-                    newReq.setEnableAndDisableTime();
-                    newReq.setReason("Entrar a mi casa");
-                    QR newQr;
-                    Request req;
-                    if(user.getRoles().contains(roleService.getRoleById("RESD"))){
-                         req = requestService.createRequest(newReq, user, user, user.getHouses().get(0));
-                    }else{
-                        req = requestService.createRequest(newReq, user, user, user.getAdmHouse().get(0));
-                    }
+
+                    if(user.getRoles().contains(roleService.getRoleById("RESD"))) requestService.createRequest(newReq, user, user, user.getHouses().get(0));
+                    else requestService.createRequest(newReq, user, user, user.getAdmHouse().get(0));
+
+                }
+                req = requestService.getLastRequest(user);
+                List<QR> qrList = new ArrayList<>(req.getQr());
+                if(qrList.isEmpty()) newQr = null;
+                else newQr= qrList.get(qrList.size()-1);
+                if(newQr == null || !newQr.getState().equals("USED")){
                     newQr = qrService.generateQR(req);
-                    List<QR> qrList = new ArrayList<>(req.getQr());
                     qrList.add(newQr);
                     req.setQr(qrList);
                     requestService.updateRequest(req);
-                    return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
-                } else {
-                    Request req = requestService.getLastRequest(user);
-                    List<QR> qrList = new ArrayList<>(req.getQr());
-
-                    QR newQr= qrList.get(qrList.size()-1);
-                    if(newQr.getState().equals("USED")){
-                        newQr = qrService.generateQR(req);
-                        qrList.add(newQr);
-                        req.setQr(qrList);
-                        requestService.updateRequest(req);
-                    }else{
-                        QR qr = qrService.updageQR(newQr);
-                        return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(qr, QRDataDTO.class));
-                    }
-
-
-                    return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
+                }else{
+                    newQr = qrService.updageQR(newQr);
                 }
+
+                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
             }
 
             List<Request> requests = user.getRequests();
             if (requests.isEmpty()) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Requests not found!");
+            newQr = null;
+            for (Request r : requests) {
 
-            QR newQr = null;
-            for (Request req : requests) {
-
-                if (req.getEnableTme().toInstant().isBefore(currentDate) && req.getDisableTime().toInstant().isAfter(currentDate)) {
-                    newQr = qrService.generateQR(req);
-                    List<QR> qrList = req.getQr();
-                    qrList.add(newQr);
-                    req.setQr(qrList);
-                    requestService.updateRequest(req);
+                if (r.getEnableTme().toInstant().isBefore(currentDate) && r.getDisableTime().toInstant().isAfter(currentDate)) {
+                    if(!r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")) break;
+                    List<QR> qrList =new ArrayList<>(r.getQr());
+                    if(!qrList.isEmpty()) newQr= qrList.get(qrList.size()-1);
+                    if(newQr != null || newQr.getState().equals("USED")){
+                        newQr = qrService.generateQR(r);
+                        qrList.add(newQr);
+                        r.setQr(qrList);
+                        requestService.updateRequest(r);
+                    }else{
+                        newQr = qrService.updageQR(newQr);
+                    }
                     break;
                 }
             }
-
             if (newQr == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No valid requests found to generate QR!");
             }

@@ -12,4 +12,5 @@ public interface QrService {
     Boolean connectionESP32();
     void usageQr(QR qr);
     QR updageQR(QR qr);
+
 }
