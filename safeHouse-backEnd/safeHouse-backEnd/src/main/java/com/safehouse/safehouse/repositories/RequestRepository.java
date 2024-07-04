@@ -17,4 +17,5 @@ public interface RequestRepository extends JpaRepository<Request, UUID>{
     List<Request>findAllByResident(User resident);
     List<Request>findAllByResidentAndPhase(User resident, String phase);
     Optional<Request> findTopByVisitorOrderByCreateAtDesc(User user);
+    List<Request>findAllByVisitor(User visitor);
 }

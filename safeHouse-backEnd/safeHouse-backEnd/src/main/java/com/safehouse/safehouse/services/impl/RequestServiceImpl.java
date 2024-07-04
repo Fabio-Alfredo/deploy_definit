@@ -147,4 +147,9 @@ public class RequestServiceImpl implements RequestService {
         return requestRepository.findTopByVisitorOrderByCreateAtDesc(user).orElse(null);
     }
 
+    @Override
+    public List<Request> getAllRequestsByVisitor(User visitor) {
+        return requestRepository.findAllByVisitor(visitor);
+    }
+
 }

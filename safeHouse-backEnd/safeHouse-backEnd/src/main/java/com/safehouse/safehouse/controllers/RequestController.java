@@ -78,8 +78,8 @@ public class RequestController {
         try {
             Request req = requestService.getRequestById(id);
             User user = userService.findUserAuthenticated();
-            Instant instant = Instant.now();
-            Instant currentDate = instant.minusSeconds(21600);
+            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+            Date currentDate = Date.from(utcDateTime.toInstant());
             if(req == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
             }
@@ -87,16 +87,17 @@ public class RequestController {
             if(!req.getHouse().getResidentAdmin().equals(user)) {
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
-            if(req.getEnableTme().toInstant().isAfter(currentDate)){
-                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
-            }
+
+//            if(req.getEnableTme().before(currentDate)){
+//                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
+//            }
 
             req.setPhase("APPROVED");
             userService.assignVisitorRequest(req.getVisitor(), req);
             requestService.updateRequest(req);
             return GeneralResponse.getResponse(HttpStatus.OK, "Request approved!");
         } catch (Exception e) {
-            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
 
