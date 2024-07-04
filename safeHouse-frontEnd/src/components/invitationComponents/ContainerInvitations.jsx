@@ -12,7 +12,7 @@ const ContainerInvitations = () => {
 
         const getInvitations = async () => {
             const res = await fetchInvitation()
-            console.log({ res });
+            // console.log({ res });
             setInvitations(res)
         }
 

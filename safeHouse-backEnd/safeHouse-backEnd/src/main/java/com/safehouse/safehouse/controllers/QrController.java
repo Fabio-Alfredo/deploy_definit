@@ -1,12 +1,15 @@
 package com.safehouse.safehouse.controllers;
 
+import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.GeneralResponse;
 import com.safehouse.safehouse.domain.dtos.QRDataDTO;
 import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
+import com.safehouse.safehouse.domain.models.Role;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.QrService;
 import com.safehouse.safehouse.services.contrat.RequestService;
+import com.safehouse.safehouse.services.contrat.RoleService;
 import com.safehouse.safehouse.services.contrat.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,25 +23,25 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/qr")
 public class QrController {
 
-
     private final QrService qrService;
     private final RequestService requestService;
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final RoleService roleService;
 
 
-    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper) {
+    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService) {
         this.qrService = qrService;
         this.requestService = requestService;
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.roleService = roleService;
     }
 
 //    @GetMapping("/qr-generate")
@@ -120,6 +123,44 @@ public class QrController {
         }
     }
 
+    @GetMapping("/resident/qr-generate")
+    public ResponseEntity<GeneralResponse>getQR() {
+        try {
+            User resident = userService.findUserAuthenticated();
+            List<Role> roles = roleService.getRolesById(List.of("RESD", "RSAD"));
+            List<Role> userRoles = resident.getRoles();
+
+            if(resident == null || Collections.disjoint(roles, userRoles)) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+
+            CreateRequestDTO newReq = new CreateRequestDTO();
+            newReq.setCreationDate();
+            newReq.setEnableAndDisableTime();
+            newReq.setReason("QR");
+            QR newQr ;
+
+            Request request = requestService.getLastRequest(resident);
+            if(request != null && !request.getPhase().equals("EXPIRED")) {
+                request.setCreationDate(newReq.getCreationDate());
+                request.setEnableTme(newReq.getEnableTme());
+                request.setDisableTime(newReq.getDisableTime());
+                newQr = qrService.generateQR(request);
+                request.setQr(newQr);
+
+                requestService.updateRequest(request);
+                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
+            }
+            Request req = requestService.createRequest(newReq, resident, resident, resident.getHouses().get(0));
+            newQr = qrService.generateQR(req);
+            req.setQr(newQr);
+            requestService.updateRequest(req);
+            return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
+        }catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
 
 
 
@@ -138,8 +179,14 @@ public class QrController {
             if(qr.getState().equals("USED")) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
             }
+
             if(!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
+            }
+            //validar si aun no han pasado 10 minutos
+//            System.out.println(qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600) )));
+            if(qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600) ))){
+                return GeneralResponse.getResponse(HttpStatus.FOUND, "QR expired!");
             }
             qrService.qrUpdate(qr);
             req.setPhase("EXPIRED");
@@ -153,15 +200,7 @@ public class QrController {
         }
     }
 
-    //primer intento
-//    private boolean qrValid = false;
-//
-//    @GetMapping("/state-qr")
-//    public ResponseEntity<Boolean> estadoQR() {
-//        return ResponseEntity.ok(qrValid);
-//    }
 
-//
     //codigo valido
 //    @PostMapping("/qr-success")
 //    public ResponseEntity<String> qrSuccess(@RequestBody QRDataDTO data) {

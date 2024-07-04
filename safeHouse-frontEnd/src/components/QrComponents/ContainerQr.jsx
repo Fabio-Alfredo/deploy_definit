@@ -1,30 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigation from '../Navigation';
 import CreateQr from './CreateQr';
 import Cronometro from './Cronometro';
-import { useState } from 'react';
 import InfoUser from './InfoUser';
+import { GetQr } from '../../service/QrService';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ContainerQr = () => {
 
-    //eliminar al hacer la conneccion 
-    const [date, setDate] = useState(new Date().toLocaleString());
-    //para coneccion con api
-    /*const [qrData, setQrData] = useState(null);
-    const [apiCalled, setApiCalled] = useState(false);
-    
+    const { user } = useContext(AuthContext);
+    const nav = useNavigate();
+
+    const [date, setDate] = useState(null);
+
     useEffect(() => {
-        if (!apiCalled) {    //para traer informacion al entrar la primera vez
-            handleTime();
-            setApiCalled(true);
-        }
-    }, []);*/
-    console.log(date);
+        handleTime();
+
+    }, []);
+
 
     const handleTime = async () => {
-        setDate(new Date().toLocaleString());
+        try {
+            const res = await GetQr();
+            setDate(res.data);
+
+        } catch (error) {
+            console.log(error.data.message);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Algo salio mal",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+
+                nav('/home')
+            })
+        }
     }
 
+    if (user == null) {
+        return (
+            <div className='h-screen w-full flex justify-center items-center'>
+                <HashLoader color="#36d7b7" />
+            </div>
+        )
+    }
 
     return (
         <>
@@ -32,10 +56,10 @@ const ContainerQr = () => {
                 <Navigation title={"Entrada"} />
                 <hr className='h-0.5 bg-black' />
                 <Cronometro handleTime={handleTime} />
-                {/*qrData && <CreateQr info={qrData} />*/} {/* para coneccion con api */}
+                {date ? <CreateQr info={date} /> : <></>} {/* para coneccion con api */}
                 {/*qrData && <InfoUser data={qrData} />*/} {/* para coneccion con api */}
-                <CreateQr info={date}/>
-                <InfoUser/>
+                {/* <CreateQr info={date} /> */}
+                <InfoUser data={user} />
                 <hr className='h-0.5 bg-black m-4' />
             </div>
         </>

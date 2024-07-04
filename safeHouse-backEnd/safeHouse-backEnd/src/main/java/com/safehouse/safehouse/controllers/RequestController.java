@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.controllers;
 
+
 import com.safehouse.safehouse.domain.dtos.*;
 import com.safehouse.safehouse.domain.models.*;
 import com.safehouse.safehouse.services.contrat.*;
@@ -129,7 +130,7 @@ public class RequestController {
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
-            if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("RESD"))){
+            if(user == null || !user.getRoles().contains(roleService.getRoleById("RESD"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = new ArrayList<>();

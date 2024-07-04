@@ -7,6 +7,7 @@ import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,15 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public House getHouseById(UUID id) {
         return houseRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void deleteUserHouse(House house, User user) {
+        List<User> users = house.getUsers();
+        users.remove(user);
+        house.setUsers(users);
+        houseRepository.save(house);
     }
 
     @Override
@@ -65,10 +75,11 @@ public class HouseServiceImpl implements HouseService {
     //asigna un administrador a una casa
     @Override
     public void assignResidentAdmin(House house, User user) {
-        if(house.getResidentAdmin() == null){
-            house.setResidentAdmin(user);
-            houseRepository.save(house);
-        }
+
+        house.setResidentAdmin(user);
+        houseRepository.save(house);
+
+
     }
 
     @Override

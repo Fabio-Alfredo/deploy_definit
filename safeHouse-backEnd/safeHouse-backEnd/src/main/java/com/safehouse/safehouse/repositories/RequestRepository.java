@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface RequestRepository extends JpaRepository<Request, UUID>{
@@ -15,4 +16,5 @@ public interface RequestRepository extends JpaRepository<Request, UUID>{
     Boolean existsByHouseAndVisitorAndCreationDateBetween(House house, User visitor, Date enableTme, Date disableTime);
     List<Request>findAllByResident(User resident);
     List<Request>findAllByResidentAndPhase(User resident, String phase);
+    Optional<Request> findTopByVisitorOrderByCreateAtDesc(User user);
 }

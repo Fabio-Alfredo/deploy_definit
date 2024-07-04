@@ -143,7 +143,7 @@ const Home = () => {
                     ))}
 
 
-                    {
+                    {/* {
                         resOpt.map((item) => (
                             <Option
                                 key={item.title}
@@ -151,7 +151,7 @@ const Home = () => {
                                 to={item.route}
                                 title={item.title} />
                         ))
-                    }
+                    } */}
  
                 </div>
             </div>

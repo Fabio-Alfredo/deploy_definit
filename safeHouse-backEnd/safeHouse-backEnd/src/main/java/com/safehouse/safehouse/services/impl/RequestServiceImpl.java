@@ -131,7 +131,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Map<String, Long> findAllByMonth(LocalDate oneMonthAgo) {
         List<Request> requests = requestRepository.findAll();
-        requests.removeIf(r -> r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneMonthAgo));
+        requests.removeIf(r -> r.getEndTime() == null );
 
         Map<String, Long> requestsByMonth = requests.stream()
                 .collect(Collectors.groupingBy(
@@ -140,6 +140,11 @@ public class RequestServiceImpl implements RequestService {
                 ));
         return requestsByMonth;
 
+    }
+
+    @Override
+    public Request getLastRequest(User user) {
+        return requestRepository.findTopByVisitorOrderByCreateAtDesc(user).orElse(null);
     }
 
 }

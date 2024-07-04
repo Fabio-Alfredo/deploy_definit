@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface HouseService {
     House getHouseById(UUID id);
+    void deleteUserHouse(House house, User user);
     House getHouseByAddress(String address);
     Boolean existHouseById(UUID id);
     void createHouse(CreateHouseDTO req);
