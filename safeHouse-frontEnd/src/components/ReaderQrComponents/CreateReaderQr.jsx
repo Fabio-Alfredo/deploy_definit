@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import QrReader from 'modern-react-qr-reader'
 import ScanOverlay from './Overlay';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateReaderQr = () => {
 
     const [data, setData] = useState('data');
+    const nav = useNavigate();
+
 
     const handleScan = (info) => {
         if (info) {
             setData(info);
             console.log(data);
-            // playBeepSound();
-
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                nav('/home')
+            });
+            
         }
 
     }
@@ -20,10 +32,6 @@ export const CreateReaderQr = () => {
         console.error(err)
     }
 
-    // const playBeepSound = () => {
-    //     const audio = new Audio('/sound/scan.mp3');
-    //     audio.play();
-    // }
 
 
     return (
@@ -49,8 +57,6 @@ export const CreateReaderQr = () => {
                 <span className='text-green-primary'>H</span>
                 ouse
             </p>
-
-            <p>{data}</p>
         </div>
     );
 };

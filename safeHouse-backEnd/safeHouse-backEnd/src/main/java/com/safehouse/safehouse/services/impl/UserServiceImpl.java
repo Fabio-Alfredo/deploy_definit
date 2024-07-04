@@ -76,6 +76,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteRoles(User user, List<Role> roles) {
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void contractEmployee(User user, Role roles) {
+        List<Role> userRoles = user.getRoles();
+        userRoles.add(roles);
+        user.setRoles(userRoles);
+        userRepository.save(user);
+    }
+
+    @Override
     public UserDTO getUserInformation(String token) {
 
         //System.out.println("Token: " + token.getToken());
@@ -121,6 +135,13 @@ public class UserServiceImpl implements UserService {
 
         newUser.setRoles(roles);
         userRepository.save(newUser);
+    }
+
+    @Override
+    public List<User> getUsersByRole(List<Role> role) {
+        List<User>users = userRepository.findAll();
+        users.removeIf(user -> user.getRoles().stream().noneMatch(role::contains));
+        return users;
     }
 
     @Override

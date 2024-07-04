@@ -70,7 +70,7 @@ function App() {
           </Route>
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
-            <Route path="/assingrole" element={<ResiterPage />} />
+            <Route  path="/assingrole" element={<ResiterPage />} />
           </Route>
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
@@ -81,17 +81,6 @@ function App() {
 
         </Routes>
       </BrowserRouter>
-
-      {/* <AdminHouse/> ya */}
-      {/* <GenerateQR/> ya */}
-      {/* <Auth/> ya */}
-      {/* <ListView/> ya */}
-      {/* <ReaderQr/>  ya*/}
-      {/* <RegisterEntry/> ya*/}
-      {/* <Invitations/> ya */}
-      {/*<EntryRep /> ya*/}
-      {/* <RequestVisit/> ya*/}
-      {/* <ResiterPage/> ya*/}
     </>
   )
 }

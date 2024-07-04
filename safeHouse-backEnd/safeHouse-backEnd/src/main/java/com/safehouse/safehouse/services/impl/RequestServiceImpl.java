@@ -14,12 +14,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -114,6 +114,32 @@ public class RequestServiceImpl implements RequestService {
         }
 
         return requestList;
+}
+  
+    @Override
+    public Map<String, Long> findAllByDay(LocalDate oneWeekAgo) {
+        List<Request> requests = requestRepository.findAll();
+        requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
+        Map<String, Long> requestsByDate = requests.stream()
+                .collect(Collectors.groupingBy(
+                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
+                        Collectors.counting()
+                ));
+        return requestsByDate;
+    }
+
+    @Override
+    public Map<String, Long> findAllByMonth(LocalDate oneMonthAgo) {
+        List<Request> requests = requestRepository.findAll();
+        requests.removeIf(r -> r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneMonthAgo));
+
+        Map<String, Long> requestsByMonth = requests.stream()
+                .collect(Collectors.groupingBy(
+                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
+                        Collectors.counting()
+                ));
+        return requestsByMonth;
+
     }
 
 }

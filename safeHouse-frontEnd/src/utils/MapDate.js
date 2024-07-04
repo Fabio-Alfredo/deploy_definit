@@ -12,8 +12,8 @@ export const formatTime = (dateString) => {
     if (!dateString) return 'No definida';
 
     const dateObj = new Date(dateString);
-    const hours = dateObj.getUTCHours(); // Obtener horas en UTC
-    const minutes = dateObj.getUTCMinutes(); // Obtener minutos en UTC
+    const hours = dateObj.getHours(); // Obtener horas locales
+    const minutes = dateObj.getMinutes(); // Obtener minutos locales
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 === 0 ? 12 : hours % 12; // Convertir de formato 24 horas a 12 horas
 

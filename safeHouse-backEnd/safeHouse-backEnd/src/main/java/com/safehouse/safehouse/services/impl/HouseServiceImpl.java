@@ -72,8 +72,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Boolean existHouseByAdmin(User admin, UUID id) {
-        return houseRepository.existsByResidentAdminAndId(admin, id);
+    public Boolean existHouseByAdmin(User admin, String house) {
+        return houseRepository.existsByResidentAdminAndAddress(admin, house);
     }
 
     @Override

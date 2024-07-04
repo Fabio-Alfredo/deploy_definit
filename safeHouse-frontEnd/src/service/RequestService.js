@@ -26,8 +26,38 @@ export const GetEntrys = async () => {
                 'Authorization': `Bearer ${getToken()}`
             }
         })
+        console.log(res.data);
         return res.data;
     } catch (error) {
+        throw error.response;
+    }
+}
+
+export const GetEntrysByDay = async () => {
+    try {
+        const res = await axios.get(${BASE_URL}/by-day, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Bearer ${getToken()}
+            }
+        })
+        return res.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+}
+
+export const GetEntrysByMonth = async () => {
+    try{
+        const res = await axios.get(${BASE_URL}/by-month, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Bearer ${getToken()}
+            }
+        });
+        return res.data;
+    }catch(error){
         throw error.response;
     }
 }
