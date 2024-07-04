@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @RestController
@@ -47,9 +49,8 @@ public class QrController {
             if (user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
 
             if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD")).contains(role))) {
+                CreateRequestDTO newReq = userService.createRequestDTO();
                 if (user.getRequests().isEmpty()) {
-                    CreateRequestDTO newReq = new CreateRequestDTO();
-
                     if(user.getRoles().contains(roleService.getRoleById("RESD"))) requestService.createRequest(newReq, user, user, user.getHouses().get(0));
                     else requestService.createRequest(newReq, user, user, user.getAdmHouse().get(0));
 
@@ -58,13 +59,18 @@ public class QrController {
                 List<QR> qrList = new ArrayList<>(req.getQr());
                 if(qrList.isEmpty()) newQr = null;
                 else newQr= qrList.get(qrList.size()-1);
-                if(newQr == null || !newQr.getState().equals("USED")){
+                if(newQr == null || newQr.getState().equals("USED")){
+                    System.out.println("nuevo");
                     newQr = qrService.generateQR(req);
                     qrList.add(newQr);
                     req.setQr(qrList);
+                    modelMapper.map(newReq, req);
                     requestService.updateRequest(req);
                 }else{
+                    System.out.println("actualizar");
                     newQr = qrService.updageQR(newQr);
+                    modelMapper.map(newReq, req);
+                    requestService.updateRequest(req);
                 }
 
                 return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
@@ -107,8 +113,8 @@ public class QrController {
 
         try {
 
-            Instant instant = Instant.now();
-            Instant currentDate = instant.minusSeconds(21600);
+            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+            Date currentDate = Date.from(utcDateTime.toInstant());
             QR qr = qrService.getQR(data.getQrId());
             Request req = requestService.getRequestById(qr.getRequest().getId());
             if (qr == null || req == null) {
@@ -117,12 +123,10 @@ public class QrController {
             if (qr.getState().equals("USED")) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
             }
-
-            if (!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
+            if (!req.getEnableTme().before(currentDate) || !req.getDisableTime().after(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }
-            //validar si aun no han pasado 10 minutos
-//            System.out.println(qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600) )));
+
             if (qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600)))) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR expired!");
             }
