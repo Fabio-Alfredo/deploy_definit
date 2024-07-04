@@ -83,7 +83,11 @@ const AdminHouseComponent = ({ state, house }) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
+                showConfirmButton: false,
                 text: `${error.data.message}`,
+                timer: 1500
+            }).then(() => {
+                handleUpdateAdmin(house);
             })
         }
 

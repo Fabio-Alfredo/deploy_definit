@@ -33,7 +33,8 @@ export const GetHouseEmty = async (filter) => {
 
 export const DeleteResident = async (house, user) => {
     try {
-        const res = await axios.delete(`${BASE_URL}delete?houseId=${house}&email=${user}`, {
+        console.log(getToken());
+        const res = await axios.post(`${BASE_URL}delete?houseId=${house}&email=${user}`,{}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
