@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -87,10 +88,14 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public void createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor) {
+    public List<Request> createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor) {
+
+        List<Request> requestList = new ArrayList<>();
 
         for(int i = 0; i < req.getEnableTme().size(); i++){
+
             Request request = new Request();
+
             request.setResident(resident);
             request.setVisitor(visitor);
             if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
@@ -104,8 +109,11 @@ public class RequestServiceImpl implements RequestService {
             request.setCreationDate(req.getEnableTme().get(i));
             request.setEnableTme(req.getEnableTme().get(i));
             request.setDisableTime(req.getDisableTime().get(i));
-            requestRepository.save(request);
+
+            requestList.add(requestRepository.save(request));
         }
+
+        return requestList;
     }
 
 }
