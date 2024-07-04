@@ -10,17 +10,20 @@ const AdminHouseComponent = ({ state, house }) => {
 
         if (house1.users.length > 0) {
             const { value: formValues } = await Swal.fire({
-                title: "Multiple inputs",
+                title: "Asignar nuevo administrador",
                 html: `
-                <label for="swal-input1">Email 1:</label>
-                <input id="swal-input1" type="email" class="swal2-input rounded-lg" value=${house1.residentAdmin.email} readonly>
-                <label for="swal-input2">Email 2:
-                <input id="swal-input2" type="email" class="swal2-input peer disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                invalid:border-red-500 invalid:text-red-600
-                focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
-                <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
-                </label>
+                <div class="flex flex-col">
+                    <label for="swal-input1">Administrador:</label>
+                    <input id="swal-input1" type="email" class="swal2-input rounded-lg mb-2" value=${house1.residentAdmin.email} readonly>
+                    <label for="swal-input2">Nuevo administrador:</label>
+                    <input id="swal-input2" type="email" class="swal2-input peer disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                        invalid:border-red-500 invalid:text-red-600
+                        focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
+                        <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
+                    </label>
+                <d/iv>
               `,
+                confirmButtonColor: "#008D62",
                 focusConfirm: false,
                 preConfirm: () => {
 
@@ -45,13 +48,13 @@ const AdminHouseComponent = ({ state, house }) => {
         }
         else {
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "Desea eliminar el usuario",
+                text: "¡No podrás revertir esto!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#008D62",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Eliminar"
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleConnection({ email1: house1.residentAdmin.email, email2: "" }, house1.id)
@@ -95,7 +98,7 @@ const AdminHouseComponent = ({ state, house }) => {
                         house.residentAdmin ? house.residentAdmin.name : 'No hay residentes'
                     }
                 </h3>
-                <div onClick={() => handleUpdateAdmin(house)} className={` flex items-center justify-end pr-2 group cursor-pointer  ${state ? '' : 'hidden'}`}>
+                <div onClick={() => handleUpdateAdmin(house)} className={` flex items-center justify-end pr-2 group cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-100  ${state ? '' : 'hidden'}`}>
                     <p className='font-xs font-popins font-xs group-hover:block hidden text-red-500'> Eliminar  </p>
                     <AiTwotoneDelete className='text-3xl pl-1 text-end group-hover:text-red-500' />
                 </div>

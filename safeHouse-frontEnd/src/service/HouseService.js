@@ -41,6 +41,7 @@ export const DeleteResident = async (house, user) => {
         })
         return res.data;
     } catch (error) {
+        console.log(error);
         throw error.response;
     }
 }

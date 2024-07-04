@@ -8,13 +8,13 @@ const UserList = ({ users = [], state, house }) => {
     const handdleDelete = async (house, user) => {
         try {
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "Desea eliminar el usuario",
+                text: "¡No podrás revertir esto!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#008D62",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Eliminar"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const res = await DeleteResident(house, user.email);
@@ -22,6 +22,7 @@ const UserList = ({ users = [], state, house }) => {
                     Swal.fire({
                         title: "Deleted!",
                         text: `${res.message}`,
+                        confirmButtonColor: "#008D62",
                         icon: "success"
                     });
                 }
@@ -50,7 +51,7 @@ const UserList = ({ users = [], state, house }) => {
                                 <>
                                     <li onClick={() => handdleDelete(house, user)} className='font-popins  w-full flex pl-7 pt-2 justify-between text-lg' key={user.id}>
                                         {user.name}
-                                        <div className={` flex justify-end pr-2 group ${state ? '' : 'hidden'} cursor-pointer`}>
+                                        <div className={` flex justify-end pr-2 group ${state ? '' : 'hidden'} transition ease-in-out hover:-translate-y-1 hover:scale-100 cursor-pointer`}>
                                             <p className='font-xs font-popins  text-red-500 group-hover:block hidden'> Eliminar  </p>
                                             <AiTwotoneDelete className='text-3xl pl-1 text-end group-hover:text-red-500 ' />
                                         </div>
