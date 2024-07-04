@@ -2,11 +2,14 @@ package com.safehouse.safehouse.services.impl;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
+import com.safehouse.safehouse.domain.dtos.RequestMultipleDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.RequestRepository;
 import com.safehouse.safehouse.services.contrat.RequestService;
+import com.safehouse.safehouse.services.contrat.RoleService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +20,16 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
-public class RequestServiceImpl implements RequestService{
 
+@Service
+public class RequestServiceImpl implements RequestService {
+
+    private final RoleService roleService;
     private final RequestRepository requestRepository;
     private final ModelMapper modelMapper;
 
-    public RequestServiceImpl(RequestRepository requestRepository, ModelMapper modelMapper) {
+    public RequestServiceImpl(RoleService roleService, RequestRepository requestRepository, ModelMapper modelMapper) {
+        this.roleService = roleService;
         this.requestRepository = requestRepository;
         this.modelMapper = modelMapper;
     }
@@ -81,6 +87,36 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
+    @Transactional
+    public List<Request> createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor) {
+
+        List<Request> requestList = new ArrayList<>();
+
+        for(int i = 0; i < req.getEnableTme().size(); i++){
+
+            Request request = new Request();
+
+            request.setResident(resident);
+            request.setVisitor(visitor);
+            if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
+                request.setPhase("APPROVED");
+            }else {
+                request.setPhase("PENDING");
+            }
+            request.setHouse(house);
+            request.setReason(req.getReason());
+            request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+            request.setCreationDate(req.getEnableTme().get(i));
+            request.setEnableTme(req.getEnableTme().get(i));
+            request.setDisableTime(req.getDisableTime().get(i));
+
+            requestList.add(requestRepository.save(request));
+        }
+
+        return requestList;
+}
+  
+    @Override
     public Map<String, Long> findAllByDay(LocalDate oneWeekAgo) {
         List<Request> requests = requestRepository.findAll();
         requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
@@ -103,6 +139,7 @@ public class RequestServiceImpl implements RequestService{
                         Collectors.counting()
                 ));
         return requestsByMonth;
+
     }
 
     @Override

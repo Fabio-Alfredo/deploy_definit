@@ -17,7 +17,8 @@ public class CreateRequestDTO {
     private Date enableTme;
     private Date disableTime;
     private String visitor;
-    private UUID house;
+    private String address;
+    //private UUID house;
 
 
 

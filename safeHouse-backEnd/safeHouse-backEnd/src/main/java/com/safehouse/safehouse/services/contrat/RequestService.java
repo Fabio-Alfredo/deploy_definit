@@ -2,6 +2,7 @@ package com.safehouse.safehouse.services.contrat;
 
 import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
+import com.safehouse.safehouse.domain.dtos.RequestMultipleDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
@@ -21,6 +22,7 @@ public interface RequestService {
     List<Request>getAllRequestsByResident(User resident);
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
     Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident, User visitor);
+    List<Request> createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor);
     Map<String, Long> findAllByDay(LocalDate oneWeekAgo);
     Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
     Request getLastRequest(User user);
