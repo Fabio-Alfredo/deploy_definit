@@ -204,7 +204,7 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
             }
 
-            if(!resident.getRoles().contains(roleService.getRoleById("RESD"))){
+            if(!resident.getRoles().contains(roleService.getRoleById("RESD")) || !resident.getRoles().contains(roleService.getRoleById("RSAD"))){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
             User visitor = userService.getByEmail(req.getVisitor());
