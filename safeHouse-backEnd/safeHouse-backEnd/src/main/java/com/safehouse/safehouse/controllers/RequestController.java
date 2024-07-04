@@ -180,7 +180,7 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = requestService.getAllRequests();
-            requests.removeIf(r -> r.getQr() == null || !r.getQr().getState().equals("USED") || !r.getPhase().equals("EXPIRED"));
+            requests.removeIf(r -> r.getQr().isEmpty() || !r.getPhase().equals("EXPIRED") || !r.getPhase().equals("PENDING"));
             List<RecordDTO> reqs = requests.stream().map(request -> modelMapper.map(request, RecordDTO.class)).collect(Collectors.toList());
             return GeneralResponse.getResponse(HttpStatus.OK, reqs);
         } catch (Exception e) {

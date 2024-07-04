@@ -43,8 +43,10 @@ public class Request {
     @ManyToOne(optional = false, fetch=FetchType.EAGER)
     private House house;
 
-   @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-   @JoinColumn(name = "id_qr", referencedColumnName = "id")
+   @OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
+//   @JoinColumn(name = "id_qr", referencedColumnName = "id")
    @JsonIgnore
-   private QR qr;
+   private List<QR> qr;
+
+
 }

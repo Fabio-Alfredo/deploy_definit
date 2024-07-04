@@ -59,8 +59,16 @@ public class QrServiceImpl implements QrService {
     }
 
     @Override
-    public void qrUpdate(QR qr) {
+    public void usageQr(QR qr) {
         qr.setState("USED");
         qrRepository.save(qr);
     }
+
+    @Override
+    public QR updageQR(QR qr) {
+        qr.setLastUpdate(new Date());
+        return qrRepository.save(qr);
+    }
+
+
 }

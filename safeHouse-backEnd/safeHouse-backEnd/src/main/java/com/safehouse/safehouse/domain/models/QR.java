@@ -17,8 +17,7 @@ public class QR{
     private String state;
     private Date lastUpdate;
 
-    @OneToOne(mappedBy = "qr", fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.EAGER)
     private Request request;
-
 
 }
