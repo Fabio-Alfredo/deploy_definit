@@ -80,7 +80,7 @@ public class HouseController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<GeneralResponse>deleteUser(@RequestParam("houseId") UUID houseId, @RequestParam("email") String email){
         try{
             User user = userService.findUserAuthenticated();
