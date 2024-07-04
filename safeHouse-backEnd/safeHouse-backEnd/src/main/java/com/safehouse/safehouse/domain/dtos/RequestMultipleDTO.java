@@ -9,6 +9,7 @@ import java.util.List;
 public class RequestMultipleDTO {
     private String visitor;
     private String reason;
+    private String address;
     private List<Date> enableTme;
     private List<Date> disableTime;
 }
