@@ -35,10 +35,10 @@ export const GetEntrys = async () => {
 
 export const GetEntrysByDay = async () => {
     try {
-        const res = await axios.get(${BASE_URL}/by-day, {
+        const res = await axios.get(`${BASE_URL}/by-day`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': Bearer ${getToken()}
+                'Authorization': `Bearer ${getToken()}`
             }
         })
         return res.data;
@@ -50,10 +50,10 @@ export const GetEntrysByDay = async () => {
 
 export const GetEntrysByMonth = async () => {
     try{
-        const res = await axios.get(${BASE_URL}/by-month, {
+        const res = await axios.get(`${BASE_URL}/by-month`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': Bearer ${getToken()}
+                'Authorization': `Bearer ${getToken()}`
             }
         });
         return res.data;
