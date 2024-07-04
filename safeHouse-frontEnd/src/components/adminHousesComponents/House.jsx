@@ -11,6 +11,7 @@ import AdminHouseComponent from "./AdminHouseComponent";
 
 
 const House = ({ house, state, updateState }) => {
+    console.log(house)
 
     const handleUpdateHouse = async (houseAddres) => {
         const { value: email } = await Swal.fire({

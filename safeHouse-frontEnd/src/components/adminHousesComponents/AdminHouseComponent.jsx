@@ -7,65 +7,83 @@ import { UpdateResidentAdmin } from '../../service/HouseService';
 const AdminHouseComponent = ({ state, house }) => {
 
     const handleUpdateAdmin = async (house1) => {
-        const { value: formValues } = await Swal.fire({
-            title: "Multiple inputs",
-            html: `
-            <label for="swal-input1">Email 1:</label>
-            <input id="swal-input1" type="email" class="swal2-input rounded-lg" value=${house1.residentAdmin.email} readonly>
-            <label for="swal-input2">Email 2:
-            <input id="swal-input2" type="email" class="swal2-input peer disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            invalid:border-red-500 invalid:text-red-600
-            focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
-            <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
-            </label>
-          `,
-            focusConfirm: false,
-            preConfirm: () => {
 
-                const email1 = document.getElementById("swal-input1").value
-                const email2 = document.getElementById("swal-input2").value
+        if (house1.users.length > 0) {
+            const { value: formValues } = await Swal.fire({
+                title: "Multiple inputs",
+                html: `
+                <label for="swal-input1">Email 1:</label>
+                <input id="swal-input1" type="email" class="swal2-input rounded-lg" value=${house1.residentAdmin.email} readonly>
+                <label for="swal-input2">Email 2:
+                <input id="swal-input2" type="email" class="swal2-input peer disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+                invalid:border-red-500 invalid:text-red-600
+                focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
+                <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
+                </label>
+              `,
+                focusConfirm: false,
+                preConfirm: () => {
 
-                if (!email1 || !email2) {
-                    Swal.showValidationMessage("Todos los campos son requeridos");
-                    return false;
+                    const email1 = document.getElementById("swal-input1").value
+                    const email2 = document.getElementById("swal-input2").value
+
+                    if (!email1 || !email2) {
+                        Swal.showValidationMessage("Todos los campos son requeridos");
+                        return false;
+                    }
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(email1) || !emailPattern.test(email2)) {
+                        Swal.showValidationMessage("Por favor, introduce correos electrónicos válidos");
+                        return false;
+                    }
+                    return { email1: email1, email2: email2 }
                 }
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(email1) || !emailPattern.test(email2)) {
-                    Swal.showValidationMessage("Por favor, introduce correos electrónicos válidos");
-                    return false;
-                }
-                return { email1: email1, email2: email2 }
+            });
+            if (formValues) {
+                handleConnection(formValues, house1.id);
             }
-        });
-        if (formValues) {
-            handleConnection(formValues, house1.id);
+        }
+        else {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    handleConnection({ email1: house1.residentAdmin.email, email2: "" }, house1.id)
+                }
+            });
+
         }
     }
 
     const handleConnection = async (formValues, house2) => {
-        try{
+        try {
             const formDat = {
-                house:house2,
+                house: house2,
                 oldAdmin: formValues.email1,
                 newAdmin: formValues.email2
             }
-            console.log(formDat);
             const res = await UpdateResidentAdmin(formDat);
-            
+
             Swal.fire({
                 icon: 'success',
                 title: '¡Éxito!',
                 text: `${res.message}`,
 
             })
-        }catch(error){
+        } catch (error) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: `${error.data.message}`,
             })
         }
-        
+
     }
 
     return (

@@ -5,7 +5,7 @@ const getToken = () => JSON.parse(localStorage.getItem('token')).token;
 
 export const GetHouseData = async () => {
     try {
-        const res = await axios.get(`${BASE_URL}all?filter=${''}`, {
+        const res = await axios.get(`${BASE_URL}all`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
@@ -48,7 +48,7 @@ export const DeleteResident = async (house, user) => {
 export const UpdateResidentAdmin = async (data) => {
     console.log(data);
     try {
-        const res = await axios.patch(`${BASE_URL}assign/new-admin`, data, {
+        const res = await axios.post(`${BASE_URL}assign/new-admin`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
