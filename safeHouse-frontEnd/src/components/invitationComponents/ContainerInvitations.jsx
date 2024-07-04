@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Navigation from '../Navigation';
 import InvitationCard from '../invitationComponents/InvitationCard'
 import EmptyReport from '../EmtyContent';
-import { fecthRequestPendingByHouse } from '../../service/RequestService';
+import { ApproveRequest, RejectRequest, fecthRequestPendingByHouse } from '../../service/RequestService';
+import Swal from 'sweetalert2';
 
 
 const ContainerInvitations = () => {
@@ -15,6 +16,39 @@ const ContainerInvitations = () => {
             //console.log(response.data);
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const handleApprove = async (id) => {
+        try {
+            const response = await ApproveRequest(id);
+            console.log(response.message);
+            Swal.fire({
+                showConfirmButton: false,
+                title: "Accepted!",
+                text: ` ${response.message}`,
+                icon: "success"
+            });
+            requestByHouse();
+            
+        } catch (error) {
+            console.error("Error al aprobar la invitacion", error);
+        }
+    }
+
+    const handleDenied = async (id) => {
+        try {
+            const response = await RejectRequest(id);
+            console.log(response.message);
+            Swal.fire({
+                showConfirmButton: false,
+                title: "Accepted!",
+                text: ` ${response.message}`,
+                icon: "success"
+            });
+            requestByHouse();
+        }catch(error){
+            console.error("Error al rechazar la invitacion", error);
         }
     }
 
@@ -33,7 +67,16 @@ const ContainerInvitations = () => {
                         <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
                             {
                                 invitations.map((_i) => (
-                                    <InvitationCard key={_i.id} house={_i.house.address} fecha={_i.enableTme} invitado={_i.visitor.name} reason={_i.reason}/>
+                                    <InvitationCard
+                                        key={_i.id}
+                                        id={_i.id}
+                                        house={_i.house.address}
+                                        fecha={_i.enableTme}
+                                        invitado={_i.visitor.name}
+                                        reason={_i.reason} 
+                                        onApproved={handleApprove}
+                                        onDenied={handleDenied}
+                                        />
                                 ))
                             }
                         </div>

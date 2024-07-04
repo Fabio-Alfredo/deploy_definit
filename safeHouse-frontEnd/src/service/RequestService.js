@@ -117,3 +117,33 @@ export const GetEntrysByDay = async () => {
         throw error.response;
     }
 }
+
+export const ApproveRequest = async (id) => {
+    try {
+        const res = await axios.post(`${BASE_URL}/approve`, null, {
+            params: { id },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`,
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
+
+export const RejectRequest = async (id) => {
+    try {
+        const res = await axios.post(`${BASE_URL}/deny`, null, {
+            params: { id },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`,
+            }
+        })
+        return res.data;
+    }catch(error){
+        throw error.response;
+    }
+}
