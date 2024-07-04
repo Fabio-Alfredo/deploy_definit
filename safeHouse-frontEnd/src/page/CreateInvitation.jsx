@@ -41,25 +41,25 @@ const CreateInvitation = () => {
         }
         console.log(formDate)
 
-        // try {
-        //     const res = await createRequest(formDate);
+        try {
+            const res = await createRequest(formDate);
 
-        //     Swal.fire({
-        //         title: "Exitoso!",
-        //         text: `${res.message}`,
-        //         icon: "success",
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     }).then(() => {
-        //         navigation(-1)
-        //     })
-        // } catch (error) {
-        //     Swal.fire({
-        //         title: "Error!",
-        //         text: `${error.data.message}`,
-        //         icon: "error",
-        //     })
-        // }
+            Swal.fire({
+                title: "Exitoso!",
+                text: `${res.message}`,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                navigation(-1)
+            })
+        } catch (error) {
+            Swal.fire({
+                title: "Error!",
+                text: `${error.data.message}`,
+                icon: "error",
+            })
+        }
 
     }
 
