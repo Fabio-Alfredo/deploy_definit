@@ -47,3 +47,18 @@ export const createMultipleRequest = async (data) => {
         throw error.response;
     }
 }
+
+export const createRequest = async (data) => {
+    try {
+        const res = await axios.post(`${BASE_URL}/new/casual`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    }
+    catch (error) {
+        throw error.response;
+    }
+}
