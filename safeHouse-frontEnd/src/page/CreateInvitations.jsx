@@ -18,10 +18,10 @@ const CreateInvitations = () => {
     const [time, setTime] = useState()
     const [time1, setTime1] = useState()
 
-    const { reason, visitor, InputChange } = useForm({
+    const { reason, visitor, address, InputChange } = useForm({
         reason: '',
-        visitor: ''
-
+        visitor: '',
+        address: ''
     })
 
 
@@ -38,6 +38,7 @@ const CreateInvitations = () => {
         const formDate = {
             visitor,
             reason,
+            address,
             enableTme: enableTimes,
             disableTime: disableTimes
         }  
@@ -75,7 +76,8 @@ const CreateInvitations = () => {
 
                     <Input name={"visitor"} label={"Visitante:"} type={"email"} inputValue={visitor} inputOnchange={InputChange} />
                     <Input name={"reason"} label={"Razon:"} type={"text"} inputValue={reason} inputOnchange={InputChange} />
-                    <InputTimeDate name={"date"} label={"Fecha y hora:"} type={"datetime-local"} inputValue={date} inputOnchange={setDate} />
+                    <Input name={"address"} label={"Casa:"} type={"text"} inputValue={address} inputOnchange={InputChange} />
+                    <InputTimeDate name={"date"} label={"Fecha:"} type={"datetime-local"} inputValue={date} inputOnchange={setDate} />
                     <TimeMultiSelection name={"time"} label={"Hora:"} inputValue={time} inputOnchange={setTime} inputValue1={time1} inputOnchange1={setTime1}/>
                     <div className='flex w-full justify-center items-center mb-8 pt-6 lg:pt-4'>
                         <Button value={"Registrar"} type={"submit"} name={"RegisterButton"} />
