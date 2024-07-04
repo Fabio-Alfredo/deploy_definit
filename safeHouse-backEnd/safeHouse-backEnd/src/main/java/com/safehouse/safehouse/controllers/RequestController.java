@@ -1,20 +1,12 @@
 package com.safehouse.safehouse.controllers;
 
-import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
-import com.safehouse.safehouse.domain.dtos.GeneralResponse;
-import com.safehouse.safehouse.domain.dtos.RecordDTO;
-import com.safehouse.safehouse.domain.dtos.RequestAnonymousDTO;
-import com.safehouse.safehouse.domain.models.House;
-import com.safehouse.safehouse.domain.models.Request;
-import com.safehouse.safehouse.domain.models.User;
-import com.safehouse.safehouse.services.contrat.HouseService;
-import com.safehouse.safehouse.services.contrat.RequestService;
-import com.safehouse.safehouse.services.contrat.UserService;
+import com.safehouse.safehouse.domain.dtos.*;
+import com.safehouse.safehouse.domain.models.*;
+import com.safehouse.safehouse.services.contrat.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -27,12 +19,14 @@ public class RequestController {
     private final UserService userService;
     private final HouseService houseService;
     private final ModelMapper modelMapper;
+    private final RoleService roleService;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
         this.modelMapper = modelMapper;
+        this.roleService = roleService;
     }
 
     @PostMapping("/new/casual")
@@ -40,28 +34,27 @@ public class RequestController {
         try {
             User visitor = userService.getByEmail(req.getVisitor());
             User resident = userService.findUserAuthenticated();
-            House hose = houseService.getHouseById(req.getHouse());
-
-            if(visitor == null || resident == null || hose == null) {
+            House house = houseService.getHouseByAddress(req.getAddress());
+            if(visitor == null || resident == null || house == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");
             }
             //Obtiene fecha de incio de qr y fecha de fin
             req.setEnableAndDisableTime();
             //valida que el usuario no sea invitado de nuevo dentro del rango de la invitacion anterior
-            if(requestService.existsRequestByHouseAndVisitorAndcreationDate(hose, visitor, req.getEnableTme(), req.getDisableTime())) {
+            if(requestService.existsRequestByHouseAndVisitorAndcreationDate(house, visitor, req.getEnableTme(), req.getDisableTime())) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
             }
 
             //validar que el usuario sea residente de la casa
-            if(!hose.getUsers().contains(resident) && !hose.getResidentAdmin().equals(resident)){
+            if(!house.getUsers().contains(resident) && !house.getResidentAdmin().equals(resident)){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
-            Request reque = requestService.createRequest(req, visitor, resident, hose);
+            Request reque = requestService.createRequest(req, visitor, resident, house);
 
             if(reque == null) {
                 return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
             }
-            houseService.assignRequest(hose, reque);
+            houseService.assignRequest(house, reque);
             userService.assignResidentRequest(resident, reque);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
@@ -132,7 +125,7 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/requests/user-resident")
+    @GetMapping("/user-resident")
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
@@ -194,6 +187,44 @@ public class RequestController {
         }
     }
 
+  
+    @PostMapping("/create/multi-request")
+    public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
+        try {
+
+            User resident = userService.findUserAuthenticated();
+
+            if (resident == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+
+            House house = houseService.getHouseByAddress(req.getAddress());
+
+            if(house == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
+            }
+
+            if(!resident.getRoles().contains(roleService.getRoleById("RESD")) || !resident.getRoles().contains(roleService.getRoleById("RSAD"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
+            }
+            User visitor = userService.getByEmail(req.getVisitor());
+            if(visitor == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Visitor not found!");
+            }
+
+            List<Request> list = requestService.createMultipleRequest(req, house, resident, visitor);
+
+            for (Request request : list) {
+                houseService.assignRequest(house, request);
+                userService.assignResidentRequest(resident, request);
+            }
+
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
+        }catch (Exception e){
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+  
     //para las graficas
     @GetMapping("/by-day")
     public ResponseEntity<GeneralResponse>getRecordEntryByDay(){
