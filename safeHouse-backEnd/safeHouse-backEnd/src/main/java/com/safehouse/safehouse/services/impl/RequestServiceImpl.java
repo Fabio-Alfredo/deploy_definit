@@ -99,7 +99,7 @@ public class RequestServiceImpl implements RequestService {
             request.setResident(resident);
             request.setVisitor(visitor);
             if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
-                request.setPhase("APPROVEDz");
+                request.setPhase("APPROVED");
             }else {
                 request.setPhase("PENDING");
             }
