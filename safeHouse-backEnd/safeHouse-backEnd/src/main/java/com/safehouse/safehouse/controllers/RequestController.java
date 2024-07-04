@@ -37,28 +37,27 @@ public class RequestController {
         try {
             User visitor = userService.getByEmail(req.getVisitor());
             User resident = userService.findUserAuthenticated();
-            House hose = houseService.getHouseById(req.getHouse());
-
-            if(visitor == null || resident == null || hose == null) {
+            House house = houseService.getHouseByAddress(req.getAddress());
+            if(visitor == null || resident == null || house == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User or house not found!");
             }
             //Obtiene fecha de incio de qr y fecha de fin
             req.setEnableAndDisableTime();
             //valida que el usuario no sea invitado de nuevo dentro del rango de la invitacion anterior
-            if(requestService.existsRequestByHouseAndVisitorAndcreationDate(hose, visitor, req.getEnableTme(), req.getDisableTime())) {
+            if(requestService.existsRequestByHouseAndVisitorAndcreationDate(house, visitor, req.getEnableTme(), req.getDisableTime())) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
             }
 
             //validar que el usuario sea residente de la casa
-            if(!hose.getUsers().contains(resident) && !hose.getResidentAdmin().equals(resident)){
+            if(!house.getUsers().contains(resident) && !house.getResidentAdmin().equals(resident)){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
-            Request reque = requestService.createRequest(req, visitor, resident, hose);
+            Request reque = requestService.createRequest(req, visitor, resident, house);
 
             if(reque == null) {
                 return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
             }
-            houseService.assignRequest(hose, reque);
+            houseService.assignRequest(house, reque);
             userService.assignResidentRequest(resident, reque);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
@@ -201,7 +200,7 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
 
-            House house = houseService.getHouseById(resident.getHouses().get(0).getId());
+            House house = houseService.getHouseByAddress(req.getAddress());
 
             if(house == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "House not found!");
@@ -214,7 +213,14 @@ public class RequestController {
             if(visitor == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Visitor not found!");
             }
-            requestService.createMultipleRequest(req, house, resident, visitor);
+
+            List<Request> list = requestService.createMultipleRequest(req, house, resident, visitor);
+
+            for (Request request : list) {
+                houseService.assignRequest(house, request);
+                userService.assignResidentRequest(resident, request);
+            }
+
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");
         }catch (Exception e){
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
