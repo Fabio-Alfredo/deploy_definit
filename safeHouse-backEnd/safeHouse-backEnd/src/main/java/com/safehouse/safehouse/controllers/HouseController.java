@@ -49,14 +49,14 @@ public class HouseController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyAuthority('ADMN')")
+//    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> getAllHouses(@RequestParam(value = "filter" , required = false) String filter){
         try {
             User user = userService.findUserAuthenticated();
             if(user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             List<House> houses = houseService.getAllHouses();
             List<House>houses1= new ArrayList<>();
-            if(filter.isEmpty()){
+            if(filter==null){
                 System.out.println("filter null");
                 for(House h:houses){
                     if(h.getResidentAdmin() != null){
@@ -76,7 +76,7 @@ public class HouseController {
 
             return GeneralResponse.getResponse(HttpStatus.OK, houses1);
         } catch (Exception e) {
-            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!" +e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class HouseController {
         }
     }
 
-    @PatchMapping("/assign/new-admin")
+    @PostMapping("/assign/new-admin")
     public ResponseEntity<GeneralResponse>assignHouseAdmin(@RequestBody UpdateResidentAdminTDO req){
         try {
 
@@ -109,8 +109,10 @@ public class HouseController {
             User oldUser = userService.getByEmail(req.getOldAdmin());
             House updateHouse = houseService.getHouseById(req.getHouse());
 
-            if(newAdmin == null || !userService.existUserByEmail(req.getNewAdmin())) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
+            if(!updateHouse.getUsers().isEmpty()){
+                if(newAdmin == null || !userService.existUserByEmail(req.getNewAdmin())) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
 
+            }
 
             userService.updateAdminHouse(newAdmin,oldUser, updateHouse, roleService.getRoleById("RSAD"));
             houseService.assignResidentAdmin(updateHouse, newAdmin);
