@@ -111,7 +111,6 @@ public class UserController {
     public ResponseEntity<GeneralResponse>deleteRoles(@RequestParam("email") String email){
 
         try{
-            System.out.println(email);
             User user = userService.findUserAuthenticated();
             if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Invalid admin!");
             User userUpdate = userService.getByEmail(email);

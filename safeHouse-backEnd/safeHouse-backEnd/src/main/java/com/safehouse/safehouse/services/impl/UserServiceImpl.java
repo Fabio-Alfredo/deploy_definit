@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void deleteHouseUser(House house, User user) {
         List<House>houses= user.getHouses();
         houses.remove(house);

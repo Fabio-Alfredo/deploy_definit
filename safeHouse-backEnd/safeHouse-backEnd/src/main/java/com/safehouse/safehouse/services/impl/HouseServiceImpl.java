@@ -7,6 +7,7 @@ import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.services.contrat.HouseService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void deleteUserHouse(House house, User user) {
         List<User> users = house.getUsers();
         users.remove(user);
