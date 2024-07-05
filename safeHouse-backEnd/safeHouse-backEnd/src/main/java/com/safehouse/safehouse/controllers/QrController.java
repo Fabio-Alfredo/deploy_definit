@@ -10,6 +10,7 @@ import com.safehouse.safehouse.services.contrat.QrService;
 import com.safehouse.safehouse.services.contrat.RequestService;
 import com.safehouse.safehouse.services.contrat.RoleService;
 import com.safehouse.safehouse.services.contrat.UserService;
+import com.safehouse.safehouse.utils.EncryptUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,16 @@ public class QrController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final RoleService roleService;
+    private final EncryptUtil encryptUtil;
 
 
-    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService) {
+    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil) {
         this.qrService = qrService;
         this.requestService = requestService;
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
+        this.encryptUtil = encryptUtil;
     }
 
     @GetMapping("/qr-generate")
@@ -45,6 +48,9 @@ public class QrController {
         try {
             Instant instant = Instant.now();
             Instant currentDate = instant.minusSeconds(21600);
+            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+            Date currentDateTime = Date.from(utcDateTime.toInstant());
+
             QR newQr; Request req;
             User user = userService.findUserAuthenticated();
             if (user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
@@ -65,12 +71,19 @@ public class QrController {
                     qrList.add(newQr);
                     req.setQr(qrList);
 
+                }else if(newQr.getLastUpdate().toInstant().isAfter(currentDateTime.toInstant().minusSeconds(600))){
+                    newQr = qrService.getQRById(newQr.getId());
                 }else{
                     newQr = qrService.updageQR(newQr);;
                 }
                 modelMapper.map(newReq, req);
                 requestService.updateRequest(req);
-                return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
+                String data = newQr.getRequest().getId() + "/"+ newQr.getId()+"/"+ newQr.getLastUpdate();
+                String encryptedData = encryptUtil.encrypt(data);
+                QRDataDTO qr = new QRDataDTO();
+                qr.setQrCode(encryptedData);
+                return GeneralResponse.getResponse(HttpStatus.OK, qr);
+
             }
 
             List<Request> requests = user.getRequests();
@@ -86,13 +99,15 @@ public class QrController {
                     List<QR> qrList =new ArrayList<>(r.getQr());
 
                     if(!qrList.isEmpty()) newQr= qrList.get(qrList.size()-1);
-
                     if(newQr == null || newQr.getState().equals("USED")) {
                         newQr = qrService.generateQR(r);
                         qrList.add(newQr);
                         r.setQr(qrList);
                         requestService.updateRequest(r);
 
+                    }else if(newQr.getLastUpdate().toInstant().isBefore(currentDateTime.toInstant())){
+                        System.out.println("aqui");
+                        newQr = qrService.getQRById(newQr.getId());
                     }else{
                         newQr = qrService.updageQR(newQr);
                     }
@@ -102,8 +117,11 @@ public class QrController {
             if (newQr == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No valid requests found to generate QR!");
             }
-
-            return GeneralResponse.getResponse(HttpStatus.OK, modelMapper.map(newQr, QRDataDTO.class));
+            String data = newQr.getRequest() + "/"+ newQr.getId()+"/"+ newQr.getLastUpdate();
+            String encryptedData = encryptUtil.encrypt(data);
+            QRDataDTO qr = new QRDataDTO();
+            qr.setQrCode(encryptedData);
+            return GeneralResponse.getResponse(HttpStatus.OK, qr);
 
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!" + e.getMessage());
@@ -119,7 +137,13 @@ public class QrController {
             Instant currentDate = instant.minusSeconds(21600);
 //            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
 //            Date currentDate = Date.from(utcDateTime.toInstant());
-            QR qr = qrService.getQR(data.getQrId());
+            String decryptedData = encryptUtil.decrypt(data.getQrCode());
+            String[] qrData = decryptedData.split("/");
+            if (qrData.length != 3) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "QR not found!");
+            }
+
+            QR qr = qrService.getQR(UUID.fromString(qrData[1]));
             Request req = requestService.getRequestById(qr.getRequest().getId());
             if (qr == null || req == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "QR not found!");

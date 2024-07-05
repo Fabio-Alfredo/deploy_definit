@@ -65,6 +65,11 @@ public class QrServiceImpl implements QrService {
     }
 
     @Override
+    public QR getQRById(UUID qrId) {
+        return qrRepository.findById(qrId).orElse(null);
+    }
+
+    @Override
     public QR updageQR(QR qr) {
         qr.setLastUpdate(new Date());
         return qrRepository.save(qr);

@@ -11,6 +11,7 @@ public interface QrService {
     Boolean existsByRequest(Request request);
     Boolean connectionESP32();
     void usageQr(QR qr);
+    QR getQRById(UUID qrId);
     QR updageQR(QR qr);
 
 }
