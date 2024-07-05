@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.Instant;
@@ -13,13 +14,16 @@ import java.util.UUID;
 @Data
 public class CreateRequestDTO {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     private Date creationDate;
     private String reason;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     private Date enableTme;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     private Date disableTime;
     private String visitor;
     private String address;
-    //private UUID house;
+//    private String house;
 
 
 
@@ -39,9 +43,8 @@ public class CreateRequestDTO {
 
     public void setCreationDate() {
         ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
-//        ZonedDateTime adjustedDateTime = utcDateTime.minusHours(6);
-        this.creationDate = Date.from(utcDateTime.toInstant());
+        ZonedDateTime adjustedDateTime = utcDateTime.minusHours(6);
+        this.creationDate = Date.from(adjustedDateTime.toInstant());
     }
-
 
 }

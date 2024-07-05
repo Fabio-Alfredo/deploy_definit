@@ -46,7 +46,6 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
             }
 
-            //validar que el usuario sea residente de la casa
             if(!house.getUsers().contains(resident) && !house.getResidentAdmin().equals(resident)){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
@@ -67,7 +66,9 @@ public class RequestController {
     @GetMapping("/all")
     public ResponseEntity<GeneralResponse> getAllRequests() {
         try {
-            return GeneralResponse.getResponse(HttpStatus.OK, requestService.getAllRequests());
+            List<Request> requests = requestService.getAllRequests();
+            requests.removeIf(r -> r.getPhase().equals("APPROVED") || r.getPhase().equals("PENDING"));
+            return GeneralResponse.getResponse(HttpStatus.OK, requests);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
@@ -236,7 +237,7 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             LocalDate today = LocalDate.now();
-            LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY));
             Map<String, Long> requests = requestService.findAllByDay(lastMonday);
 
             List<String> daysOfWeek = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");

@@ -78,10 +78,10 @@ public class QrController {
 
             requests.sort(Comparator.comparing(Request::getEnableTme)); newQr = null;
             for (Request r : requests) {
-
                 if (r.getEnableTme().toInstant().isBefore(currentDate) && r.getDisableTime().toInstant().isAfter(currentDate)) {
-
-                    if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED"))break;
+                    if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")){
+                        break;
+                    }
 
                     List<QR> qrList =new ArrayList<>(r.getQr());
 
@@ -117,6 +117,8 @@ public class QrController {
         try {
             Instant instant = Instant.now();
             Instant currentDate = instant.minusSeconds(21600);
+//            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+//            Date currentDate = Date.from(utcDateTime.toInstant());
             QR qr = qrService.getQR(data.getQrId());
             Request req = requestService.getRequestById(qr.getRequest().getId());
             if (qr == null || req == null) {
@@ -125,6 +127,7 @@ public class QrController {
             if (qr.getState().equals("USED")) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
             }
+
             if (!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }

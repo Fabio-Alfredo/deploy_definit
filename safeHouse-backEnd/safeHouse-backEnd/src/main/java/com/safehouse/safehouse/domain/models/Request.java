@@ -21,6 +21,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private Date createAt;
+
     @Column(name = "strar_date")
     private Date creationDate;
     @Column(name = "enable_time")

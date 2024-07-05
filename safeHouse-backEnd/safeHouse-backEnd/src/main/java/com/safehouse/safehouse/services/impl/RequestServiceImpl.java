@@ -36,12 +36,19 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Request createRequest(CreateRequestDTO req, User visitor, User resident, House house) {
+
         Request request = modelMapper.map(req, Request.class);
+        System.out.println(req.getEnableTme());
+        System.out.println(req.getDisableTime());
+        System.out.println(req.getCreationDate());
         request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
-        request.setPhase("PENDING");
+        if(resident.getRoles().contains(roleService.getRoleById("RSAD")) && house.getResidentAdmin().equals(resident))
+            request.setPhase("APPROVED");
+        else
+            request.setPhase("PENDING");
         return requestRepository.save(request);
     }
 
@@ -98,7 +105,7 @@ public class RequestServiceImpl implements RequestService {
 
             request.setResident(resident);
             request.setVisitor(visitor);
-            if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
+            if (resident.getRoles().contains(roleService.getRoleById("RSAD")) && house.getResidentAdmin().equals(resident)) {
                 request.setPhase("APPROVED");
             }else {
                 request.setPhase("PENDING");
