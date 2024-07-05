@@ -79,8 +79,8 @@ public class RequestController {
         try {
             Request req = requestService.getRequestById(id);
             User user = userService.findUserAuthenticated();
-            ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
-            Date currentDate = Date.from(utcDateTime.toInstant());
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
             if(req == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
             }
