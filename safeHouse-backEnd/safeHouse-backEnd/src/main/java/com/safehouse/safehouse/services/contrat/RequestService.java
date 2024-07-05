@@ -27,4 +27,6 @@ public interface RequestService {
     Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
     Request getLastRequest(User user);
     List<Request>getAllRequestsByVisitor(User visitor);
+    void createRequestByRole(CreateRequestDTO newReq, User user);
+
 }

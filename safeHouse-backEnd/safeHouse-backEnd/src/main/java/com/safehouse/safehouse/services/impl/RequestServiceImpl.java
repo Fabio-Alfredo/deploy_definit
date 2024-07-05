@@ -152,4 +152,12 @@ public class RequestServiceImpl implements RequestService {
         return requestRepository.findAllByVisitor(visitor);
     }
 
+    @Override
+    public void createRequestByRole(CreateRequestDTO newReq, User user) {
+        if(user.getRoles().contains(roleService.getRoleById("RESD")))
+            createRequest(newReq, user, user, user.getHouses().get(0));
+        else
+            createRequest(newReq, user, user, user.getAdmHouse().get(0));
+    }
+
 }
