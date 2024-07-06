@@ -101,6 +101,32 @@ public class RequestController {
         }
     }
 
+    @PostMapping("/deny")
+    public ResponseEntity<GeneralResponse> denyRequest(@RequestParam("id") UUID id) {
+        try {
+            Request req = requestService.getRequestById(id);
+            User user = userService.findUserAuthenticated();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+            if(req == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
+            }
+
+            if(!req.getHouse().getResidentAdmin().equals(user)) {
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+            if(req.getDisableTime().toInstant().isBefore(currentDate)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
+            }
+
+            req.setPhase("DENIED");
+            requestService.updateRequest(req);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request denied!");
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
     @GetMapping("/pending")
     public ResponseEntity<GeneralResponse> getPendingRequests() {
         try {
