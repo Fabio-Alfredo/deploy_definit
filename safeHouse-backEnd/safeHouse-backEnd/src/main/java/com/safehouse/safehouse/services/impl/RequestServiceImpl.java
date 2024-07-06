@@ -36,12 +36,19 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Request createRequest(CreateRequestDTO req, User visitor, User resident, House house) {
+
         Request request = modelMapper.map(req, Request.class);
+        System.out.println(req.getEnableTme());
+        System.out.println(req.getDisableTime());
+        System.out.println(req.getCreationDate());
         request.setCreateAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         request.setVisitor(visitor);
         request.setResident(resident);
         request.setHouse(house);
-        request.setPhase("PENDING");
+        if(resident.getRoles().contains(roleService.getRoleById("RSAD")) && house.getResidentAdmin().equals(resident))
+            request.setPhase("APPROVED");
+        else
+            request.setPhase("PENDING");
         return requestRepository.save(request);
     }
 
@@ -98,7 +105,7 @@ public class RequestServiceImpl implements RequestService {
 
             request.setResident(resident);
             request.setVisitor(visitor);
-            if (resident.getRoles().contains(roleService.getRoleById("RSAD"))) {
+            if (resident.getRoles().contains(roleService.getRoleById("RSAD")) && house.getResidentAdmin().equals(resident)) {
                 request.setPhase("APPROVED");
             }else {
                 request.setPhase("PENDING");
@@ -115,36 +122,24 @@ public class RequestServiceImpl implements RequestService {
 
         return requestList;
 }
-  
-    @Override
-    public Map<String, Long> findAllByDay(LocalDate oneWeekAgo) {
-        List<Request> requests = requestRepository.findAll();
-        requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
-        Map<String, Long> requestsByDate = requests.stream()
-                .collect(Collectors.groupingBy(
-                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
-                        Collectors.counting()
-                ));
-        return requestsByDate;
-    }
 
-    @Override
-    public Map<String, Long> findAllByMonth(LocalDate oneMonthAgo) {
-        List<Request> requests = requestRepository.findAll();
-        requests.removeIf(r -> r.getEndTime() == null );
-
-        Map<String, Long> requestsByMonth = requests.stream()
-                .collect(Collectors.groupingBy(
-                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
-                        Collectors.counting()
-                ));
-        return requestsByMonth;
-
-    }
 
     @Override
     public Request getLastRequest(User user) {
         return requestRepository.findTopByVisitorOrderByCreateAtDesc(user).orElse(null);
+    }
+
+    @Override
+    public List<Request> getAllRequestsByVisitor(User visitor) {
+        return requestRepository.findAllByVisitor(visitor);
+    }
+
+    @Override
+    public void createRequestByRole(CreateRequestDTO newReq, User user) {
+        if(user.getRoles().contains(roleService.getRoleById("RESD")))
+            createRequest(newReq, user, user, user.getHouses().get(0));
+        else
+            createRequest(newReq, user, user, user.getAdmHouse().get(0));
     }
 
 }

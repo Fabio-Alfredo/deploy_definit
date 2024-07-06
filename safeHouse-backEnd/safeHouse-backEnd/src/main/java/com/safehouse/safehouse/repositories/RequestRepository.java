@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.repositories;
 
+import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.models.House;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
@@ -17,4 +18,5 @@ public interface RequestRepository extends JpaRepository<Request, UUID>{
     List<Request>findAllByResident(User resident);
     List<Request>findAllByResidentAndPhase(User resident, String phase);
     Optional<Request> findTopByVisitorOrderByCreateAtDesc(User user);
+    List<Request>findAllByVisitor(User visitor);
 }

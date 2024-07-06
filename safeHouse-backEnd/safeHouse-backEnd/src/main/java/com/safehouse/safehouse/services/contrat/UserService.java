@@ -1,5 +1,6 @@
 package com.safehouse.safehouse.services.contrat;
 
+import com.safehouse.safehouse.domain.dtos.CreateRequestDTO;
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.*;
@@ -30,6 +31,7 @@ public interface UserService {
     void assignResidentRequest(User user, Request request);
     void assignVisitorRequest(User user, Request request);
     User createUserAnonymous(String name, String company);
+    CreateRequestDTO createRequestDTO();
 
 //    void updateUser(User user);
 }

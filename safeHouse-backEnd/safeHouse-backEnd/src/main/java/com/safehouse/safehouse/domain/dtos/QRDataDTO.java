@@ -7,7 +7,5 @@ import java.util.UUID;
 
 @Data
 public class QRDataDTO {
-     private UUID requestId;
-     private UUID qrId;
-     private Date lastUpdate;
+     private String QrCode;
 }
