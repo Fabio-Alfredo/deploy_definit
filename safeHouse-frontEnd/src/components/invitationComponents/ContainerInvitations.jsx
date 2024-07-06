@@ -17,7 +17,7 @@ const ContainerInvitations = () => {
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: `${error.data.message}`,
+                title: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer
             })
@@ -39,7 +39,7 @@ const ContainerInvitations = () => {
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: `${error.data.message}`,
+                title: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer
             })
@@ -60,7 +60,7 @@ const ContainerInvitations = () => {
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: `${error.data.message}`,
+                title: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer
             })

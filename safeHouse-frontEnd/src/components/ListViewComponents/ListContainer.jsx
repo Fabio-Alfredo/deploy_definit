@@ -75,7 +75,7 @@ const ListContainer = () => {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: ` ${error.data.message}`
+                text: `${error.data?.message || error.message}`,
             })
         }
 

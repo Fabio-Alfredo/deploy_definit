@@ -17,7 +17,7 @@ const ContainerRequest = () => {
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: `${error.data.message}`,
+                title: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {

@@ -28,7 +28,8 @@ const ContainerQr = () => {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: `${error.response?.data?.message || error.message}`,
+                title:'Oopss...',
+                text: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {

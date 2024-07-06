@@ -56,7 +56,7 @@ function App() {
             <Route path="/registerentry" element={<RegisterEntry />} />
           </Route>
 
-          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ADMN']} userRoles={roles} redirectPath="home" />}>
+          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ADMN', 'RSAD']} userRoles={roles} redirectPath="home" />}>
             <Route path="/invitations" element={<Invitations />} />
           </Route>
 

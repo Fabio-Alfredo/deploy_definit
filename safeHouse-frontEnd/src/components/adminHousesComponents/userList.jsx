@@ -3,7 +3,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { DeleteResident } from "../../service/HouseService";
 import Swal from "sweetalert2";
 
-const UserList = ({ users = [], state, house }) => {
+const UserList = ({ users = [], state, house, stateDeleted, updateStateDelted }) => {
 
     const handdleDelete = async (house, user) => {
         try {
@@ -18,7 +18,7 @@ const UserList = ({ users = [], state, house }) => {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const res = await DeleteResident(house, user.email);
-                    window.location.reload();
+                    updateStateDelted(!stateDeleted)
                     Swal.fire({
                         title: "Deleted!",
                         text: `${res.message}`,

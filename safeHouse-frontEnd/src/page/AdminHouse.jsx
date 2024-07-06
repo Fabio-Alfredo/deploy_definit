@@ -10,6 +10,7 @@ import ToggleHouse from "../components/genereateHouseComponents/ToggleHouse";
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])
     const [toggle, setToggle] = useState(true)
+    const [deleted, setDeleted]= useState(false)
 
     const handleGetter = async (toggle) => {
         try {
@@ -29,7 +30,7 @@ const AdminHouse = () => {
 
     useEffect(() => {
         handleGetter(toggle)
-    }, [toggle])
+    }, [toggle, deleted])
 
 
     const handdleToggle = (toggle) => {
@@ -131,7 +132,7 @@ const AdminHouse = () => {
 
                         {
                             houses.map((house) => (
-                                <House key={house.id} house={house} state={toggle} updateState={setToggle} />
+                                <House key={house.id} house={house} state={toggle} updateState={setToggle} stateDeleted={deleted} updateStateDelted={setDeleted} />
                             ))
                         }
                     </div>
