@@ -11,7 +11,7 @@ import Header from '../components/Header.jsx';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
 import ProtectedComponent from '../protected/ProtectedComponent.jsx'
-
+import Swal from 'sweetalert2';
 import { HashLoader } from 'react-spinners'
 
 

@@ -1,6 +1,4 @@
 import React from 'react';
-import { w3cwebsocket } from 'websocket';
-import { useEffect, useState } from 'react';
 
 
 const Input = ({ name, label, type, inputValue, inputOnchange, readOnly=false }) => {
