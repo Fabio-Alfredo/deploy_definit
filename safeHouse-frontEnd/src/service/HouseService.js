@@ -61,3 +61,17 @@ export const UpdateResidentAdmin = async (data) => {
         throw error.response;
     }
 }
+
+export const CreateHouse = async (data) => {
+    try {
+        const res = await axios.post(`${BASE_URL}new`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }   
+}

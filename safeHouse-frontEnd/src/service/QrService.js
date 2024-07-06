@@ -6,7 +6,7 @@ const getToken = () => JSON.parse(localStorage.getItem('token')).token;
 
 export const GetQr = async () => {
     try{
-        const res = await axios.get(`${BASE_URL}/resident/qr-generate`, {
+        const res = await axios.get(`${BASE_URL}/qr-generate`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
