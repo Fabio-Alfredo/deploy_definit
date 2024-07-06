@@ -71,7 +71,8 @@ public class QrController {
                     qrList.add(newQr);
                     req.setQr(qrList);
 
-                }else if(newQr.getLastUpdate().toInstant().isAfter(currentDateTime.toInstant().minusSeconds(600))){
+                }else if(newQr.getLastUpdate().toInstant().isAfter(currentDateTime.toInstant().minusSeconds(600))
+                ){
                     newQr = qrService.getQRById(newQr.getId());
                 }else{
                     newQr = qrService.updageQR(newQr);;
@@ -105,8 +106,7 @@ public class QrController {
                         r.setQr(qrList);
                         requestService.updateRequest(r);
 
-                    }else if(newQr.getLastUpdate().toInstant().isBefore(currentDateTime.toInstant())){
-                        System.out.println("aqui");
+                    }else if(newQr.getLastUpdate().toInstant().isAfter(currentDateTime.toInstant().minusSeconds(600))){
                         newQr = qrService.getQRById(newQr.getId());
                     }else{
                         newQr = qrService.updageQR(newQr);
