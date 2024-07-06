@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 const LoginButton = () => {
 
     const navigateTo = useNavigate();
-    const { saveToken, saveUser } = useContext(AuthContext );
+    const { saveToken, saveUser, removeData } = useContext(AuthContext );
 
     const credentialResponse = async (response) => {
         try{
@@ -36,7 +36,6 @@ const LoginButton = () => {
     const getUserData = async () => {
         try{
             const res =  await GetUserData();
-
             saveUser(res.data);
         }catch(error){
             Swal.fire({
@@ -44,7 +43,10 @@ const LoginButton = () => {
                 icon: "error",
                 title: "Error al obtener datos de usuario",
                 showConfirmButton: false,
-                timer
+                timer: 1500
+            }).then(() => {
+                removeData();
+                navigateTo('/');
             })
         }
     }
