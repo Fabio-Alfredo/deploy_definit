@@ -96,6 +96,8 @@ public class QrController {
                     if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")){
                         break;
                     }
+                    System.out.println(r.getEnableTme());
+                    System.out.println(r.getDisableTime());
 
                     List<QR> qrList =new ArrayList<>(r.getQr());
 
@@ -117,12 +119,11 @@ public class QrController {
             if (newQr == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No tines qr disponibles para generar!");
             }
-            String data = newQr.getRequest() + "/"+ newQr.getId()+"/"+ newQr.getLastUpdate();
+            String data = newQr.getRequest().getId() + "/"+ newQr.getId()+"/"+ newQr.getLastUpdate();
             String encryptedData = encryptUtil.encrypt(data);
             QRDataDTO qr = new QRDataDTO();
             qr.setQrCode(encryptedData);
             return GeneralResponse.getResponse(HttpStatus.OK, qr);
-
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!" + e.getMessage());
         }
