@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:8080/api/request';
+const BASE_URL = import.meta.env.VITE_REQUEST_SERVICE;
 
 import { decryptData } from "../utils/encrypt";
 
