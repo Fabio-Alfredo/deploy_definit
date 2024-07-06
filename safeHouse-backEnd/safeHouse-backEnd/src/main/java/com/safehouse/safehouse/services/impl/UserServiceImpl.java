@@ -3,6 +3,7 @@ package com.safehouse.safehouse.services.impl;
 import com.safehouse.safehouse.domain.dtos.UserDTO;
 import com.safehouse.safehouse.domain.dtos.UserLoginDTO;
 import com.safehouse.safehouse.domain.models.*;
+import com.safehouse.safehouse.repositories.HouseRepository;
 import com.safehouse.safehouse.repositories.RoleRepository;
 import com.safehouse.safehouse.repositories.TokenRepository;
 import com.safehouse.safehouse.repositories.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,12 +25,14 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
+    private final HouseRepository houseRepository;
 
-    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate ) {
+    public UserServiceImpl(JWTTools jwtTools, TokenRepository tokenRepository, UserRepository userRepository, RestTemplate restTemplate, HouseRepository houseRepository) {
         this.jwtTools = jwtTools;
         this.tokenRepository = tokenRepository;
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
+        this.houseRepository = houseRepository;
     }
 
     @Override
@@ -42,6 +46,23 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(token);
 
         return token;
+    }
+
+    @Override
+    public House getHouseById(UUID id) {
+        return houseRepository.getReferenceById(id);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void deleteHouseUser(House house, User user) {
+        List<House>houses= user.getHouses();
+        houses.remove(house);
+        user.setHouses(houses);
+        if(user.getHouses().isEmpty()){
+            user.getRoles().removeIf(role -> role.getId().contains("RESD"));
+        }
+        userRepository.save(user);
     }
 
     @Override
@@ -77,7 +98,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteRoles(User user, List<Role> roles) {
-        user.setRoles(roles);
+        List<Role> rolesUser = user.getRoles();
+        rolesUser.removeIf(roles::contains);
+        user.setRoles(rolesUser);
         userRepository.save(user);
     }
 
@@ -195,6 +218,28 @@ public class UserServiceImpl implements UserService {
             user.setAdmHouse(admHouses);
             userRepository.save(user);
         }
+    }
+
+    @Override
+    public void updateAdminHouse(User newUser,User oldUser, House house, Role role) {
+        oldUser.getAdmHouse().removeIf(h -> h.getId().equals(house.getId()));
+
+        if(oldUser.getAdmHouse().isEmpty()){
+            oldUser.getRoles().removeIf(r -> r.getId().contains("RSAD"));
+        }
+
+       if(newUser !=null){
+           List<House> admHouses = newUser.getAdmHouse();
+           List<Role> userRole = newUser.getRoles();
+           if(admHouses.contains(house)){
+               userRole.add(role);
+               admHouses.add(house);
+               newUser.setRoles(userRole);
+               newUser.setAdmHouse(admHouses);
+               userRepository.save(newUser);
+           }
+       }
+
     }
 
     @Override

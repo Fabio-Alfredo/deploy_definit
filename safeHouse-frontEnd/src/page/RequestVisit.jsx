@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import ContainerRequest from '../components/requestComponents/ContainerRequest';
 
-const RequestVisit = () => {
+const  RequestVisit = () => {
     return (
         <div className='h-screen'>
         <Header />

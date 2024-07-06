@@ -2,6 +2,7 @@ package com.safehouse.safehouse.domain.dtos;
 
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +17,8 @@ public class CreateRequestDTO {
     private Date enableTme;
     private Date disableTime;
     private String visitor;
-    private UUID house;
+    private String address;
+    //private UUID house;
 
 
 
@@ -33,5 +35,14 @@ public class CreateRequestDTO {
             this.disableTime = Date.from(disableDateTime.atZone(ZoneId.of("UTC")).toInstant());
         }
     }
+
+    public void setCreationDate() {
+        Date date = new Date();
+        LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//        LocalDateTime adjustedDateTime = localDateTime.minusHours(6);
+
+        this.creationDate = Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
+    }
+
 
 }

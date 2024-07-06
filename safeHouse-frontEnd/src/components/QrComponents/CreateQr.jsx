@@ -9,22 +9,23 @@ const CreateQr = ({ info }) => {
     const qrRef = useRef(null);
     const qr = useRef(null);
 
+
     useEffect(() => {
         qr.current = new QRCodeStyling({
             width: 300,
             height: 300,
-            data: info,
+            data: JSON.stringify(info),
             image: logoQR,
             type: 'svg',
             qrOptions: {
-                typeNumber: '5',
+                typeNumber: "0",
                 mode: 'Byte',
-                errorCorrectionLevel: 'H',
+                errorCorrectionLevel: 'M',
             },
             imageOptions: {
                 hideBackgroundDots: true,
-                imageSize: 0.2,
-                margin: 4
+                imageSize: 0.8,
+                margin: 1
             },
             //degradado interno
             dotsOptions: {
@@ -84,7 +85,7 @@ const CreateQr = ({ info }) => {
         });
         qr.current.append(qrRef.current);
         qr.current.update({
-            data: info
+            data: JSON.stringify(info),
         });
     }, [info])
 
@@ -97,23 +98,3 @@ const CreateQr = ({ info }) => {
 };
 
 export default CreateQr;
-
-/**
- * <QRCodeSVG className='xl:w-2/5 xl:h-2/5'
-                //value={info.date+info.email} para coneccion con api
-                value={info}
-                bgColor='#ffffff'
-                fgColor='#000000'
-                level='L'
-                size={200}
-                includeMargin={false}
-                imageSettings={{
-                    src: logoQR,
-                    x: undefined,
-                    y: undefined,
-                    height: 25,
-                    width: 40,
-                    excavate: true
-                }}
-            />
- */

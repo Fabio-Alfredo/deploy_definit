@@ -63,7 +63,7 @@ public class UserController {
 
             House house = houseService.getHouseByAddress(req.getHouse());
 
-            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found! ++");
+            if(user == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "User not found!");
             if(house == null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
             if(house.getResidentAdmin()!=null) return GeneralResponse.getResponse(HttpStatus.FOUND, "House already has an admin!");
 
@@ -111,12 +111,11 @@ public class UserController {
     public ResponseEntity<GeneralResponse>deleteRoles(@RequestParam("email") String email){
 
         try{
-            System.out.println(email);
             User user = userService.findUserAuthenticated();
             if(user == null || !user.getRoles().contains(roleService.getRoleById("ADMN"))) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Invalid admin!");
             User userUpdate = userService.getByEmail(email);
             if(userUpdate == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
-            userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("VIST")));
+            userService.deleteRoles(userUpdate, roleService.getRolesById(List.of("EMPL")));
 
             return GeneralResponse.getResponse(HttpStatus.OK, "User deleted!");
 
