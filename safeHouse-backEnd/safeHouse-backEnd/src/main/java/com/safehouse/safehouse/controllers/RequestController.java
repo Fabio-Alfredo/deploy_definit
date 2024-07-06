@@ -164,7 +164,7 @@ public class RequestController {
             User user = userService.findUserAuthenticated();
             Instant instant = Instant.now();
             Instant currentDate = instant.minusSeconds(21600);
-            if(user == null || !user.getRoles().contains(roleService.getRoleById("RESD"))){
+            if(user == null || !user.getRoles().stream().anyMatch(role -> role.getId().equals("RESD") || role.getId().equals("RSAD"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = new ArrayList<>();
