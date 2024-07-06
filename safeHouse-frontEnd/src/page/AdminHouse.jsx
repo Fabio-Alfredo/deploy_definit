@@ -131,7 +131,7 @@ const AdminHouse = () => {
 
                         {
                             houses.map((house) => (
-                                <House key={house.id} house={house} state={toggle} updateState={setToggle} />
+                                <House key={house.id} house={house} state={toggle} updateState={setToggle} getList={handleGetter}/>
                             ))
                         }
                     </div>
