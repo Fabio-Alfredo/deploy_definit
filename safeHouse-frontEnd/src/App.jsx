@@ -18,6 +18,7 @@ import { AuthContext } from "./context/AuthContext"
 import Graphics from "./page/Graphics"
 import CreateInvitations from "./page/CreateInvitations"
 import CreateInvitation from "./page/CreateInvitation"
+import HistoryComplete from "./page/HistoryComplete"
 
 
 
@@ -63,6 +64,10 @@ function App() {
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
             <Route path="/entryrep" element={<EntryRep />} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>
+            <Route path="/History" element={<HistoryComplete />} /> 
           </Route>
 
           <Route element={<ProtectedRoute canActivate={token} redirectPath="home" />}>

@@ -37,7 +37,7 @@ const House = ({ house, state, updateState }) => {
                         focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
                         <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
                     </label>
-                <d/iv>
+                </div>
               `,
             confirmButtonColor: "#008D62",
             focusConfirm: false,
@@ -64,7 +64,7 @@ const House = ({ house, state, updateState }) => {
 
 
     const handleConnect = async (houseAddres, email) => {
-        console.log(houseAddres, email);
+        
         try {
             const res = await AssignAdminHouse({ house: houseAddres, email: [email] });
             Swal.fire({

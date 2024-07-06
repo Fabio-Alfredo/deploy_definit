@@ -21,7 +21,7 @@ const AdminHouseComponent = ({ state, house }) => {
                         focus:invalid:border-red-500 focus:invalid:ring-red-500 rounded-lg">
                         <p class="invisible peer-invalid:visible text-red-500 text-sm">Ingrese un email valido.</p>
                     </label>
-                <d/iv>
+                </div>
               `,
                 confirmButtonColor: "#008D62",
                 focusConfirm: false,

@@ -2,9 +2,10 @@ import logo from '../assets/Logo.svg'
 import profile from '../assets/HomeImg.png'
 import Button from '../components/Button.jsx'
 import Option from '../components/Option.jsx'
-import { MdQrCodeScanner, MdHouse, MdPeopleAlt, MdAssignmentInd, MdOutlineQrCode2 } from "react-icons/md";
+import { MdQrCodeScanner, MdHouse, MdPeopleAlt, MdAssignmentInd, MdOutlineQrCode2, MdPreview } from "react-icons/md";
 import { IoMail } from "react-icons/io5";
 import { FaUser } from "react-icons/fa6";
+import { FaHistory } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 import Header from '../components/Header.jsx';
 import { useContext } from 'react';
@@ -44,6 +45,21 @@ const Home = () => {
             title: "Reporte de entradas",
             icon: TbReportAnalytics,
             route: '/entryrep'
+        },
+        {
+            title: "Historial Completo",
+            icon: FaHistory,
+            route: '/History'
+        },
+        {
+            title: "Revisar invitaciones",
+            icon: MdPreview,
+            route: '/invitations'
+        },
+        {
+            title: "Invitaciones",
+            icon: IoMail,
+            route: '/requestvisit'
         }
     ]
 

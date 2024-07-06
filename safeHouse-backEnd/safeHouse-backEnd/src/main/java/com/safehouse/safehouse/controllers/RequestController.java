@@ -1,3 +1,4 @@
+
 package com.safehouse.safehouse.controllers;
 
 
@@ -91,9 +92,9 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
 
-//            if(req.getEnableTme().before(currentDate)){
-//                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
-//            }
+            if(req.getDisableTime().toInstant().isBefore(currentDate)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
+            }
 
             req.setPhase("APPROVED");
             userService.assignVisitorRequest(req.getVisitor(), req);
@@ -104,6 +105,32 @@ public class RequestController {
         }
     }
 
+    @PostMapping("/deny")
+    public ResponseEntity<GeneralResponse> denyRequest(@RequestParam("id") UUID id) {
+        try {
+            Request req = requestService.getRequestById(id);
+            User user = userService.findUserAuthenticated();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+            if(req == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
+            }
+
+            if(!req.getHouse().getResidentAdmin().equals(user)) {
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+            if(req.getDisableTime().toInstant().isBefore(currentDate)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
+            }
+
+            req.setPhase("DENIED");
+            requestService.updateRequest(req);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request denied!");
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
     @GetMapping("/pending")
     public ResponseEntity<GeneralResponse> getPendingRequests() {
         try {
@@ -111,18 +138,18 @@ public class RequestController {
             if(user == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
-            if(user.getRoles().stream().noneMatch(role -> role.getId().equals("RSAD"))){
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
 
             List<Request> requests = requestService.getAllRequests();
-            Instant instant = Instant.now();
-            Instant currentDate = instant.minusSeconds(21600);
-
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
             List<Request> pendingRequests = requests.stream()
-                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("PENDING"))
-                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
         } catch (Exception e) {
@@ -134,12 +161,16 @@ public class RequestController {
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
             if(user == null || !user.getRoles().contains(roleService.getRoleById("RESD"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = new ArrayList<>();
+
             if(phase == null) requests = requestService.getAllRequestsByResident(user);
             else requests = requestService.getAllRequestsByResidentAndPhase(user, phase);
+            requests.removeIf(r -> r.getDisableTime().toInstant().isBefore(currentDate));
             return GeneralResponse.getResponse(HttpStatus.OK, requests);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
@@ -197,7 +228,7 @@ public class RequestController {
         }
     }
 
-  
+
     @PostMapping("/create/multi-request")
     public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
         try {
@@ -234,7 +265,7 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
-  
+
     //para las graficas
     @GetMapping("/by-day")
     public ResponseEntity<GeneralResponse>getRecordEntryByDay(){
@@ -291,5 +322,55 @@ public class RequestController {
         }
     }
 
+    @GetMapping("/pending-by-house")
+    public ResponseEntity<GeneralResponse> getPendingByHouseRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("RSAD"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
 
+            List<Request> requests = requestService.getAllRequests();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+
+            List<Request> pendingRequests = requests.stream()
+                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("PENDING"))
+                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/approved")
+    public ResponseEntity<GeneralResponse> getApprovedRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
+            List<Request> pendingRequests = requests.stream()
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("APPROVED"))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
 }
