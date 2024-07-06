@@ -122,6 +122,9 @@ const House = ({ house, state, updateState, stateDeleted, updateStateDelted}) =>
 
         try {
             const res = await AssignUsersHouse({ house: houseAddres, emails: [email] });
+
+            updateStateDelted(!stateDeleted);
+
             Swal.fire({
                 position: "center",
                 icon: "success",

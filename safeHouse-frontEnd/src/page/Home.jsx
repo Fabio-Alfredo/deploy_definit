@@ -36,7 +36,7 @@ const Home = () => {
         ,
         {
             id: 3,
-            title: "Administración de entradas",
+            title: "Administración de casas",
             icon: MdHouse,
             route: '/adminhouse',
             role: ['ADMN']
