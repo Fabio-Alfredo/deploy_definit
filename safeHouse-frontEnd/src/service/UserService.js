@@ -76,7 +76,6 @@ export const AssignUsersHouse = async (data) => {
 
 export const DeleteRolesUsers = async (email) => {
     try {
-        console.log(getToken());
         const res = await axios.post(`${BASE_URL}/delete?email=${email}`,
             {}, {
             headers: {

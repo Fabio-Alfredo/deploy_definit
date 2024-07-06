@@ -24,7 +24,7 @@ const BarChartGraphic = () => {
             abbreviation: abbreviations[item.name] 
         }));
         setData(modifiedData);
-        console.log(res);
+
     }
 
     useEffect(() => {

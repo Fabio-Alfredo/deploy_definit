@@ -8,13 +8,33 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { HashLoader } from 'react-spinners'
 
 const ContainerQr = () => {
 
     const { user } = useContext(AuthContext);
     const nav = useNavigate();
-
     const [date, setDate] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const handleTime = async () => {
+        try {
+            const res = await GetQr();
+            setDate(res.data);
+            setLoading(false);
+
+        } catch (error) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title:`${error.data.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                nav('/home')
+            })
+        }
+    }
 
     useEffect(() => {
         handleTime();
@@ -22,33 +42,14 @@ const ContainerQr = () => {
     }, []);
 
 
-    const handleTime = async () => {
-        try {
-            const res = await GetQr();
-            setDate(res.data);
-
-        } catch (error) {
-            console.log(error.data.message);
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Algo salio mal",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-
-                nav('/home')
-            })
-        }
-    }
-
-    if (user == null) {
+    if (user == null || loading) {
         return (
             <div className='h-screen w-full flex justify-center items-center'>
                 <HashLoader color="#36d7b7" />
             </div>
         )
     }
+    
 
     return (
         <>

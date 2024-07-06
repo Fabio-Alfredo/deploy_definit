@@ -77,25 +77,26 @@ const Home = () => {
         //     role: ['ADMN']
         // },
         {
-            id:9,
+            id: 9,
             title: `Generar entrada`,
             icon: MdOutlineQrCode2,
+            route: '/generateqr',
             role: ['ADMN', 'RESD', 'RSAD', 'VIST']
         },
         {
-            id:10,
+            id: 10,
             title: `Solicitud visita`,
             icon: IoMail,
             route: '/requestvisit',
             role: ['RESD', 'RSAD']
         },
         {
-            id:11,
+            id: 11,
             title: `Administrar invitaciones`,
             icon: MdAssignmentInd,
         },
         {
-            id:12,
+            id: 12,
             title: `Reporte de visitas`,
             icon: TbReportAnalytics,
             route: '/invitations',
@@ -185,7 +186,15 @@ const Home = () => {
     //borrar token de local storage
     const logout = () => {
         removeData()
-        console.log('cerrar sesion')
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Sesión cerrada`,
+            showConfirmButton: false,
+            timer: 2000
+        }).then(() => {
+            nav('/home')
+        })
         window.location.href = '/';
     }
 

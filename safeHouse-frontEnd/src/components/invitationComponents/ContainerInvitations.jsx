@@ -14,14 +14,19 @@ const ContainerInvitations = () => {
             const response = await fecthRequestPendingByHouse();
             setInvitations(response.data);
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data.message}`,
+                showConfirmButton: false,
+                timer
+            })
         }
     }
 
     const handleApprove = async (id) => {
         try {
             const response = await ApproveRequest(id);
-            console.log(response.message);
             Swal.fire({
                 showConfirmButton: false,
                 title: "Accepted!",
@@ -31,14 +36,19 @@ const ContainerInvitations = () => {
             requestByHouse();
             
         } catch (error) {
-            console.error("Error al aprobar la invitacion", error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data.message}`,
+                showConfirmButton: false,
+                timer
+            })
         }
     }
 
     const handleDenied = async (id) => {
         try {
             const response = await RejectRequest(id);
-            console.log(response.message);
             Swal.fire({
                 showConfirmButton: false,
                 title: "Accepted!",
@@ -47,7 +57,13 @@ const ContainerInvitations = () => {
             });
             requestByHouse();
         }catch(error){
-            console.error("Error al rechazar la invitacion", error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data.message}`,
+                showConfirmButton: false,
+                timer
+            })
         }
     }
 

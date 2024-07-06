@@ -14,7 +14,6 @@ const AuthProvider = ({ children }) => {
         const savedToken = localStorage.getItem('token');
         const savedUser = localStorage.getItem('user');
         if (savedToken) {
-            console.log('token', savedToken);
             saveRoles();
             setToken(JSON.parse(savedToken));
             setUser(JSON.parse(savedUser));
@@ -23,7 +22,6 @@ const AuthProvider = ({ children }) => {
 
     const saveToken = (newToken) => {
         localStorage.setItem('token', JSON.stringify(newToken));
-        console.log('token', newToken);
         saveRoles();
         setToken(newToken);
     };
@@ -31,7 +29,6 @@ const AuthProvider = ({ children }) => {
     const saveRoles = async () => {
         const res = await GetRoles()
         setRoles(res.data);
-        console.log(roles);
     }
 
     const saveUser = (newUser) => {

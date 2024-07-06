@@ -14,19 +14,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 const House = ({ house, state, updateState }) => {
 
     const handleUpdateHouse = async (houseAddres) => {
-        // const { value: email } = await Swal.fire({
-        //     title: "Asignar nuevo administrador",
-        //     input: "email",
-        //     inputLabel: "Ingrese el correo del nuevo administrador",
-        //     showCancelButton: true,
-        //     confirmButtonText: "Asignar",
-        //     confirmButtonColor: "#008D62",
-        //     inputPlaceholder: "example@gmail.com"
-        // });
-        // if (email) {
-        //     handleConnect(houseAddres, email);
-        //     console.log(houseAddres, email);
-        // }
         const { value: formValues } = await Swal.fire({
             title: "Asignar nuevo administrador",
             html: `

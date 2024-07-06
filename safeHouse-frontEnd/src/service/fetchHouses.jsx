@@ -9,30 +9,25 @@ const fetchHouses = async () => {
         const response = await axios.get('data.json');
         return response.data.housesData.houses;
     } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        return [];
+        throw error.response;
     }
 };
 
 export const fetchInvitation = async () => {
     try {
         const res = await axios.get('data.json');
-        //console.log(res.data)
         return res.data.invitationsData.invitations;
     } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        return [];
+        throw error.response;
     }
 }
 
 export const fetchReques = async () => {
     try {
         const res = await axios.get('data.json');
-        //console.log(res.data.requestData.requests)
         return res.data.requestData.requests;
     } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        return [];
+        throw error.response;
     }
 }
 
