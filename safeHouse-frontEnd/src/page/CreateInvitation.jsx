@@ -31,15 +31,14 @@ const CreateInvitation = () => {
 
         const formattedDate = form.format('YYYY-MM-DD');
         const formattedTime = time.format('HH:mm:00.000+00:00');
-        const completeDAte = `${formattedDate}T${formattedTime}`;
+        const completeDate = `${formattedDate}T${formattedTime}`;
 
         const formDate = {
             visitor,
             reason,
             address,
-            date: completeDAte
+            creationDate: completeDate
         }
-        console.log(formDate)
 
         try {
             const res = await createRequest(formDate);
@@ -56,7 +55,7 @@ const CreateInvitation = () => {
         } catch (error) {
             Swal.fire({
                 title: "Error!",
-                text: `${error.data.message}`,
+                text: `${error.data?.message || error.message}`,
                 icon: "error",
             })
         }

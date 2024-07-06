@@ -21,6 +21,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private Date createAt;
+
     @Column(name = "strar_date")
     private Date creationDate;
     @Column(name = "enable_time")
@@ -43,8 +44,10 @@ public class Request {
     @ManyToOne(optional = false, fetch=FetchType.EAGER)
     private House house;
 
-   @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-   @JoinColumn(name = "id_qr", referencedColumnName = "id")
+   @OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
+//   @JoinColumn(name = "id_qr", referencedColumnName = "id")
    @JsonIgnore
-   private QR qr;
+   private List<QR> qr;
+
+
 }

@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa";
 import Swal from 'sweetalert2';
 import { UpdateResidentAdmin } from '../../service/HouseService';
 
-const AdminHouseComponent = ({ state, house }) => {
+const AdminHouseComponent = ({ state, house, stateDeleted, updateStateDelted }) => {
 
     const handleUpdateAdmin = async (house1) => {
 
@@ -72,7 +72,7 @@ const AdminHouseComponent = ({ state, house }) => {
                 newAdmin: formValues.email2
             }
             const res = await UpdateResidentAdmin(formDat);
-
+            updateStateDelted(!stateDeleted)
             Swal.fire({
                 icon: 'success',
                 title: '¡Éxito!',
@@ -84,7 +84,7 @@ const AdminHouseComponent = ({ state, house }) => {
                 icon: 'error',
                 title: 'Oops...',
                 showConfirmButton: false,
-                text: `${error.data.message}`,
+                text: `${error.data?.message || error.message}`,
                 timer: 1500
             }).then(() => {
                 handleUpdateAdmin(house);

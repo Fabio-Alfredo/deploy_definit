@@ -1,3 +1,4 @@
+
 package com.safehouse.safehouse.controllers;
 
 
@@ -21,13 +22,15 @@ public class RequestController {
     private final HouseService houseService;
     private final ModelMapper modelMapper;
     private final RoleService roleService;
+    private final QrService qrService;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService, QrService qrService) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
+        this.qrService = qrService;
     }
 
     @PostMapping("/new/casual")
@@ -46,7 +49,6 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "Request already exists!");
             }
 
-            //validar que el usuario sea residente de la casa
             if(!house.getUsers().contains(resident) && !house.getResidentAdmin().equals(resident)){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not resident of the house!");
             }
@@ -67,7 +69,9 @@ public class RequestController {
     @GetMapping("/all")
     public ResponseEntity<GeneralResponse> getAllRequests() {
         try {
-            return GeneralResponse.getResponse(HttpStatus.OK, requestService.getAllRequests());
+            List<Request> requests = requestService.getAllRequests();
+            requests.removeIf(r -> r.getPhase().equals("APPROVED") || r.getPhase().equals("PENDING"));
+            return GeneralResponse.getResponse(HttpStatus.OK, requests);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
@@ -87,7 +91,8 @@ public class RequestController {
             if(!req.getHouse().getResidentAdmin().equals(user)) {
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
-            if(req.getEnableTme().toInstant().isAfter(currentDate)){
+
+            if(req.getDisableTime().toInstant().isBefore(currentDate)){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
             }
 
@@ -95,6 +100,32 @@ public class RequestController {
             userService.assignVisitorRequest(req.getVisitor(), req);
             requestService.updateRequest(req);
             return GeneralResponse.getResponse(HttpStatus.OK, "Request approved!");
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
+        }
+    }
+
+    @PostMapping("/deny")
+    public ResponseEntity<GeneralResponse> denyRequest(@RequestParam("id") UUID id) {
+        try {
+            Request req = requestService.getRequestById(id);
+            User user = userService.findUserAuthenticated();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+            if(req == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "Request not found!");
+            }
+
+            if(!req.getHouse().getResidentAdmin().equals(user)) {
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+            if(req.getDisableTime().toInstant().isBefore(currentDate)){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "Request is not valid!");
+            }
+
+            req.setPhase("DENIED");
+            requestService.updateRequest(req);
+            return GeneralResponse.getResponse(HttpStatus.OK, "Request denied!");
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
@@ -107,18 +138,18 @@ public class RequestController {
             if(user == null) {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
-            if(user.getRoles().stream().noneMatch(role -> role.getId().equals("RSAD"))){
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
             }
 
             List<Request> requests = requestService.getAllRequests();
-            Instant instant = Instant.now();
-            Instant currentDate = instant.minusSeconds(21600);
-
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
             List<Request> pendingRequests = requests.stream()
-                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("PENDING"))
-                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
         } catch (Exception e) {
@@ -127,15 +158,20 @@ public class RequestController {
     }
 
     @GetMapping("/user-resident")
+    //TODO: PERMITIR LAS DEL ADMIN
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();
-            if(user == null || !user.getRoles().contains(roleService.getRoleById("RESD"))){
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+            if(user == null || !user.getRoles().stream().anyMatch(role -> role.getId().equals("RESD") || role.getId().equals("RSAD"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             List<Request> requests = new ArrayList<>();
+
             if(phase == null) requests = requestService.getAllRequestsByResident(user);
             else requests = requestService.getAllRequestsByResidentAndPhase(user, phase);
+            requests.removeIf(r -> r.getDisableTime().toInstant().isBefore(currentDate));
             return GeneralResponse.getResponse(HttpStatus.OK, requests);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
@@ -179,16 +215,21 @@ public class RequestController {
             if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
-            List<Request> requests = requestService.getAllRequests();
-            requests.removeIf(r -> r.getQr() == null || !r.getQr().getState().equals("USED") || !r.getPhase().equals("EXPIRED"));
-            List<RecordDTO> reqs = requests.stream().map(request -> modelMapper.map(request, RecordDTO.class)).collect(Collectors.toList());
+            List<QR> qrs = qrService.getQrByState("USED");
+            List<RecordDTO> reqs = qrs.stream().map(qr -> {
+                RecordDTO record = new RecordDTO();
+                record.setId(qr.getId());
+                record.setVisitor(qr.getRequest().getVisitor());
+                record.setUsedAt(qr.getUsedAt());
+                return record;
+            }).toList();
             return GeneralResponse.getResponse(HttpStatus.OK, reqs);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
     }
 
-  
+
     @PostMapping("/create/multi-request")
     public ResponseEntity<GeneralResponse> createMultipleRequest(@RequestBody RequestMultipleDTO req){
         try {
@@ -225,7 +266,7 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
-  
+
     //para las graficas
     @GetMapping("/by-day")
     public ResponseEntity<GeneralResponse>getRecordEntryByDay(){
@@ -235,8 +276,8 @@ public class RequestController {
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
             LocalDate today = LocalDate.now();
-            LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            Map<String, Long> requests = requestService.findAllByDay(lastMonday);
+            LocalDate lastMonday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.FRIDAY));
+            Map<String, Long> qrs = qrService.findAllByDay(lastMonday);
 
             List<String> daysOfWeek = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
 
@@ -244,7 +285,7 @@ public class RequestController {
                     .map(day -> {
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("name", day);
-                        entry.put("entries", requests.getOrDefault(day, 0L));
+                        entry.put("entries", qrs.getOrDefault(day, 0L));
                         return entry;
                     })
                     .collect(Collectors.toList());
@@ -264,14 +305,14 @@ public class RequestController {
             }
             LocalDate today = LocalDate.now();
             LocalDate startOfMonth = today.withDayOfMonth(1);  // Primer día del mes actual
-            Map<String, Long> requests = requestService.findAllByMonth(startOfMonth);
+            Map<String, Long> qrs = qrService.findAllByMonth(startOfMonth);
             List<String> monthsOfYear = Arrays.asList("JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER");
 
             List<Map<String, Object>> entriesByMonth = monthsOfYear.stream()
                     .map(month -> {
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("name", month);
-                        entry.put("entries", requests.getOrDefault(month, 0L));
+                        entry.put("entries", qrs.getOrDefault(month, 0L));
                         return entry;
                     })
                     .collect(Collectors.toList());
@@ -282,5 +323,55 @@ public class RequestController {
         }
     }
 
+    @GetMapping("/pending-by-house")
+    public ResponseEntity<GeneralResponse> getPendingByHouseRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("RSAD"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
 
+            List<Request> requests = requestService.getAllRequests();
+            Instant instant = Instant.now();
+            Instant currentDate = instant.minusSeconds(21600);
+
+            List<Request> pendingRequests = requests.stream()
+                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("PENDING"))
+                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/approved")
+    public ResponseEntity<GeneralResponse> getApprovedRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+//            Instant instant = Instant.now();
+//            Instant currentDate = instant.minusSeconds(21600);
+//
+            List<Request> pendingRequests = requests.stream()
+//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
+                    .filter(request -> request.getPhase().equals("APPROVED"))
+//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
 }

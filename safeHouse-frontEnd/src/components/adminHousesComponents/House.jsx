@@ -11,7 +11,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 
 
-const House = ({ house, state, updateState, getList }) => {
+
+const House = ({ house, state, updateState, stateDeleted, updateStateDelted}) => {
 
     const handleUpdateHouse = async (houseAddres) => {
 
@@ -167,10 +168,10 @@ const House = ({ house, state, updateState, getList }) => {
                 <hr className='w-full bg-black mt-2 h-1' />
             </div>
             <div>
-                <AdminHouseComponent state={state} house={house} />
+                <AdminHouseComponent state={state} house={house} stateDeleted={stateDeleted} updateStateDelted={updateStateDelted} />
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>
-            <UserList users={house.users} house={house.id} state={state} />
+            <UserList users={house.users} house={house.id} state={state} stateDeleted={stateDeleted} updateStateDelted={updateStateDelted} />
         </div >
     );
 

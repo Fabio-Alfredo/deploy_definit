@@ -1,7 +1,12 @@
 import axios from "axios";
 
 const BASE_URL = 'http://localhost:8080/api/house/';
-const getToken = () => JSON.parse(localStorage.getItem('token')).token;
+import { decryptData } from "../utils/encrypt";
+
+const getToken = () => {
+    localStorage.getItem('token')
+    return decryptData(localStorage.getItem('token')).token;
+};
 
 export const GetHouseData = async () => {
     try {
@@ -33,7 +38,6 @@ export const GetHouseEmty = async (filter) => {
 
 export const DeleteResident = async (house, user) => {
     try {
-        console.log(getToken());
         const res = await axios.post(`${BASE_URL}delete?houseId=${house}&email=${user}`,{}, {
             headers: {
                 'Content-Type': 'application/json',
@@ -42,13 +46,13 @@ export const DeleteResident = async (house, user) => {
         })
         return res.data;
     } catch (error) {
-        console.log(error);
+
         throw error.response;
     }
 }
 
 export const UpdateResidentAdmin = async (data) => {
-    console.log(data);
+
     try {
         const res = await axios.post(`${BASE_URL}assign/new-admin`, data, {
             headers: {

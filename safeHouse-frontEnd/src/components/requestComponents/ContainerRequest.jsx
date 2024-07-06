@@ -2,22 +2,36 @@ import React, { useEffect, useState } from 'react';
 import EmptyReport from '../EmtyContent';
 import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
-import { fetchReques } from '../../service/fetchHouses';
 import MenuRequest from './MenuRequest';
+import { GetAllRequest } from '../../service/RequestService';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ContainerRequest = () => {
     const [request, setRequest] = useState([])
+    const nav = useNavigate();
+
+    const fetchRequest = async () => {
+        try {
+            const response = await GetAllRequest();
+            setRequest(response.data);
+        } catch (error) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data?.message || error.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                // nav('/home')
+            })
+        }
+    }
 
     useEffect(() => {
-
-        const getRequest = async () => {
-            const res = await fetchReques()
-            console.log({ res });
-            setRequest(res)
-        }
-
-        getRequest()
+        fetchRequest();
     }, [])
+
 
     return (
         <>
@@ -25,14 +39,14 @@ const ContainerRequest = () => {
                 <Navigation title={"Solicitudes"} />
 
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
-                <MenuRequest/>
+                <MenuRequest />
 
                 {
                     request.length > 0 ? (
                         <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
                             {
                                 request.map((_r) => (
-                                    <RequestCard key={_r.id} enable_time={_r.enable_time} enable_date={_r.enable_date} phase={_r.phase} user={_r.user} />
+                                    <RequestCard key={_r.id} enableTme={_r.enableTme} disableTime={_r.enable_date} phase={_r.phase} visitor={_r.visitor} />
                                 ))
                             }
                         </div>

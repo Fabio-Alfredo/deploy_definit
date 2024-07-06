@@ -23,7 +23,8 @@ public interface RequestService {
     List<Request>getAllRequestsByResidentAndPhase(User resident, String phase);
     Request createRequestAnonymous(RequestAnonymousDTO req, House house, User resident, User visitor);
     List<Request> createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor);
-    Map<String, Long> findAllByDay(LocalDate oneWeekAgo);
-    Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
     Request getLastRequest(User user);
+    List<Request>getAllRequestsByVisitor(User visitor);
+    void createRequestByRole(CreateRequestDTO newReq, User user);
+
 }

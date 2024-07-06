@@ -10,6 +10,7 @@ import ToggleHouse from "../components/genereateHouseComponents/ToggleHouse";
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])
     const [toggle, setToggle] = useState(true)
+    const [deleted, setDeleted]= useState(false)
 
     const handleGetter = async (toggle) => {
         try {
@@ -29,7 +30,7 @@ const AdminHouse = () => {
 
     useEffect(() => {
         handleGetter(toggle)
-    }, [toggle])
+    }, [toggle, deleted])
 
 
     const handdleToggle = (toggle) => {
@@ -131,7 +132,9 @@ const AdminHouse = () => {
 
                         {
                             houses.map((house) => (
-                                <House key={house.id} house={house} state={toggle} updateState={setToggle} getList={handleGetter}/>
+
+                                <House key={house.id} house={house} state={toggle} updateState={setToggle} stateDeleted={deleted} updateStateDelted={setDeleted} />
+
                             ))
                         }
                     </div>
@@ -147,42 +150,3 @@ const AdminHouse = () => {
 
 export default AdminHouse;
 
-
-// {
-//     toggle ?
-//         (
-//             <div className='w-8/10 px-4 lg:w-4/5 md:w-3/4 md:h-5/6 h-fit xl:w-3/5 bg-white min-h-[90%] shadow-2xl br-20 rounded-3xl py-11'>
-//                 <ToggleHouse handdleToggle={handdleToggle} state={toggle} />
-//                 <Navigation title={"Administracion de casas"} />
-//                 <div className="overflow-y-auto sm:h-3/4 md:h-5/6 h-5/6 px-8 ">
-//                     {
-//                         houses.map((house) => (
-//                             <House key={house.id} house={house} />
-//                         ))
-//                     }
-//                 </div>
-//             </div>
-
-//             // <div className='w-full min-h-[90%] xl:w-3/5 bg-white  shadow-2xl br-20 rounded-3xl py-11'>
-//             //     <ToggleHouse handdleToggle={handdleToggle} state={toggle} />
-//             //     <Navigation title={"Creation House de casas"} />
-//             //     <FormHouseComponent />
-//             // </div>
-//         )
-//         : (
-
-//             <div className='w-8/10 px-4 lg:w-4/5 md:w-3/4 md:h-5/6 h-fit xl:w-3/5 bg-white min-h-[90%] shadow-2xl br-20 rounded-3xl py-11'>
-//                 <ToggleHouse handdleToggle={handdleToggle} state={toggle} />
-//                 <Navigation title={"Administracion de casas"} />
-//                 <div className="overflow-y-auto sm:h-3/4 md:h-5/6 h-5/6 px-8 ">
-//                     {
-//                         houses.map((house) => (
-//                             <House key={house.id} house={house} />
-//                         ))
-//                     }
-//                 </div>
-//             </div>
-
-//         )
-
-// }

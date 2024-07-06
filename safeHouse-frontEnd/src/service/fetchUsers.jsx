@@ -5,8 +5,7 @@ const fetchUsers = async () => {
         const response = await axios.get('user.json');
         return response.data.users;
     } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        return [];
+        throw error.response;
     }
 };
 
