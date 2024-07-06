@@ -3,6 +3,7 @@ package com.safehouse.safehouse.services.contrat;
 import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface QrService {
@@ -13,5 +14,6 @@ public interface QrService {
     void usageQr(QR qr);
     QR getQRById(UUID qrId);
     QR updageQR(QR qr);
+    List<QR> getQrByState(String state);
 
 }

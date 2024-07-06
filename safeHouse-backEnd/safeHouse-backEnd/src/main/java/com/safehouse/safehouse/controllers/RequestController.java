@@ -21,13 +21,15 @@ public class RequestController {
     private final HouseService houseService;
     private final ModelMapper modelMapper;
     private final RoleService roleService;
+    private final QrService qrService;
 
-    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService) {
+    public RequestController(RequestService requestService, UserService userService, HouseService houseService, ModelMapper modelMapper, RoleService roleService, QrService qrService) {
         this.requestService = requestService;
         this.userService = userService;
         this.houseService = houseService;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
+        this.qrService = qrService;
     }
 
     @PostMapping("/new/casual")
@@ -181,9 +183,15 @@ public class RequestController {
             if(user == null || user.getRoles().stream().noneMatch(role -> role.getId().equals("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
-            List<Request> requests = requestService.getAllRequests();
-            requests.removeIf(r -> r.getQr().isEmpty() || !r.getPhase().equals("EXPIRED") || !r.getPhase().equals("PENDING"));
-            List<RecordDTO> reqs = requests.stream().map(request -> modelMapper.map(request, RecordDTO.class)).collect(Collectors.toList());
+            List<QR> qrs = qrService.getQrByState("USED");
+//            requests.removeIf(r -> r.getQr().isEmpty() || !r.getPhase().equals("EXPIRED") || !r.getPhase().equals("PENDING"));
+            List<RecordDTO> reqs = qrs.stream().map(qr -> {
+                RecordDTO record = new RecordDTO();
+                record.setId(qr.getId());
+                record.setVisitor(qr.getRequest().getVisitor());
+                record.setUsedAt(qr.getUsedAt());
+                return record;
+            }).toList();
             return GeneralResponse.getResponse(HttpStatus.OK, reqs);
         } catch (Exception e) {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");

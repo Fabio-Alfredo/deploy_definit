@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -60,6 +61,7 @@ public class QrServiceImpl implements QrService {
 
     @Override
     public void usageQr(QR qr) {
+        qr.setUsedAt(Date.from(Instant.now()));
         qr.setState("USED");
         qrRepository.save(qr);
     }
@@ -73,6 +75,11 @@ public class QrServiceImpl implements QrService {
     public QR updageQR(QR qr) {
         qr.setLastUpdate(new Date());
         return qrRepository.save(qr);
+    }
+
+    @Override
+    public List<QR> getQrByState(String state) {
+        return qrRepository.findAllByState(state);
     }
 
 

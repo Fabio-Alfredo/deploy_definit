@@ -16,7 +16,7 @@ public class QR{
     private UUID id;
     private String state;
     private Date lastUpdate;
-
+    private Date usedAt;
     @ManyToOne( fetch = FetchType.EAGER)
     private Request request;
 
