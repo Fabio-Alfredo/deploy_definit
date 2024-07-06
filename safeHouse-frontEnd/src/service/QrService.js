@@ -4,10 +4,13 @@ const BASE_URL = 'http://localhost:8080/api/qr';
 
 import { decryptData } from "../utils/encrypt";
 
-const getToken = () => {
-    localStorage.getItem('token')
-    return decryptData(localStorage.getItem('token')).token;
-};
+// const getToken = () => {
+//     localStorage.getItem('token')
+//     return decryptData(localStorage.getItem('token')).token;
+// };
+
+const getToken = () => JSON.parse(localStorage.getItem('token')).token;
+
 
 export const GetQr = async () => {
     try{

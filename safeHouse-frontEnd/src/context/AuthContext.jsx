@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { GetRoles } from '../service/RoleService';
 import { decryptData, encryptData } from '../utils/encrypt';
+import { json } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -14,17 +15,21 @@ const AuthProvider = ({ children }) => {
         const savedToken = localStorage.getItem('token');
         const savedUser = localStorage.getItem('user');
         if (savedToken) {
-            const descryptedToken = decryptData(savedToken);
-            const descryptedUser = decryptData(savedUser);
+            // const descryptedToken = decryptData(savedToken);
+            // const descryptedUser = decryptData(savedUser);
+
+
             saveRoles();
-            setToken(descryptedToken);
-            setUser(descryptedUser);
+            setToken(JSON.parse(savedToken));
+            setUser(JSON.parse(savedUser));
         }
     }, []);
 
     const saveToken = (newToken) => {
-        const encryptedToken = encryptData(newToken);
-        localStorage.setItem('token', encryptedToken);
+        // const encryptedToken = encryptData(newToken);
+
+        
+        localStorage.setItem('token', JSON.stringify(newToken));
         saveRoles();
         setToken(newToken);
     };
@@ -36,8 +41,8 @@ const AuthProvider = ({ children }) => {
 
     const saveUser = (newUser) => {
         const user = { name: newUser.name, lastname: newUser.lastname, email: newUser.email, id: newUser.id, photo: newUser.photo }
-        const encryptedUser = encryptData(user);
-        localStorage.setItem('user', encryptedUser);
+        // const encryptedUser = encryptData(user);
+        localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     }
 

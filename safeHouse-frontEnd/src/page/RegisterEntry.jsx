@@ -60,7 +60,7 @@ const RegisterEntry = () => {
                     <Navigation title={"Registrar entrada"} />
                     <Input name={"company"} label={"Empresa:"} type={"text"} inputValue={company} inputOnchange={InputChange} />
                     <Input name={"name"} label={"Nombre:"} type={"text"} inputValue={name} inputOnchange={InputChange} />
-                    <Input name={"house"} label={"# Casa:"} type={"number"} inputValue={house} inputOnchange={InputChange} />
+                    <Input name={"house"} label={"# Casa:"} type={"text"} inputValue={house} inputOnchange={InputChange} />
                     <Textarea name={"reason"} rows={5} cols={20} label={"Motivo:"} inputValue={reason} inputOnchange={InputChange} />
                     <div className='flex w-full justify-center items-center pt-6 lg:pt-4'>
                         <Button value={"Registrar"} type={"submit"} name={"RegisterButton"} />

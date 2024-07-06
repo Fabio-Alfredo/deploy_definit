@@ -58,7 +58,7 @@ const ContainerHistory = () => {
             <div className='w-full px-4 pb-4 sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2' > {/* query */}
                 <Navigation title={"Historial"} />
 
-                <TabOpt toggle={toggle} setToggle={setToggle} opt1={"PENDING"} opt2={"APPROVED  "} />
+                <TabOpt toggle={toggle} setToggle={setToggle} opt1={"Pendientes"} opt2={"Aprobadas  "} />
 
                 {
                     toggle === 1 ? (
