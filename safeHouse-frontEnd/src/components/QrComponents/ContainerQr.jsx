@@ -21,7 +21,6 @@ const ContainerQr = () => {
         try {
             const res = await GetQr();
             setDate(res.data);
-            console.log(res.data);
             setLoading(false);
             localStorage.setItem('last-open-time', Date.now());
         } catch (error) {

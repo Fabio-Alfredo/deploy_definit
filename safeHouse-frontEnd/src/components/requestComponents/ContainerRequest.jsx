@@ -4,10 +4,12 @@ import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
 import MenuRequest from './MenuRequest';
 import { GetAllRequest } from '../../service/RequestService';
-
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ContainerRequest = () => {
     const [request, setRequest] = useState([])
+    const nav = useNavigate();
 
     const fetchRequest = async () => {
         try {
@@ -21,7 +23,7 @@ const ContainerRequest = () => {
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
-                nav('/home')
+                // nav('/home')
             })
         }
     }

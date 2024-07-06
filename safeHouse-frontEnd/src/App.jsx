@@ -80,11 +80,11 @@ function App() {
             <Route path="/graphics" element={<Graphics />} />
           </Route>
 
-          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ADMN']} userRoles={roles} redirectPath="home" />}>
+          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['RESD', 'RSAD']} userRoles={roles} redirectPath="home" />}>
             <Route path="/createInvitations" element={<CreateInvitations />} />
           </Route>
 
-          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ADMN']} userRoles={roles} redirectPath="home" />}>
+          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['RSAD', 'RESD']} userRoles={roles} redirectPath="home" />}>
             <Route path="/createInvitation" element={<CreateInvitation />} />
           </Route>
 
