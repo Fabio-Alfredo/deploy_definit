@@ -25,6 +25,6 @@ public interface RequestService {
     List<Request> createMultipleRequest(RequestMultipleDTO req, House house, User resident, User visitor);
     Map<String, Long> findAllByDay(LocalDate oneWeekAgo);
     Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
-    getLastRequest(User user);
+    Request getLastRequest(User user);
 
 }
