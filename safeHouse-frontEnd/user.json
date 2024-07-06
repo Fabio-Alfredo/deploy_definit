@@ -1,0 +1,250 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "user": "john_doe",
+            "email": "john.doe@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 2,
+            "user": "jane_smith",
+            "email": "jane.smith@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 3,
+            "user": "alice_jones",
+            "email": "alice.jones@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 4,
+            "user": "bob_brown",
+            "email": "bob.brown@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 5,
+            "user": "charlie_clark",
+            "email": "charlie.clark@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 6,
+            "user": "david_davis",
+            "email": "david.davis@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 7,
+            "user": "emma_evans",
+            "email": "emma.evans@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 8,
+            "user": "george_white",
+            "email": "george.white@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 9,    
+            "user": "frank_franklin",
+            "email": "frank.franklin@example.com",
+            "rol": "employee"
+        },
+        {
+            "id": 10,
+            "user": "grace_green",
+            "email": "grace.green@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 11,
+            "user": "henry_harris",
+            "email": "henry.harris@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 12,
+            "user": "irene_king",
+            "email": "irene.king@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 13,
+            "user": "jack_jones",
+            "email": "jack.jones@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 14,
+            "user": "karen_wilson",
+            "email": "karen.wilson@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 15,
+            "user": "larry_lee",
+            "email": "larry.lee@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 16,
+            "user": "mona_moore",
+            "email": "mona.moore@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 17,
+            "user": "nina_scott",
+            "email": "nina.scott@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 18,
+            "user": "oscar_taylor",
+            "email": "oscar.taylor@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 19,
+            "user": "paul_walker",
+            "email": "paul.walker@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 20,
+            "user": "queen_king",
+            "email": "queen.king@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 21,
+            "user": "robert_brown",
+            "email": "robert.brown@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 22,
+            "user": "susan_clark",
+            "email": "susan.clark@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 23,
+            "user": "tim_cook",
+            "email": "tim.cook@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 24,
+            "user": "ursula_davis",
+            "email": "ursula.davis@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 25,
+            "user": "victor_elliott",
+            "email": "victor.elliott@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 26,
+            "user": "walt_green",
+            "email": "walt.green@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 27,
+            "user": "xander_harris",
+            "email": "xander.harris@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 28,
+            "user": "yvonne_jackson",
+            "email": "yvonne.jackson@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 29,
+            "user": "zach_kelly",
+            "email": "zach.kelly@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 30,
+            "user": "amy_long",
+            "email": "amy.long@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 31,
+            "user": "brian_martin",
+            "email": "brian.martin@example.com",
+            "rol": "user"
+        },
+        {
+            "id": 32,
+            "user": "samuel_johnson",
+            "email": "samuel.johnson@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 33,
+            "user": "natalie_wood",
+            "email": "natalie.wood@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 34,
+            "user": "linda_hall",
+            "email": "linda.hall@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 35,
+            "user": "peter_parker",
+            "email": "peter.parker@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 36,
+            "user": "tony_stark",
+            "email": "tony.stark@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 37,
+            "user": "bruce_wayne",
+            "email": "bruce.wayne@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 38,
+            "user": "clark_kent",
+            "email": "clark.kent@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 39,
+            "user": "diana_prince",
+            "email": "diana.prince@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 40,
+            "user": "steve_rogers",
+            "email": "steve.rogers@example.com",
+            "rol": "resident"
+        },
+        {
+            "id": 41,
+            "user": "natasha_romanoff",
+            "email": "natasha.romanoff@example.com",
+            "rol": "resident"
+        }
+    ]
+}
