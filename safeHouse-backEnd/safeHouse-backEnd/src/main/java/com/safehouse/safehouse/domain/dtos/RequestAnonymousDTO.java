@@ -4,13 +4,14 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Data
 public class RequestAnonymousDTO {
     private String name;
     private String company;
-    private Date creationDate = Date.from(new Date().toInstant().minusSeconds(21600));
+    private Date creationDate;
     private Date enableTme;
     private Date disableTime;
     private String reason;
@@ -27,6 +28,12 @@ public class RequestAnonymousDTO {
             this.enableTme = Date.from(enableDateTime.atZone(ZoneId.of("UTC")).toInstant());
             this.disableTime = Date.from(disableDateTime.atZone(ZoneId.of("UTC")).toInstant());
         }
+    }
+
+    public void setCreationDate() {
+        ZonedDateTime utcDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+        ZonedDateTime adjustedDateTime = utcDateTime.minusHours(6);
+        this.creationDate = Date.from(adjustedDateTime.toInstant());
     }
 
 }

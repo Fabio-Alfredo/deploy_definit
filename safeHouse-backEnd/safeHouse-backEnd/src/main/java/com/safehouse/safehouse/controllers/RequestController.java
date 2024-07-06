@@ -183,9 +183,10 @@ public class RequestController {
     public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
         try {
             User employee = userService.findUserAuthenticated();
-            if(employee == null || employee.getRoles().stream().noneMatch(role -> role.getId().equals("EMPL"))){
+            if(employee == null || !employee.getRoles().stream().anyMatch(role -> role.getId().equals("EMPL") || role.getId().equals("ADMN"))){
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
             }
+            req.setCreationDate();
             req.setEnableAndDisableTime();
             House house = houseService.getHouseByAddress(req.getHouse());
             if(house == null) {
@@ -198,6 +199,19 @@ public class RequestController {
             if(reque == null) {
                 return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error jfajdfk!");
             }
+
+            QR qr = qrService.generateQR(reque);
+            qrService.usageQr(qr);
+            List<QR> list;
+            if (reque.getQr() != null) {
+                list = new ArrayList<>(reque.getQr());
+            } else {
+                list = new ArrayList<>();
+            }
+            list.add(qr);
+            reque.setQr(list);
+            requestService.updateRequest(reque);
+
             houseService.assignRequest(house, reque);
 
             return GeneralResponse.getResponse(HttpStatus.OK, "Request created!");

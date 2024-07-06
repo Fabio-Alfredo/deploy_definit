@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,12 @@ public class QrServiceImpl implements QrService {
 
     @Override
     public void usageQr(QR qr) {
-        qr.setUsedAt(Date.from(Instant.now()));
+
+        ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("UTC"));
+        ZonedDateTime time = zdt.minusHours(6);
+        Date currenDate = Date.from(time.toInstant());
+
+        qr.setUsedAt(currenDate);
         qr.setState("USED");
         qrRepository.save(qr);
     }
