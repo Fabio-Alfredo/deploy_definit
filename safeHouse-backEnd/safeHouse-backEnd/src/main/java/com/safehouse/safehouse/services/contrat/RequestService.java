@@ -26,4 +26,5 @@ public interface RequestService {
     Map<String, Long> findAllByDay(LocalDate oneWeekAgo);
     Map<String, Long>findAllByMonth(LocalDate oneMonthAgo);
     Request getLastRequest(User user);
+
 }

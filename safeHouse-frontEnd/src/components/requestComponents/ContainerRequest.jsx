@@ -2,22 +2,27 @@ import React, { useEffect, useState } from 'react';
 import EmptyReport from '../EmtyContent';
 import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
-import { fetchReques } from '../../service/fetchHouses';
 import MenuRequest from './MenuRequest';
+import { GetAllRequest } from '../../service/RequestService';
 
-const ContainerRequest = () => {
+
+const   ContainerRequest = () => {
     const [request, setRequest] = useState([])
 
-    useEffect(() => {
-
-        const getRequest = async () => {
-            const res = await fetchReques()
-            console.log({ res });
-            setRequest(res)
+    const fetchRequest = async () => {
+        try{
+            const response = await GetAllRequest();
+        setRequest(response.data);
+        console.log(response.data);
+        }catch(error){
+            console.log(error);
         }
+    }
 
-        getRequest()
+    useEffect(() => {
+        fetchRequest();
     }, [])
+    
 
     return (
         <>
@@ -32,7 +37,7 @@ const ContainerRequest = () => {
                         <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
                             {
                                 request.map((_r) => (
-                                    <RequestCard key={_r.id} enable_time={_r.enable_time} enable_date={_r.enable_date} phase={_r.phase} user={_r.user} />
+                                    <RequestCard key={_r.id} enableTme={_r.enableTme} disableTime={_r.enable_date} phase={_r.phase} visitor={_r.visitor} />
                                 ))
                             }
                         </div>

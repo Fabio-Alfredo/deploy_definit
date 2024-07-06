@@ -86,7 +86,7 @@ const ListContainer = () => {
     return (
         <div className="flex flex-col justify-center h-fit ">
             <div className="list-header">
-                <TabOpt toggle={toggle} setToggle={setToggle} />
+                <TabOpt toggle={toggle} setToggle={setToggle} opt1={"Vistors"} opt2={"Employees"}/>
             </div>
 
             <div className="overflow-y-auto min-h-[50vh] max-h-[50vh] sn:mx-3 " id="scroll-container">
