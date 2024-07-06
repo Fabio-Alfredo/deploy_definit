@@ -32,7 +32,6 @@ const AdminHouse = () => {
     }, [toggle])
 
 
-
     const handdleToggle = (toggle) => {
         setToggle(toggle)
     }
@@ -101,7 +100,7 @@ const AdminHouse = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-
+            handleGetter();
 
         } catch (e) {
             await Swal.fire({
@@ -112,10 +111,9 @@ const AdminHouse = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            if (e.data.message === 'User not found!' || e.data.message === 'House already has an admin!') {
-                handleUpdateHouse(houseAddres);
-            }
+            
         }
+
     }
 
 
