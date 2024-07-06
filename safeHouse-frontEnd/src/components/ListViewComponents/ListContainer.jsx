@@ -72,11 +72,10 @@ const ListContainer = () => {
                 text: ` ${res.message}`
             })
         } catch (error) {
-            console.log(error);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: ` ${error.data.message}`
+                text: `${error.data?.message || error.message}`,
             })
         }
 

@@ -43,7 +43,7 @@ const ResiterPage = () => {
         } catch (error) {
             Swal.fire({
                 icon: 'error',
-                title: `${error.data.message}`,
+                title: `${error.data?.message || error.message}`,
                 showConfirmButton: false,
                 timer: 1500
             })

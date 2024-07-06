@@ -2,7 +2,12 @@ import axios from "axios";
 
 const BASE_URL = 'http://localhost:8080/api/qr';
 
-const getToken = () => JSON.parse(localStorage.getItem('token')).token;
+import { decryptData } from "../utils/encrypt";
+
+const getToken = () => {
+    localStorage.getItem('token')
+    return decryptData(localStorage.getItem('token')).token;
+};
 
 export const GetQr = async () => {
     try{

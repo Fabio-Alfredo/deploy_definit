@@ -47,7 +47,7 @@ const TabView = ({ title, reports = [] }) => {
                             <div className='overflow-y-auto h-[35vh] md:h-[50vh] px-4'>
 
                                 {entrys.map((entry, index) => (
-                                    <CardReport key={index} name={entry.visitor.name} dateVisit={entry.endTime} />
+                                    <CardReport key={index} name={entry.visitor.name} dateVisit={entry.usedAt} />
                                 )
                                 )}
                             </div>

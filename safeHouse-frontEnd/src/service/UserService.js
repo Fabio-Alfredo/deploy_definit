@@ -1,10 +1,14 @@
 import axios from "axios";
-
 const BASE_URL = 'http://localhost:8080/api/user';
+import { decryptData } from "../utils/encrypt";
 
-const getToken = () => JSON.parse(localStorage.getItem('token')).token;
+const getToken = () => {
+    localStorage.getItem('token')
+    return decryptData(localStorage.getItem('token')).token;
+};
 
 export const GetUserData = async () => {
+    console.log(getToken());
     try {
         const res = await axios.get(`${BASE_URL}/one`, {
             headers: {
@@ -76,7 +80,6 @@ export const AssignUsersHouse = async (data) => {
 
 export const DeleteRolesUsers = async (email) => {
     try {
-        console.log(getToken());
         const res = await axios.post(`${BASE_URL}/delete?email=${email}`,
             {}, {
             headers: {

@@ -2,7 +2,12 @@ import axios from "axios";
 
 const BASE_URL = 'http://localhost:8080/api/request';
 
-const getToken = () => JSON.parse(localStorage.getItem('token')).token;
+import { decryptData } from "../utils/encrypt";
+
+const getToken = () => {
+    localStorage.getItem('token')
+    return decryptData(localStorage.getItem('token')).token;
+};
 
 export const RequestAnonimous = async (data) => {
     try {
@@ -26,7 +31,6 @@ export const GetEntrys = async () => {
                 'Authorization': `Bearer ${getToken()}`
             }
         })
-        console.log(res.data);
         return res.data;
     } catch (error) {
         throw error.response;

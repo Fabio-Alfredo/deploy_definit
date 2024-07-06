@@ -27,7 +27,7 @@ export const CreateReaderQr = () => {
             } catch (error) {
                 Swal.fire({
                     title: 'Error!',
-                    text: `${error.data.message}`,
+                    text: `${error.data?.message || error.message}`,
                     icon: 'error',
                     confirmButtonText: 'Aceptar'
                 }).then(() => {

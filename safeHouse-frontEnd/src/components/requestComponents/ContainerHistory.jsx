@@ -16,7 +16,16 @@ const ContainerHistory = () => {
             const response = await GetPendingRequestAdmin();
             setRequestPending(response.data);
         } catch (error) {
-            console.log(error);
+
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data?.message || error.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                nav('/home')
+            })
         }
     }
 
@@ -24,12 +33,18 @@ const ContainerHistory = () => {
         try {
             const response = await GetApprovedRequestAdmin();
             setRequestApproved(response.data);
-            console.log(response.data);
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data?.message || error.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                nav('/home')
+            })
         }
     }
-
 
     useEffect(() => {
         fetchRequestPending();

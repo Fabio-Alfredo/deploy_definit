@@ -4,25 +4,34 @@ import Navigation from '../Navigation';
 import RequestCard from './RequestCard';
 import MenuRequest from './MenuRequest';
 import { GetAllRequest } from '../../service/RequestService';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
-
-const   ContainerRequest = () => {
+const ContainerRequest = () => {
     const [request, setRequest] = useState([])
+    const nav = useNavigate();
 
     const fetchRequest = async () => {
-        try{
+        try {
             const response = await GetAllRequest();
-        setRequest(response.data);
-        console.log(response.data);
-        }catch(error){
-            console.log(error);
+            setRequest(response.data);
+        } catch (error) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error.data?.message || error.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                // nav('/home')
+            })
         }
     }
 
     useEffect(() => {
         fetchRequest();
     }, [])
-    
+
 
     return (
         <>
@@ -30,7 +39,7 @@ const   ContainerRequest = () => {
                 <Navigation title={"Solicitudes"} />
 
                 <hr className='h-0.5 bg-black mb-6 mx-4' />
-                <MenuRequest/>
+                <MenuRequest />
 
                 {
                     request.length > 0 ? (

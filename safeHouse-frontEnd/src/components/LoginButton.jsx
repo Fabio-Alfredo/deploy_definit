@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { AuthConecction } from '../service/AuthService';
 import { GetUserData } from '../service/UserService';
+import Swal from 'sweetalert2';
             
 const LoginButton = () => {
 
     const navigateTo = useNavigate();
-    const { saveToken, saveUser } = useContext(AuthContext );
+    const { saveToken, saveUser, removeData } = useContext(AuthContext );
 
     const credentialResponse = async (response) => {
         try{
@@ -22,23 +23,46 @@ const LoginButton = () => {
             getUserData();
             navigateTo('/home');
         }catch(error){
-            console.log(error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error al iniciar sesion",
+                showConfirmButton: false,
+                timer
+            })
         }
     }
 
     const getUserData = async () => {
         try{
             const res =  await GetUserData();
-
             saveUser(res.data);
         }catch(error){
-            console.log(error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error al obtener datos de usuario",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                removeData();
+                navigateTo('/');
+            })
         }
     }
 
     const login = useGoogleLogin({
         onSuccess: credentialResponse,
-        onError: (error) => console.log('Login Failed:', error)
+        onError: (error) => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${error}`,
+                showConfirmButton: false,
+                timer
+            })
+            console.log('Login Failed:', error)
+        }
     });
 
 

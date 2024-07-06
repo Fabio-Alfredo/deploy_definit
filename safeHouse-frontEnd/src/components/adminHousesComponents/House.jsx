@@ -11,22 +11,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 
 
 
-const House = ({ house, state, updateState }) => {
+const House = ({ house, state, updateState, stateDeleted, updateStateDelted}) => {
 
     const handleUpdateHouse = async (houseAddres) => {
-        // const { value: email } = await Swal.fire({
-        //     title: "Asignar nuevo administrador",
-        //     input: "email",
-        //     inputLabel: "Ingrese el correo del nuevo administrador",
-        //     showCancelButton: true,
-        //     confirmButtonText: "Asignar",
-        //     confirmButtonColor: "#008D62",
-        //     inputPlaceholder: "example@gmail.com"
-        // });
-        // if (email) {
-        //     handleConnect(houseAddres, email);
-        //     console.log(houseAddres, email);
-        // }
         const { value: formValues } = await Swal.fire({
             title: "Asignar nuevo administrador",
             html: `
@@ -114,10 +101,10 @@ const House = ({ house, state, updateState }) => {
                 <hr className='w-full bg-black mt-2 h-1' />
             </div>
             <div>
-                <AdminHouseComponent state={state} house={house} />
+                <AdminHouseComponent state={state} house={house} stateDeleted={stateDeleted} updateStateDelted={updateStateDelted} />
                 <hr className='w-full bg-black h-0 sm:h-1 ' />
             </div>
-            <UserList users={house.users} house={house.id} state={state} />
+            <UserList users={house.users} house={house.id} state={state} stateDeleted={stateDeleted} updateStateDelted={updateStateDelted} />
         </div >
     );
 
