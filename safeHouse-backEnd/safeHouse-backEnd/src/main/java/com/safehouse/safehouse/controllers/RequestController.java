@@ -158,6 +158,7 @@ public class RequestController {
     }
 
     @GetMapping("/user-resident")
+    //TODO: PERMITIR LAS DEL ADMIN
     public ResponseEntity<GeneralResponse> getRequestsUserResident(@RequestParam(name = "phase", required = false) String phase) {
         try {
             User user = userService.findUserAuthenticated();

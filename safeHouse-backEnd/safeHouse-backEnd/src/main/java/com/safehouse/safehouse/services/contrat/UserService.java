@@ -32,6 +32,5 @@ public interface UserService {
     void assignVisitorRequest(User user, Request request);
     User createUserAnonymous(String name, String company);
     CreateRequestDTO createRequestDTO();
-
 //    void updateUser(User user);
 }

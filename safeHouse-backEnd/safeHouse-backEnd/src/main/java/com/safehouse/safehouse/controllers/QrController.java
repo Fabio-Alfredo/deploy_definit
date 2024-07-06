@@ -115,7 +115,7 @@ public class QrController {
                 }
             }
             if (newQr == null) {
-                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No valid requests found to generate QR!");
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "No tines qr disponibles para generar!");
             }
             String data = newQr.getRequest() + "/"+ newQr.getId()+"/"+ newQr.getLastUpdate();
             String encryptedData = encryptUtil.encrypt(data);
