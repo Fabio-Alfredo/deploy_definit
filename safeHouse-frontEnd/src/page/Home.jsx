@@ -55,6 +55,11 @@ const Home = () => {
             title: "Revisar invitaciones",
             icon: MdPreview,
             route: '/invitations'
+        },
+        {
+            title: "Invitaciones",
+            icon: IoMail,
+            route: '/requestvisit'
         }
     ]
 
