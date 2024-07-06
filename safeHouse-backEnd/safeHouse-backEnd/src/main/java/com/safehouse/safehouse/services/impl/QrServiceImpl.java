@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class QrServiceImpl implements QrService {
@@ -64,6 +68,32 @@ public class QrServiceImpl implements QrService {
         qr.setUsedAt(Date.from(Instant.now()));
         qr.setState("USED");
         qrRepository.save(qr);
+    }
+
+    @Override
+    public Map<String, Long> findAllByDay(LocalDate oneWeekAgo) {
+        List<QR> qrs = qrRepository.findAll();
+        qrs.removeIf(r ->r.getUsedAt() == null || r.getUsedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
+        Map<String, Long> requestsByDate = qrs.stream()
+                .collect(Collectors.groupingBy(
+                        r -> r.getUsedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
+                        Collectors.counting()
+                ));
+        return requestsByDate;
+    }
+
+    @Override
+    public Map<String, Long> findAllByMonth(LocalDate oneMonthAgo) {
+        List<QR> qrs = qrRepository.findAll();
+        qrs.removeIf(r -> r.getUsedAt() == null );
+
+        Map<String, Long> requestsByMonth = qrs.stream()
+                .collect(Collectors.groupingBy(
+                        r -> r.getUsedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
+                        Collectors.counting()
+                ));
+        return requestsByMonth;
+
     }
 
     @Override

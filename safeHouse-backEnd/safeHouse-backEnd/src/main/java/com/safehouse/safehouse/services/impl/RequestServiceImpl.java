@@ -122,32 +122,7 @@ public class RequestServiceImpl implements RequestService {
 
         return requestList;
 }
-  
-    @Override
-    public Map<String, Long> findAllByDay(LocalDate oneWeekAgo) {
-        List<Request> requests = requestRepository.findAll();
-        requests.removeIf(r ->r.getEndTime() == null || r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(oneWeekAgo));
-        Map<String, Long> requestsByDate = requests.stream()
-                .collect(Collectors.groupingBy(
-                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek().toString(),
-                        Collectors.counting()
-                ));
-        return requestsByDate;
-    }
 
-    @Override
-    public Map<String, Long> findAllByMonth(LocalDate oneMonthAgo) {
-        List<Request> requests = requestRepository.findAll();
-        requests.removeIf(r -> r.getEndTime() == null );
-
-        Map<String, Long> requestsByMonth = requests.stream()
-                .collect(Collectors.groupingBy(
-                        r -> r.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth().toString(),
-                        Collectors.counting()
-                ));
-        return requestsByMonth;
-
-    }
 
     @Override
     public Request getLastRequest(User user) {
