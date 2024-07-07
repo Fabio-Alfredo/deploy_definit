@@ -144,28 +144,23 @@ public class QrController {
             String decryptedData = encryptUtil.decrypt(data.getQrCode());
             String[] qrData = decryptedData.split("/");
             if (qrData.length != 3) {
-                adafruitService.publishToAdafruit("message", "0");
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "QR not found!");
             }
 
             QR qr = qrService.getQR(UUID.fromString(qrData[1]));
             Request req = requestService.getRequestById(qr.getRequest().getId());
             if (qr == null || req == null) {
-                adafruitService.publishToAdafruit("message", "0");
                 return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "QR not found!");
             }
             if (qr.getState().equals("USED")) {
-                adafruitService.publishToAdafruit("message", "0");
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR already used!");
             }
 
             if (!req.getEnableTme().toInstant().isBefore(currentDate) || !req.getDisableTime().toInstant().isAfter(currentDate)) {
-                adafruitService.publishToAdafruit("message", "0");
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR not available!");
             }
 
             if (qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600)))) {
-                adafruitService.publishToAdafruit("message", "0");
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR expired!");
             }
 
@@ -174,7 +169,7 @@ public class QrController {
             req.setEndTime(new Date());
             requestService.updateRequest(req);
             //return GeneralResponse.getResponse(HttpStatus.OK, qrService.connectionESP32());
-            adafruitService.publishToAdafruit("message", "1");
+            adafruitService.publishToAdafruit("validation", "ON");
             return GeneralResponse.getResponse(HttpStatus.OK, "QR validado con éxito");
 
         } catch (Exception e) {
