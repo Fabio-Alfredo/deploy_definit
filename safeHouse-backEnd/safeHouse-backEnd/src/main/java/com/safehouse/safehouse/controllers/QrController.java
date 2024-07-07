@@ -6,11 +6,9 @@ import com.safehouse.safehouse.domain.dtos.QRDataDTO;
 import com.safehouse.safehouse.domain.models.QR;
 import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
-import com.safehouse.safehouse.services.contrat.QrService;
-import com.safehouse.safehouse.services.contrat.RequestService;
-import com.safehouse.safehouse.services.contrat.RoleService;
-import com.safehouse.safehouse.services.contrat.UserService;
+import com.safehouse.safehouse.services.contrat.*;
 import com.safehouse.safehouse.utils.EncryptUtil;
+import com.safehouse.safehouse.utils.MqttClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +30,20 @@ public class QrController {
     private final ModelMapper modelMapper;
     private final RoleService roleService;
     private final EncryptUtil encryptUtil;
+    private final AdafruitService adafruitService;
+    private final MqttClientService mqttClientService;
 
 
-    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil) {
+
+    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil, AdafruitService adafruitService, MqttClientService mqttClientService) {
         this.qrService = qrService;
         this.requestService = requestService;
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
         this.encryptUtil = encryptUtil;
+        this.adafruitService = adafruitService;
+        this.mqttClientService = mqttClientService;
     }
 
     @GetMapping("/qr-generate")
@@ -160,14 +163,17 @@ public class QrController {
             if (qr.getLastUpdate().before(Date.from(Instant.now().minusSeconds(600)))) {
                 return GeneralResponse.getResponse(HttpStatus.FOUND, "QR expired!");
             }
+
             qrService.usageQr(qr);
             req.setPhase("EXPIRED");
             req.setEndTime(new Date());
             requestService.updateRequest(req);
             //return GeneralResponse.getResponse(HttpStatus.OK, qrService.connectionESP32());
+            adafruitService.publishToAdafruit("validation", "ON");
             return GeneralResponse.getResponse(HttpStatus.OK, "QR validado con éxito");
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!" + e.getMessage());
         }
     }
