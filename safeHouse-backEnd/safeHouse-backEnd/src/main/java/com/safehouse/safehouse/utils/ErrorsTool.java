@@ -7,6 +7,8 @@ import java.util.*;
 
 @Component
 public class ErrorsTool {
+
+
     public Map<String, List<String>>mapErrors(List<FieldError> errors){
         Map<String, List<String>> errorsMap = new HashMap<>();
         errors.forEach(

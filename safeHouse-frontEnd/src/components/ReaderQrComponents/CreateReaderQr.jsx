@@ -13,13 +13,12 @@ export const CreateReaderQr = () => {
         if (info) {
             try {
                 const res = await ValidateQr(info)
-
                 Swal.fire({
                     position: "center",
                     icon: "success",
                     title: `${res.message}`,
                     showConfirmButton: false,
-                    timer: 1000
+                    timer: 500
                 }).then(() => {
                     nav('/home')
                 });
