@@ -4,11 +4,13 @@ import CardReport from "./CardReport";
 import { VscGraph } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { HashLoader } from "react-spinners";
 import { GetEntrys } from "../../service/RequestService";
 import Swal from "sweetalert2";
 
 const TabView = ({ title, reports = [] }) => {
     const [entrys, setEntrys] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
     const nav = useNavigate();
@@ -21,6 +23,7 @@ const TabView = ({ title, reports = [] }) => {
             const getEntrys = async () => {
                 const response = await GetEntrys();
                 setEntrys(response.data);
+                setLoading(false);
             }
             getEntrys();
         } catch (e) {
@@ -32,6 +35,15 @@ const TabView = ({ title, reports = [] }) => {
             })
         }
     }, [])
+
+    if (entrys == null || loading) {
+        return (
+            <div className='h-screen w-full flex justify-center items-center'>
+                <HashLoader color="#36d7b7" />
+            </div>
+        );
+    }
+
 
     return (
         <div className='w-full p-4 absolute sm:p-8 shadow-2xl rounded-3xl bg-white h-fit lg:w-2/3  xl:w-1/2'>

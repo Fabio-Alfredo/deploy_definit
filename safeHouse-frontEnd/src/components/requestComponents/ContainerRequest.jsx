@@ -5,16 +5,21 @@ import RequestCard from './RequestCard';
 import MenuRequest from './MenuRequest';
 import { GetAllRequest } from '../../service/RequestService';
 import Swal from 'sweetalert2';
+import { HashLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 
 const ContainerRequest = () => {
     const [request, setRequest] = useState([])
+    const [loading, setLoading] = useState(true);
+
     const nav = useNavigate();
 
     const fetchRequest = async () => {
         try {
             const response = await GetAllRequest();
             setRequest(response.data);
+            setLoading(false);
+
         } catch (error) {
             Swal.fire({
                 position: "center",
@@ -31,6 +36,15 @@ const ContainerRequest = () => {
     useEffect(() => {
         fetchRequest();
     }, [])
+
+    if(request == null || loading){
+        return (
+            <div className='h-screen w-full flex justify-center items-center'>
+                <HashLoader color="#36d7b7" />
+            </div>
+        );
+
+    }
 
 
     return (

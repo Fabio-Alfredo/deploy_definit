@@ -6,16 +6,20 @@ import House from "../components/adminHousesComponents/House";
 import Navigation from "../components/Navigation";
 import Swal from "sweetalert2";
 import ToggleHouse from "../components/genereateHouseComponents/ToggleHouse";
+import { HashLoader } from "react-spinners";
 
 const AdminHouse = () => {
     const [houses, setHouse] = useState([])
     const [toggle, setToggle] = useState(true)
-    const [deleted, setDeleted]= useState(false)
+    const [deleted, setDeleted] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const handleGetter = async (toggle) => {
         try {
+            setLoading(true);
             const res = toggle ? await GetHouseData() : await GetHouseEmty('filter');
             setHouse(res.data);
+            setLoading(false);
         } catch (e) {
             Swal.fire({
                 position: "center",
@@ -67,13 +71,13 @@ const AdminHouse = () => {
                     Swal.showValidationMessage("Todos los campos son requeridos");
                     return false;
                 }
-                const housePattern =  /^\d+$/;
+                const housePattern = /^\d+$/;
                 const streetPattern = /^[a-zA-Z\s]*$/;
                 if (!housePattern.test(house)) {
                     Swal.showValidationMessage("Por favor, ingrese un numero de casa valido");
                     return false;
                 }
-                if(!streetPattern.test(street)){
+                if (!streetPattern.test(street)) {
                     Swal.showValidationMessage("Por favor, ingrese la calle correcta");
                     return false;
                 }
@@ -90,7 +94,7 @@ const AdminHouse = () => {
     }
 
     const handleNewHouse = async (newHouse) => {
-        
+
         try {
             const res = await CreateHouse(newHouse);
             Swal.fire({
@@ -112,7 +116,7 @@ const AdminHouse = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            
+
         }
 
     }
@@ -130,12 +134,15 @@ const AdminHouse = () => {
 
                     <div className="overflow-y-auto sm:h-3/4 md:h-4/5 h-5/6 px-8 ">
 
-                        {
-                            houses.map((house) => (
+                        {houses == null || loading ? (
+                            <div className='h-full w-full flex justify-center items-center'>
+                            <HashLoader color="#36d7b7" />
+                        </div>
+                        ) : (houses.map((house) => (
 
                                 <House key={house.id} house={house} state={toggle} updateState={setToggle} stateDeleted={deleted} updateStateDelted={setDeleted} />
 
-                            ))
+                            )))
                         }
                     </div>
                     <div onClick={() => handleCreateHouse()} className={`flex place-self-end items-center sm:pr-3 group cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-100  ${toggle ? 'hidden' : ''}`}>
