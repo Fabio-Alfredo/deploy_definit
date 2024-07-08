@@ -44,7 +44,7 @@ function App() {
             <Route path="/aduser" element={<ListView />} />
           </Route>
 
-          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ADMN', 'ASAD','RESD', 'VIST']} userRoles={roles} redirectPath="home" />}>
+          <Route element={<ProtectedRoute canActivate={token} requiredRoles={['ASAD','RESD', 'VIST']} userRoles={roles} redirectPath="home" />}>
             <Route path="/generateqr" element={<GenerateQR />} />
           </Route>
 
