@@ -185,3 +185,31 @@ export const createRequest = async (data) => {
         throw error.response;
     }
 }
+
+export const GetUsedRequestAdmin = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/used`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
+
+export const GetDeniedRequestAdmin = async () => {
+    try {
+        const res = await axios.get(`${BASE_URL}/denied`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        })
+        return res.data;
+    } catch (error) {
+        throw error.response;
+    }
+}
