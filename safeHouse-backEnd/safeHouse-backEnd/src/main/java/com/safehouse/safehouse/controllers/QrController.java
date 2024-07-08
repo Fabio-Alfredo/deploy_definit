@@ -22,6 +22,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/qr")
+@CrossOrigin("*")
 public class QrController {
 
     private final QrService qrService;
@@ -58,7 +59,7 @@ public class QrController {
             User user = userService.findUserAuthenticated();
             if (user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
 
-            if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD")).contains(role))) {
+            if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD", "ADMN")).contains(role))) {
                 CreateRequestDTO newReq = userService.createRequestDTO();
                 if (user.getRequests().isEmpty()) {
                     requestService.createRequestByRole(newReq, user);
@@ -99,9 +100,6 @@ public class QrController {
                     if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")){
                         break;
                     }
-                    System.out.println(r.getEnableTme());
-                    System.out.println(r.getDisableTime());
-
                     List<QR> qrList =new ArrayList<>(r.getQr());
 
                     if(!qrList.isEmpty()) newQr= qrList.get(qrList.size()-1);
