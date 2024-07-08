@@ -45,7 +45,7 @@ public class UserController {
         }
     }
 
-//    @PreAuthorize("hasAnyAuthority('ADMN')")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     @GetMapping("/all")
     public ResponseEntity<GeneralResponse> findAllUsers(){
         try {
@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @PostMapping("/assign/admin-house")
-//    @PreAuthorize("hasAnyAuthority('ADMN')")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseToUser(@RequestBody AssignResidentAdminDTO req){
         try {
             User user = userService.getByEmail(req.getEmail().get(0));
@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @PostMapping("/assign/users-house")
-//    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
+    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
     public ResponseEntity<GeneralResponse>assignHouseUsers(@RequestBody AssignHousesUsersDTO req){
         try{
             User user = userService.findUserAuthenticated();
@@ -109,6 +109,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>deleteRoles(@RequestParam("email") String email){
 
         try{
@@ -152,5 +153,4 @@ public class UserController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-
 }
