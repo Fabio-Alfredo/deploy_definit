@@ -52,7 +52,7 @@ const ContainerQr = () => {
         handleTime();
     }, []);
 
-    if (user == null || loading) {
+    if (user == null || date == null || loading) {
         return (
             <div className='h-screen w-full flex justify-center items-center'>
                 <HashLoader color="#36d7b7" />
