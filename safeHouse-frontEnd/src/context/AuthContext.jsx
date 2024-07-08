@@ -15,8 +15,6 @@ const AuthProvider = ({ children }) => {
         const savedToken = localStorage.getItem('token');
         const savedUser = localStorage.getItem('user');
         if (savedToken) {
-            // const descryptedToken = decryptData(savedToken);
-            // const descryptedUser = decryptData(savedUser);
 
 
             saveRoles();
@@ -26,8 +24,6 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const saveToken = (newToken) => {
-        // const encryptedToken = encryptData(newToken);
-
         
         localStorage.setItem('token', JSON.stringify(newToken));
         saveRoles();
@@ -41,7 +37,6 @@ const AuthProvider = ({ children }) => {
 
     const saveUser = (newUser) => {
         const user = { name: newUser.name, lastname: newUser.lastname, email: newUser.email, id: newUser.id, photo: newUser.photo }
-        // const encryptedUser = encryptData(user);
         localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
     }
