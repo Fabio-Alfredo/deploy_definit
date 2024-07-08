@@ -1,18 +1,8 @@
 import { Component } from "react";
 import Header from "../components/Header";
-import CardReport from "../components/TabComponents/CardReport";
 import TabView from "../components/TabComponents/TabView";
-import EmptyReport from "../components/EmptyContent";
-
-const user = (<EmptyReport />)
-
-const email = (<p>
-    que tal
-</p>)
 
 class EntryRep extends Component {
-
-
 
     render() {
         return (

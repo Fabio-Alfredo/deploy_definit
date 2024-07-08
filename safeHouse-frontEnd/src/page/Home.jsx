@@ -69,13 +69,6 @@ const Home = () => {
             route: '/invitations',
             role: ['ADMN']
         },
-        // {
-        //     id: 8,
-        //     title: "Invitaciones",
-        //     icon: IoMail,
-        //     route: '/requestvisit',
-        //     role: ['ADMN']
-        // },
         {
             id: 9,
             title: `Generar entrada`,
@@ -101,87 +94,9 @@ const Home = () => {
             icon: TbReportAnalytics,
             route: '/invitations',
             role: ['RSAD']
-        },
-        // {
-        //     id:13,
-        //     title: `Invitaciones`,
-        //     icon: IoMail,
-        //     role: ['VIST']
-        // },
+        }
     ]
 
-    // const empOpt = [
-    //     {
-    //         id:9,
-    //         title: `Escanear entrada`,
-    //         icon: MdQrCodeScanner,
-    //         route: '/readerqr',
-
-    //     },
-    //     {
-    //         id:10,
-    //         title: `Registar entrada anonima`,
-    //         icon: FaUser,
-    //     }
-    // ]
-
-    // const resAdminOpt = [
-    //     {
-    //         id:11,
-    //         title: `Generar entrada`,
-    //         icon: MdOutlineQrCode2,
-    //         role: ['ADMN', 'RESD', 'RSAD', 'VIST']
-    //     },
-    //     {
-    //         id:16,
-    //         title: `Solicitud visita`,
-    //         icon: IoMail,
-    //         route: '/requestvisit',
-    //         role: [, 'RESD', 'RSAD']
-    //     },
-    //     {
-    //         id:13,
-    //         title: `Administrar invitaciones`,
-    //         icon: MdAssignmentInd,
-    //     },
-    //     {
-    //         id:14,
-    //         title: `Reporte de visitas`,
-    //         icon: TbReportAnalytics,
-    //         route: '/invitations',
-    //         role: ['RSAD']
-    //     }
-    // ]
-
-    // const resOpt = [
-    //     {
-    //         id:15,
-    //         title: `Generar entrada`,
-    //         icon: MdOutlineQrCode2,
-    //         route: '/generateqr'
-    //     },
-    //     {
-    //         id:16,
-    //         title: `Solicitud visita`,
-    //         icon: IoMail,
-    //         route: '/requestvisit'
-
-    //     }
-    // ]
-
-    // const vistOpt = [
-    //     {
-    //         id:17,
-    //         title: `Invitaciones`,
-    //         icon: IoMail,
-    //         role: ['VIST']
-    //     },
-    //     // {
-    //     //     id:18,
-    //     //     title: `Generar entrada`,
-    //     //     icon: MdOutlineQrCode2,
-    //     // }
-    // ]
 
     //borrar token de local storage
     const logout = () => {
@@ -206,8 +121,6 @@ const Home = () => {
             </div>
         )
     }
-
-
 
     return (
         <div>
@@ -235,11 +148,8 @@ const Home = () => {
                                     image={item.icon}
                                     title={item.title} />
                             </ProtectedComponent>
-
                         ))
-
                     }
-
                 </div>
             </div>
         </div>
