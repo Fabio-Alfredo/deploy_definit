@@ -388,4 +388,48 @@ public class RequestController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
         }
     }
+    @GetMapping("/used")
+    public ResponseEntity<GeneralResponse> getUsedRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+
+            List<Request> pendingRequests = requests.stream()
+
+                    .filter(request -> request.getPhase().equals("EXPIRED"))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/denied")
+    public ResponseEntity<GeneralResponse> getDeniedRequest() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+
+            List<Request> pendingRequests = requests.stream()
+                    .filter(request -> request.getPhase().equals("DENIED"))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
 }
