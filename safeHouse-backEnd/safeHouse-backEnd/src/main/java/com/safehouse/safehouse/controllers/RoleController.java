@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/role")
-public class RoleController {
+@CrossOrigin("*")
+public class  RoleController {
 
     private final RoleService roleService;
     private final UserService userService;

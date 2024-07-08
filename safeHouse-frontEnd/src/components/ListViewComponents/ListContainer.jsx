@@ -6,21 +6,24 @@ import { IoMdSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { DeleteRolesUsers } from '../../service/UserService';
+import { HashLoader } from 'react-spinners';
 import Swal from 'sweetalert2'
 
 
 const ListContainer = () => {
     const [users, setUser] = useState([]);
     const [toggle, setToggle] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     const resetScroll = () => {
         const scrollContainer = document.getElementById('scroll-container');
         scrollContainer.scrollTop = 0;
     };
-    
+
     const getUser = async () => {
         const res = await GetUsersInfo();
         setUser(res.data);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -39,7 +42,7 @@ const ListContainer = () => {
             },
             buttonsStyling: false
         });
-        swalWithBootstrapButtons.fire({  
+        swalWithBootstrapButtons.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -82,19 +85,25 @@ const ListContainer = () => {
     }
 
 
+
+
     return (
         <div className="flex flex-col justify-center h-fit ">
             <div className="list-header">
-                <TabOpt toggle={toggle} setToggle={setToggle} opt1={"Visitantes"} opt2={"Empleados"}/>
+                <TabOpt toggle={toggle} setToggle={setToggle} options={['Visitantes', 'Empleados']}/>
             </div>
 
             <div className="overflow-y-auto min-h-[50vh] max-h-[50vh] sn:mx-3 " id="scroll-container">
                 {toggle === 1 && (
                     <div id="visitors">
-                        {users.filter(user => {
+                        {users == null || loading ? (
+                            <div className='h-full w-full flex justify-center items-center'>
+                                <HashLoader color="#36d7b7" />
+                            </div>
+                        ) : (users.filter(user => {
                             const rolesId = user.roles.map(r => r.id);
                             return rolesId.includes("VIST") && !rolesId.includes("EMPL")
-                        } ).map((user) => (
+                        }).map((user) => (
                             <VisitorsList key={user.id} user={user} >
                                 <Link to='/assingrole' state={user}>
                                     <div className='flex items-center cursor-pointer sm:pr-3'>
@@ -103,19 +112,23 @@ const ListContainer = () => {
                                     </div>
                                 </Link>
                             </VisitorsList>
-                        ))}
+                        )))}
                     </div>
                 )}
                 {toggle === 2 && (
                     <div id="employees">
-                        {users.filter(user => user.roles.map(r => r.id).includes("EMPL")).map((user) => (
+                        {users == null || loading ? (
+                            <div className='h-full w-full flex justify-center items-center'>
+                                <HashLoader color="#36d7b7" />
+                            </div>
+                        ) : (users.filter(user => user.roles.map(r => r.id).includes("EMPL")).map((user) => (
                             <VisitorsList key={user.id} user={user} >
                                 <div onClick={() => handleSelectDelete(user.email)} className='flex items-center   sm:pr-3 cursor-pointer'>
                                     <p className='flex font-xs font-popins font-xs '> Eliminar  </p>
                                     <AiTwotoneDelete className='text-3xl pl-2 ' />
                                 </div>
                             </VisitorsList>
-                        ))}
+                        )))}
                     </div>
                 )}
 

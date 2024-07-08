@@ -8,6 +8,7 @@ import com.safehouse.safehouse.services.contrat.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/request")
+@CrossOrigin("*")
 public class RequestController {
     private final RequestService requestService;
     private final UserService userService;
@@ -67,6 +69,7 @@ public class RequestController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> getAllRequests() {
         try {
             List<Request> requests = requestService.getAllRequests();
@@ -78,6 +81,7 @@ public class RequestController {
     }
 
     @PostMapping("/approve")
+    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
     public ResponseEntity<GeneralResponse> approveRequest(@RequestParam("id") UUID id) {
         try {
             Request req = requestService.getRequestById(id);
@@ -106,6 +110,7 @@ public class RequestController {
     }
 
     @PostMapping("/deny")
+    @PreAuthorize("hasAnyAuthority('ADMN', 'RSAD')")
     public ResponseEntity<GeneralResponse> denyRequest(@RequestParam("id") UUID id) {
         try {
             Request req = requestService.getRequestById(id);
@@ -143,13 +148,9 @@ public class RequestController {
             }
 
             List<Request> requests = requestService.getAllRequests();
-//            Instant instant = Instant.now();
-//            Instant currentDate = instant.minusSeconds(21600);
-//
+
             List<Request> pendingRequests = requests.stream()
-//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("PENDING"))
-//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
         } catch (Exception e) {
@@ -180,6 +181,7 @@ public class RequestController {
 
 
     @PostMapping("/entry-anonymous")
+    @PreAuthorize("hasAnyAuthority('ADMN', 'EMPL')")
     public ResponseEntity<GeneralResponse> entryAnonymous(@RequestBody RequestAnonymousDTO req) {
         try {
             User employee = userService.findUserAuthenticated();
@@ -223,6 +225,7 @@ public class RequestController {
     }
 
     @GetMapping("/record")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>getRecordEntry(){
         try {
             User user = userService.findUserAuthenticated();
@@ -338,6 +341,7 @@ public class RequestController {
     }
 
     @GetMapping("/pending-by-house")
+    @PreAuthorize("hasAnyAuthority('RSAD', 'ADMN')")
     public ResponseEntity<GeneralResponse> getPendingByHouseRequests() {
         try {
             User user = userService.findUserAuthenticated();
@@ -364,6 +368,7 @@ public class RequestController {
     }
 
     @GetMapping("/approved")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> getApprovedRequests() {
         try {
             User user = userService.findUserAuthenticated();
@@ -375,13 +380,55 @@ public class RequestController {
             }
 
             List<Request> requests = requestService.getAllRequests();
-//            Instant instant = Instant.now();
-//            Instant currentDate = instant.minusSeconds(21600);
-//
+
             List<Request> pendingRequests = requests.stream()
-//                    .filter(request -> request.getHouse().getResidentAdmin().equals(user))
                     .filter(request -> request.getPhase().equals("APPROVED"))
-//                    .filter(request -> request.getDisableTime().toInstant().isAfter(currentDate))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+    @GetMapping("/used")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
+    public ResponseEntity<GeneralResponse> getUsedRequests() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+
+            List<Request> pendingRequests = requests.stream()
+
+                    .filter(request -> request.getPhase().equals("EXPIRED"))
+                    .toList();
+            return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
+        } catch (Exception e) {
+            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
+        }
+    }
+
+    @GetMapping("/denied")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
+    public ResponseEntity<GeneralResponse> getDeniedRequest() {
+        try {
+            User user = userService.findUserAuthenticated();
+            if(user == null) {
+                return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
+            }
+            if(!user.getRoles().contains(roleService.getRoleById("ADMN"))){
+                return GeneralResponse.getResponse(HttpStatus.FORBIDDEN, "User is not admin of the house!");
+            }
+
+            List<Request> requests = requestService.getAllRequests();
+
+            List<Request> pendingRequests = requests.stream()
+                    .filter(request -> request.getPhase().equals("DENIED"))
                     .toList();
             return GeneralResponse.getResponse(HttpStatus.OK, pendingRequests);
         } catch (Exception e) {

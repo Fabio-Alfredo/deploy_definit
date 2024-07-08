@@ -10,8 +10,6 @@ import Swal from 'sweetalert2';
 import { createRequest } from '../service/RequestService';
 import { useNavigate } from 'react-router-dom';
 
-// import TimePicker from 'react-time-picker';
-// import DateTimeField from 'react-datetime-picker';
 
 const CreateInvitation = () => {
 

@@ -20,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/house")
+@CrossOrigin("*")
 public class HouseController {
 
     private final HouseService houseService;
@@ -34,7 +35,7 @@ public class HouseController {
     }
 
     @PostMapping("/new")
-//    @PreAuthorize("hasAnyAuthority('ADMN')")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> createHouse(@RequestBody CreateHouseDTO house) {
         try {
             if(houseService.existHouseByAddress(house.getAddress())){
@@ -49,7 +50,7 @@ public class HouseController {
     }
 
     @GetMapping("/all")
-//    @PreAuthorize("hasAnyAuthority('ADMN')")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse> getAllHouses(@RequestParam(value = "filter" , required = false) String filter){
         try {
             User user = userService.findUserAuthenticated();
@@ -81,6 +82,7 @@ public class HouseController {
     }
 
     @PostMapping ("/delete")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>deleteUser(@RequestParam("houseId") UUID houseId, @RequestParam("email") String email){
         try{
             User user = userService.findUserAuthenticated();
@@ -102,6 +104,7 @@ public class HouseController {
     }
 
     @PostMapping("/assign/new-admin")
+    @PreAuthorize("hasAnyAuthority('ADMN')")
     public ResponseEntity<GeneralResponse>assignHouseAdmin(@RequestBody UpdateResidentAdminTDO req){
         try {
 
@@ -121,22 +124,4 @@ public class HouseController {
             return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!"+e.getMessage());
         }
     }
-
-//    @PostMapping("/assign")
-//    public ResponseEntity<GeneralResponse>assignResidents(@RequestBody HouseAssignUsersDTO req){
-//        System.out.println(req.getEmails());
-//        try {
-//            List<User>users = userService.getAllUsersByEmail(req.getEmails());
-//            House house = houseService.getHouseByAddress(req.getAddress());
-//            if(house == null){
-//                return GeneralResponse.getResponse(HttpStatus.FOUND, "House not found!");
-//            }
-//
-//            houseService.assignResidents(users, house);
-//            userService.assignHouses(house, users);
-//            return GeneralResponse.getResponse(HttpStatus.OK, "Residents assigned!");
-//        } catch (Exception e) {
-//            return GeneralResponse.getResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error!");
-//        }
-//    }
 }

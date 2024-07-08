@@ -8,20 +8,19 @@ import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.*;
 import com.safehouse.safehouse.utils.EncryptUtil;
-import com.safehouse.safehouse.utils.MqttClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/qr")
+@CrossOrigin("*")
 public class QrController {
 
     private final QrService qrService;
@@ -31,11 +30,10 @@ public class QrController {
     private final RoleService roleService;
     private final EncryptUtil encryptUtil;
     private final AdafruitService adafruitService;
-    private final MqttClientService mqttClientService;
 
 
 
-    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil, AdafruitService adafruitService, MqttClientService mqttClientService) {
+    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil, AdafruitService adafruitService) {
         this.qrService = qrService;
         this.requestService = requestService;
         this.userService = userService;
@@ -43,7 +41,6 @@ public class QrController {
         this.roleService = roleService;
         this.encryptUtil = encryptUtil;
         this.adafruitService = adafruitService;
-        this.mqttClientService = mqttClientService;
     }
 
     @GetMapping("/qr-generate")
@@ -58,13 +55,18 @@ public class QrController {
             User user = userService.findUserAuthenticated();
             if (user == null) return GeneralResponse.getResponse(HttpStatus.NOT_FOUND, "User not found!");
 
-            if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD")).contains(role))) {
+            if (user.getRoles().stream().anyMatch(role -> roleService.getRolesById(List.of("RESD", "RSAD", "ADMN")).contains(role))) {
                 CreateRequestDTO newReq = userService.createRequestDTO();
                 if (user.getRequests().isEmpty()) {
                     requestService.createRequestByRole(newReq, user);
                 }
                 req = requestService.getLastRequest(user);
-                List<QR> qrList = new ArrayList<>(req.getQr());
+                List<QR> qrList;
+                if (req.getQr() != null) {
+                    qrList = new ArrayList<>(req.getQr());
+                } else {
+                    qrList = new ArrayList<>();
+                }
 
                 if(qrList.isEmpty()) newQr = null;
                 else newQr= qrList.get(qrList.size()-1);
@@ -99,10 +101,12 @@ public class QrController {
                     if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")){
                         break;
                     }
-                    System.out.println(r.getEnableTme());
-                    System.out.println(r.getDisableTime());
-
-                    List<QR> qrList =new ArrayList<>(r.getQr());
+                    List<QR> qrList;
+                    if (r.getQr() != null) {
+                        qrList = new ArrayList<>(r.getQr());
+                    } else {
+                        qrList = new ArrayList<>();
+                    }
 
                     if(!qrList.isEmpty()) newQr= qrList.get(qrList.size()-1);
                     if(newQr == null || newQr.getState().equals("USED")) {
@@ -168,8 +172,9 @@ public class QrController {
             req.setPhase("EXPIRED");
             req.setEndTime(new Date());
             requestService.updateRequest(req);
+            adafruitService.publish("safehouse/qr", "ON");
             //return GeneralResponse.getResponse(HttpStatus.OK, qrService.connectionESP32());
-            adafruitService.publishToAdafruit("validation", "ON");
+
             return GeneralResponse.getResponse(HttpStatus.OK, "QR validado con éxito");
 
         } catch (Exception e) {

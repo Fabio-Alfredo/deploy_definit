@@ -3,16 +3,19 @@ import Navigation from '../Navigation';
 import InvitationCard from '../invitationComponents/InvitationCard'
 import EmptyReport from '../EmtyContent';
 import { ApproveRequest, RejectRequest, fecthRequestPendingByHouse } from '../../service/RequestService';
+import { HashLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 
 
 const ContainerInvitations = () => {
     const [invitations, setInvitations] = useState([])
+    const [loading, setLoading] = useState(true);
 
     const requestByHouse = async () => {
         try {
             const response = await fecthRequestPendingByHouse();
             setInvitations(response.data);
+            setLoading(false);
         } catch (error) {
             Swal.fire({
                 position: "center",
@@ -70,6 +73,14 @@ const ContainerInvitations = () => {
     useEffect(() => {
         requestByHouse();
     }, [])
+
+    if (invitations == null || loading) {
+        return (
+            <div className='h-screen w-full flex justify-center items-center'>
+                <HashLoader color="#36d7b7" />
+            </div>
+        );
+    }
 
     return (
         <>
