@@ -20,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/house")
+@CrossOrigin("*")
 public class HouseController {
 
     private final HouseService houseService;
