@@ -8,14 +8,12 @@ import com.safehouse.safehouse.domain.models.Request;
 import com.safehouse.safehouse.domain.models.User;
 import com.safehouse.safehouse.services.contrat.*;
 import com.safehouse.safehouse.utils.EncryptUtil;
-import com.safehouse.safehouse.utils.MqttClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -32,11 +30,10 @@ public class QrController {
     private final RoleService roleService;
     private final EncryptUtil encryptUtil;
     private final AdafruitService adafruitService;
-    private final MqttClientService mqttClientService;
 
 
 
-    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil, AdafruitService adafruitService, MqttClientService mqttClientService) {
+    public QrController(QrService qrService, RequestService requestService, UserService userService, ModelMapper modelMapper, RoleService roleService, EncryptUtil encryptUtil, AdafruitService adafruitService) {
         this.qrService = qrService;
         this.requestService = requestService;
         this.userService = userService;
@@ -44,7 +41,6 @@ public class QrController {
         this.roleService = roleService;
         this.encryptUtil = encryptUtil;
         this.adafruitService = adafruitService;
-        this.mqttClientService = mqttClientService;
     }
 
     @GetMapping("/qr-generate")
@@ -166,8 +162,9 @@ public class QrController {
             req.setPhase("EXPIRED");
             req.setEndTime(new Date());
             requestService.updateRequest(req);
+            adafruitService.publish("safehouse/qr", "ON");
             //return GeneralResponse.getResponse(HttpStatus.OK, qrService.connectionESP32());
-            adafruitService.publishToAdafruit("validation", "ON");
+
             return GeneralResponse.getResponse(HttpStatus.OK, "QR validado con éxito");
 
         } catch (Exception e) {
