@@ -4,13 +4,17 @@ import ScanOverlay from './Overlay';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { ValidateQr } from '../../service/QrService';
+
+
 export const CreateReaderQr = () => {
 
     const nav = useNavigate();
+    const [isProcessing, setIsProcessing] = useState(false);
 
+    const handleScan = async (info) => {    
+        if (info && !isProcessing) {
+            setIsProcessing(true);
 
-    const handleScan = async (info) => {
-        if (info) {
             try {
                 const res = await ValidateQr(info)
                 Swal.fire({
@@ -28,10 +32,15 @@ export const CreateReaderQr = () => {
                     title: 'Error!',
                     text: `${error.data?.message || error.message}`,
                     icon: 'error',
-                    confirmButtonText: 'Aceptar'
+                    timer: 200,
                 }).then(() => {
                     nav('/home')
                 })
+            } finally {
+
+                await new Promise(resolve => setTimeout(resolve, 5000)); 
+                setIsProcessing(false); 
+                
             }
 
         }

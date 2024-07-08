@@ -81,7 +81,7 @@ const Home = () => {
             title: `Generar entrada`,
             icon: MdOutlineQrCode2,
             route: '/generateqr',
-            role: ['ADMN', 'RESD', 'RSAD', 'VIST']
+            role: ['RESD', 'RSAD', 'VIST']
         },
         {
             id: 10,

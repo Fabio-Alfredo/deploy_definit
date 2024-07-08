@@ -87,7 +87,7 @@ void setup() {
   }
 
   //suscribirse a los temas.
-  mqttClient.subscribe("/casa/foco");
+  mqttClient.subscribe("safehouse");
   mqttClient.subscribe("/galpon/foco");
 }
 

@@ -65,7 +65,12 @@ public class QrController {
                     requestService.createRequestByRole(newReq, user);
                 }
                 req = requestService.getLastRequest(user);
-                List<QR> qrList = new ArrayList<>(req.getQr());
+                List<QR> qrList;
+                if (req.getQr() != null) {
+                    qrList = new ArrayList<>(req.getQr());
+                } else {
+                    qrList = new ArrayList<>();
+                }
 
                 if(qrList.isEmpty()) newQr = null;
                 else newQr= qrList.get(qrList.size()-1);
@@ -100,7 +105,12 @@ public class QrController {
                     if(!r.getQr().isEmpty() && !r.getEnableTme().equals(r.getCreationDate()) && r.getQr().get(0).getState().equals("USED")){
                         break;
                     }
-                    List<QR> qrList =new ArrayList<>(r.getQr());
+                    List<QR> qrList;
+                    if (r.getQr() != null) {
+                        qrList = new ArrayList<>(r.getQr());
+                    } else {
+                        qrList = new ArrayList<>();
+                    }
 
                     if(!qrList.isEmpty()) newQr= qrList.get(qrList.size()-1);
                     if(newQr == null || newQr.getState().equals("USED")) {
