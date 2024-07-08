@@ -1,12 +1,12 @@
 package com.safehouse.safehouse.utils;
 
 
+import jakarta.annotation.PostConstruct;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 @Component
 public class MqttClientService {
 
@@ -21,7 +21,7 @@ public class MqttClientService {
 
     private MqttClient mqttClient;
 
-    @Bean
+    @PostConstruct
     public void initialize() {
         try {
             connect();
@@ -35,24 +35,54 @@ public class MqttClientService {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setUserName(username);
         connOpts.setPassword(password.toCharArray());
-        mqttClient.connect(connOpts);
-        System.out.println("Connected to MQTT broker: " + uri);
+        connOpts.setCleanSession(true);
+        connOpts.setAutomaticReconnect(true);
+
+        mqttClient.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+                System.out.println("Conexión perdida: " + cause.getMessage());
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) {
+                System.out.println("Mensaje recibido: " + new String(message.getPayload()));
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                System.out.println("Entrega completa");
+            }
+        });
+
+        try {
+            mqttClient.connect(connOpts);
+            System.out.println("Conectado al broker MQTT: " + uri);
+        } catch (MqttException e) {
+            e.printStackTrace();
+            System.out.println("Error al conectar al broker MQTT: " + e.getMessage());
+            throw e;
+        }
     }
 
-    public void subscribeToTopic(String topic, IMqttMessageListener messageListener) throws MqttException {
-        mqttClient.subscribe(topic, messageListener);
-        System.out.println("Subscribed to topic: " + topic);
+    public boolean isConnected() {
+        return mqttClient != null && mqttClient.isConnected();
     }
 
     public void publishMessage(String topic, String message) throws MqttException {
+        if (!isConnected()) {
+            throw new MqttException(MqttException.REASON_CODE_CLIENT_NOT_CONNECTED);
+        }
         MqttMessage mqttMessage = new MqttMessage(message.getBytes());
         mqttMessage.setQos(1);
         mqttClient.publish(topic, mqttMessage);
-        System.out.println("Published message: " + message + " to topic: " + topic);
+        System.out.println("Mensaje publicado: " + message + " al topic: " + topic);
     }
 
     public void disconnect() throws MqttException {
-        mqttClient.disconnect();
-        System.out.println("Disconnected from MQTT broker.");
+        if (isConnected()) {
+            mqttClient.disconnect();
+            System.out.println("Desconectado del broker MQTT.");
+        }
     }
 }

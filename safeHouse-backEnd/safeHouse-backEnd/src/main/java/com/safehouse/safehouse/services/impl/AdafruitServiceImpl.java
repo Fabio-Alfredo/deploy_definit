@@ -18,7 +18,11 @@ public class AdafruitServiceImpl implements AdafruitService {
         this.mqttClientService = mqttClientService;
     }
 
+    @Override
     public void publishToAdafruit(String feedName, String data) throws MqttException {
+        if (!mqttClientService.isConnected()) {
+            throw new MqttException(MqttException.REASON_CODE_CLIENT_NOT_CONNECTED);
+        }
         String topic = username + "/feeds/" + feedName;
         mqttClientService.publishMessage(topic, data);
         System.out.println("Publicado en el feed '" + feedName + "' de Adafruit IO: " + data);
